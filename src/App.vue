@@ -31,23 +31,23 @@
   </form>
 
 
-  <div class="card mb-5" v-for="todo in parkings">
+  <div class="card mb-5" v-for="parking in parkings">
    <div class="card-content">
     <div class="content">
       <div class="columns 
       is-mobile is-vcentered">
         <div class="column">
-          {{todo.name}}
+          {{parking.name}}
         </div>
       <div class="column is-5 has-text-right">
-        <button class="button" :class="todo.done ? 'is-success' : 'is-light'"
-        @click="toggleDone(todo.id)"
+        <button class="button" 
+        @click="toggleDone(parking.id)"
         >
           &check;
         </button>
         <button 
         class="button is-danger ml-2"
-        @click="deleteTodo(todo.id)"
+        @click="deleteTodo(parking.id)"
         >
         &cross;
       </button>
@@ -95,13 +95,13 @@ onMounted(() => {
 })
 
 
-const newCategory = ref('')
+let newCategory = ref('')
 const newDate = ref('')
 const newFrom = ref('')
 const newTo = ref('')
 const newPrice = ref('')
 const newName = ref('')
-
+const newId = ref('')
 
 const addToParking = () => {
   addDoc(parkingsCollectionRef, {
@@ -127,7 +127,7 @@ const deleteTodo = id => {
 
 const toggleDone = id => {
   const index = parkings.value.findIndex(park => park.id === id)
-
+  newCategory.value = parkings.value[index].category
   // updateDoc(doc(parkingsCollectionRef, id), {
   //   done: !parkings.value[index].done
   // });
