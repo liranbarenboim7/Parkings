@@ -14,11 +14,12 @@
       <input class="input" type="text" placeholder="From:" v-model="newFrom">
       <input class="input" type="text" placeholder="To:" v-model="newTo">
       <input class="input" type="text" placeholder="Price:" v-model="newPrice">
-      <input class="input" type="text" placeholder="Name:" v-model="newName">
+      <input class="input" type="text" placeholder="Name:" v-model="newName" >
       <p class="control">
         <button class="button is-info" :disabled="!newCategory">
-        Add
+        {{ newId.lenght > 0 ? "update" : "add" }}
       </button>
+      {{ newId }}
       </p>
     </p>
     <!-- <p class="control">
@@ -71,7 +72,7 @@
 const parkings = ref([
 
 ])
-
+const buttonText= ref('add')
 const parkingsCollectionRef = collection(db, 'parkings')
 
 
@@ -121,6 +122,8 @@ const addToParking = () => {
   newName.value = ''
 }
 
+
+
 const deleteTodo = id => {
   deleteDoc(doc(parkingsCollectionRef, id))
 }
@@ -128,9 +131,15 @@ const deleteTodo = id => {
 const toggleDone = id => {
   const index = parkings.value.findIndex(park => park.id === id)
   newCategory.value = parkings.value[index].category
+  newId.value = id
+  newFrom.value = parkings.value[index].from
+  newTo.value = parkings.value[index].to
+  newPrice.value = parkings.value[index].price
+  newName.value = parkings.value[index].name
+  
   // updateDoc(doc(parkingsCollectionRef, id), {
-  //   done: !parkings.value[index].done
-  // });
+  //    done: !parkings.value[index].done
+  //  });
 }
 
 
