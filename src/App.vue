@@ -5,7 +5,7 @@
     Parkings
   </div>
   <form
-  @submit.prevent="addToParking"
+  @submit.prevent="isValidFirestoreId(newId) ?  updateParking(newId) : addToParking() "
   >
     <div class="field has-addons">
     <p class="control is-expanded">
@@ -17,17 +17,11 @@
       <input class="input" type="text" placeholder="Name:" v-model="newName" >
       <p class="control">
         <button class="button is-info" :disabled="!newCategory">
-        {{ newId.lenght > 0 ? "update" : "add" }}
+        {{ isValidFirestoreId(newId) ? "update" : "add" }}
       </button>
       {{ newId }}
       </p>
     </p>
-    <!-- <p class="control">
-      <button class="button is-info" :disabled="!newTodoContent">
-        Add
-      </button> -->
-      
-    <!-- </p> -->
   </div>
   </form>
 
@@ -66,7 +60,7 @@
   import {db} from '@/firebase'
   import { collection, onSnapshot,
     addDoc, doc ,deleteDoc,updateDoc,
-    query, orderBy, limit
+    query, orderBy, limit,setDoc
   } from "firebase/firestore"
 
 const parkings = ref([
@@ -75,6 +69,9 @@ const parkings = ref([
 const buttonText= ref('add')
 const parkingsCollectionRef = collection(db, 'parkings')
 
+function isValidFirestoreId(id) {
+  return id.match(/^[a-zA-Z0-9\-_]+$/)
+}
 
 onMounted(() => {
   onSnapshot(parkingsCollectionRef, (querySnapshot) => {
@@ -120,6 +117,22 @@ const addToParking = () => {
   newTo.value = ''
   newPrice.value = ''
   newName.value = ''
+  newId.value = ''
+}
+
+
+
+function updateParking(id) {
+  const frankDocRef = doc(db, "parkings", id);
+  setDoc(frankDocRef, {
+  category: newCategory.value,
+  date: newDate.value,
+  from: newFrom.value,
+  to: newTo.value,
+  price: newPrice.value,
+  name: newName.value
+});
+
 }
 
 
@@ -140,6 +153,18 @@ const toggleDone = id => {
   // updateDoc(doc(parkingsCollectionRef, id), {
   //    done: !parkings.value[index].done
   //  });
+}
+
+const getParking = (id) => {
+  db.collection('parkings').doc(id).get().then(function(doc) {
+    if (doc.exists) {
+      console.log("Document data:", doc.data());
+    } else {
+      console.log("No such document!");
+    }
+  }).catch(function(error) {
+    console.log("Error getting document:", error);
+  })
 }
 
 
