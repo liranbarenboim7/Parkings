@@ -67,7 +67,7 @@
     
     ])
     const buttonText= ref('add')
-    const parkingsCollectionRef = collection(db, 'parkings')
+    const parkingsCollectionRef = collection(db, 'categories')
     
     function isValidFirestoreId(id) {
       return id.match(/^[a-zA-Z0-9\-_]+$/)
