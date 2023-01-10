@@ -46,6 +46,11 @@
             >
             &cross;
           </button>
+          <button
+            @click="parkingDetails(parking.id)"
+            >
+            <i class="bi bi-pencil"></i>
+            </button>
           </div>
           </div>
         </div>
@@ -62,7 +67,8 @@
         addDoc, doc ,deleteDoc,updateDoc,
         query, orderBy, limit,setDoc
       } from "firebase/firestore"
-    
+      import router from "../router";
+
     const parkings = ref([
     
     ])
@@ -135,7 +141,10 @@
     
     }
     
-    
+    const parkingDetails =(id) => {
+      router.push({ path: '/parking', query: { id : id } })
+      
+    }
     
     const deleteTodo = id => {
       deleteDoc(doc(parkingsCollectionRef, id))
