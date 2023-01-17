@@ -35,7 +35,7 @@
         addDoc, doc ,deleteDoc,updateDoc,
         query, orderBy, limit,setDoc
       } from "firebase/firestore"
-      import {useRoute} from 'vue-router'
+      import {useRoute,useRouter} from 'vue-router'
     const parkings = ref([  
     ])
     const buttonText= ref('add')
@@ -45,10 +45,15 @@
       return id.match(/^[a-zA-Z0-9\-_]+$/)
     }
     const route = useRoute()
-    onMounted(() => {
-      const id = route.params.id
-      getParking(id)
-    })
+    const router = useRouter()
+//https://medium.com/geekculture/vue-js-parameters-of-router-are-undefined-a21accc23c2e
+    onMounted(async () => {
+      console.log('Before Router Preparation', route.name);
+      await router.isReady();
+      console.log('After Router Preparation', route.name+route.query.id);
+      getParking(route.query.id)
+      })
+ 
     
     
     let newCategory = ref('')
