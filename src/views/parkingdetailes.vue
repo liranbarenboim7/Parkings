@@ -35,7 +35,7 @@
         addDoc, doc ,deleteDoc,updateDoc,
         query, orderBy, limit,setDoc
       } from "firebase/firestore"
-    
+      import {useRoute} from 'vue-router'
     const parkings = ref([
     
     ])
@@ -45,24 +45,10 @@
     function isValidFirestoreId(id) {
       return id.match(/^[a-zA-Z0-9\-_]+$/)
     }
-    
+    const route = useRoute()
     onMounted(() => {
-      onSnapshot(parkingsCollectionRef, (querySnapshot) => {
-        const fbTodos = []
-        querySnapshot.forEach((doc) => {
-          const todo = {
-            id: doc.id,
-            category: doc.data().category,
-            date: doc.data().date,
-            from: doc.data().from,
-            to :doc.data().to,
-            price: doc.data().price,
-            name: doc.data().name
-          }
-          fbTodos.push(todo)
-        })
-        parkings.value = fbTodos
-      })
+      const id = route.params.id
+      getParking(newId)
     })
     
     
@@ -73,6 +59,7 @@
     const newPrice = ref('')
     const newName = ref('')
     const newId = ref('')
+
     
     const addToParking = () => {
       addDoc(parkingsCollectionRef, {
@@ -129,9 +116,15 @@
     }
     
     const getParking = (id) => {
-      db.collection('parkings').doc(id).get().then(function(doc) {
+      parkingsCollectionRef.doc(id).get().then(function(doc) {
         if (doc.exists) {
-          console.log("Document data:", doc.data());
+            newId= doc.id,
+            newCategory = doc.data().category,
+            newDate=doc.data().date,
+            newFrom=doc.data().from,
+            newTo =doc.data().to,
+            newPrice= doc.data().price,
+            newName= doc.data().name
         } else {
           console.log("No such document!");
         }
