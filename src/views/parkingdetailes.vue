@@ -36,8 +36,7 @@
         query, orderBy, limit,setDoc
       } from "firebase/firestore"
       import {useRoute} from 'vue-router'
-    const parkings = ref([
-    
+    const parkings = ref([  
     ])
     const buttonText= ref('add')
     const parkingsCollectionRef = collection(db, 'parkings')
@@ -48,7 +47,7 @@
     const route = useRoute()
     onMounted(() => {
       const id = route.params.id
-      getParking(newId)
+      getParking(id)
     })
     
     
@@ -116,21 +115,40 @@
     }
     
     const getParking = (id) => {
-      parkingsCollectionRef.doc(id).get().then(function(doc) {
-        if (doc.exists) {
-            newId= doc.id,
-            newCategory = doc.data().category,
-            newDate=doc.data().date,
-            newFrom=doc.data().from,
-            newTo =doc.data().to,
-            newPrice= doc.data().price,
-            newName= doc.data().name
-        } else {
-          console.log("No such document!");
-        }
-      }).catch(function(error) {
-        console.log("Error getting document:", error);
+      let ref  = doc(parkingsCollectionRef, id)
+      
+      ref.get()
+      .then(snapshot => {  //DocSnapshot
+            if (snapshot.exists) {
+                let doc = snapshot.data()
+                newId= doc.id,
+              newCategory.value = doc.data().category,
+              newDate.value=doc.data().date,
+              newFrom.value=doc.data().from,
+              newTo.value =doc.data().to,
+              newPrice.value= doc.data().price,
+              newName.value= doc.data().name
+
+            } else {
+                // snapshot.data() will be undefined in this case
+                console.log("No such document!");
+            }  
       })
+      // parkingsCollectionRef.doc(id).get().then(function(doc) {
+      //   if (doc.exists) {
+      //       newId= doc.id,
+      //       newCategory = doc.data().category,
+      //       newDate=doc.data().date,
+      //       newFrom=doc.data().from,
+      //       newTo =doc.data().to,
+      //       newPrice= doc.data().price,
+      //       newName= doc.data().name
+      //   } else {
+      //     console.log("No such document!");
+      //   }
+      // }).catch(function(error) {
+      //   console.log("Error getting document:", error);
+      // })
     }
     
     
