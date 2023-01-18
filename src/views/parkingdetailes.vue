@@ -120,9 +120,9 @@
     }
     
     const getParking = (id) => {
-      let ref  = doc(parkingsCollectionRef, id)
+      let refd  = doc(parkingsCollectionRef, id)
       
-      ref.get()
+      refd.get()
       .then(snapshot => {  //DocSnapshot
             if (snapshot.exists) {
                 let doc = snapshot.data()
