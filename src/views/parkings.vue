@@ -9,12 +9,37 @@
       >
         <div class="field has-addons">
         <p class="control is-expanded">
-          <input class="input" type="text" placeholder="Add a category" v-model="newCategory">
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Mikud</label>
+            </div>
+    
+             
+              <div class="col-md-10">
+                <select v-model="selecteCategory" @change="updateSelection">
+                  <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+                </select>
+              </div>
+            </div>
+         
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Street Name</label>
+            </div>
+            <div class="col-md-10">
+              <input class="input" type="text" placeholder="Add a Street name" v-model="newStreetName">
+            </div>
+          </div>   
+         
+
           <input class="input" type="text" placeholder="Add a Date" v-model="newDate">
           <input class="input" type="text" placeholder="From:" v-model="newFrom">
           <input class="input" type="text" placeholder="To:" v-model="newTo">
           <input class="input" type="text" placeholder="Price:" v-model="newPrice">
           <input class="input" type="text" placeholder="Name:" v-model="newName" >
+          <img src="https://cdn.pixabay.com/photo/2018/04/15/18/02/books-3322275__340.jpg" height="100" width="100">
           <p class="control">
             <button class="button is-info" :disabled="!newCategory">
             {{ isValidFirestoreId(newId) ? "update" : "add" }}
@@ -58,6 +83,11 @@
     </div>
     </div>
     
+
+
+
+
+
     </template>
     
     <script setup>
@@ -74,12 +104,11 @@
     ])
     const buttonText= ref('add')
     const parkingsCollectionRef = collection(db, 'parkings')
-    
+    const categoriesCollectionRef = collection(db,'categories')
     function isValidFirestoreId(id) {
       return id.match(/^[a-zA-Z0-9\-_]+$/)
     }
-    
-    onMounted(() => {
+    function getParkings(){
       onSnapshot(parkingsCollectionRef, (querySnapshot) => {
         const fbTodos = []
         querySnapshot.forEach((doc) => {
@@ -96,17 +125,40 @@
         })
         parkings.value = fbTodos
       })
+    }
+    onMounted(() => {
+      getParkings()
+      getCategories()
     })
     
     
     let newCategory = ref('')
-    const newDate = ref('')
-    const newFrom = ref('')
+    const newMikud = ref('')
+    const newStreetName = ref('')
     const newTo = ref('')
     const newPrice = ref('')
     const newName = ref('')
     const newId = ref('')
-    
+
+    const categories = ref([])
+    const selecteCategory = ref('')
+
+    function getCategories(){
+        onSnapshot(categoriesCollectionRef, (querySnapshot) => {
+        const fbTodos = []
+        querySnapshot.forEach((doc) => {
+          const todo = {
+            id: doc.id,
+            name: doc.data().name,
+
+          }
+          fbTodos.push(todo)
+        })
+        categories.value = fbTodos
+      })
+    }
+ 
+
     const addToParking = () => {
       addDoc(parkingsCollectionRef, {
       category: newCategory.value,
