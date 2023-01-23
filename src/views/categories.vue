@@ -9,12 +9,12 @@
       >
         <div class="field has-addons">
         <p class="control is-expanded">
-          <input class="input" type="text" placeholder="Add a category" v-model="newCategory">
-          <input class="input" type="text" placeholder="Add a Date" v-model="newDate">
-          <input class="input" type="text" placeholder="From:" v-model="newFrom">
-          <input class="input" type="text" placeholder="To:" v-model="newTo">
-          <input class="input" type="text" placeholder="Price:" v-model="newPrice">
-          <input class="input" type="text" placeholder="Name:" v-model="newName" >
+          <input class="input" type="text" placeholder="Category:" v-model="newCategory">
+          <input class="input" type="text" placeholder="Date:" v-model="newDate">
+          <input class="input" type="text" placeholder="Time start:" v-model="newFrom">
+          <input class="input" type="text" placeholder="Time End:" v-model="newTo">
+          <input class="input" type="text" placeholder="Action:" v-model="newPrice">
+          <input class="input" type="text" placeholder="Price:" v-model="newName" >
           <p class="control">
             <button class="button is-info" :disabled="!newCategory">
             {{ isValidFirestoreId(newId) ? "update" : "add" }}
@@ -83,8 +83,7 @@
             date: doc.data().date,
             from: doc.data().from,
             to :doc.data().to,
-            price: doc.data().price,
-            name: doc.data().name
+            action: doc.data().action,
           }
           fbTodos.push(todo)
         })
@@ -98,7 +97,7 @@
     const newFrom = ref('')
     const newTo = ref('')
     const newPrice = ref('')
-    const newName = ref('')
+    const action = ref('')
     const newId = ref('')
     
     const addToParking = () => {
@@ -108,15 +107,14 @@
       from: newFrom.value,
       to: newTo.value,
       price: newPrice.value,
-      name: newName.value
-    
+      action: action.value
     });
       newCategory.value = ''
       newDate.value = ''
       newFrom.value = ''
       newTo.value = ''
       newPrice.value = ''
-      newName.value = ''
+      action.value = ''
       newId.value = ''
     }
     
@@ -130,7 +128,7 @@
       from: newFrom.value,
       to: newTo.value,
       price: newPrice.value,
-      name: newName.value
+      action: action.value
     });
     
     }
@@ -148,7 +146,7 @@
       newFrom.value = parkings.value[index].from
       newTo.value = parkings.value[index].to
       newPrice.value = parkings.value[index].price
-      newName.value = parkings.value[index].name
+      action.value = parkings.value[index].action
       
       // updateDoc(doc(parkingsCollectionRef, id), {
       //    done: !parkings.value[index].done
