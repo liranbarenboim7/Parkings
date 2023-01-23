@@ -19,7 +19,7 @@
             <button class="button is-info" :disabled="!newCategory">
             {{ isValidFirestoreId(newId) ? "update" : "add" }}
           </button>
-          {{ newId }}
+          <!--{{ newId }}-->
           </p>
         </p>
       </div>

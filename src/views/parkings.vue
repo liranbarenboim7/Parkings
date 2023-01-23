@@ -16,11 +16,11 @@
         <!-- combobox here -->
         <label>Select category:</label>
         <div class="col-md-10">
-          <select v-model="selecteCategory" @change="updateSelection">
-            <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+          <select v-model="category" @change="updateSelection">
+            <option v-for="category in categories" :value="category.id">{{ category.category }}</option>
           </select>
         </div>
-
+          
         <p class="control">
           <button class="button is-info" :disabled="!category">
           {{ isValidFirestoreId(newId) ? "update" : "add" }}
@@ -94,8 +94,11 @@
   let newId = ref('')
 
   const categories = ref([])
-  const seleceteCategory = ref('')
+  
+  function updateSelection()
+  {
 
+  }
   const addToParking = () => {
     addDoc(parkingsCollectionRef, {
     address: address.value,
