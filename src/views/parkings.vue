@@ -15,14 +15,11 @@
         
         <!-- combobox here -->
         <label>Select category:</label>
-        <div>
-        <select v-model="selectedId">
-          <option v-for="category in categories" v-bind:value="category.id" v-bind:key="category.id">
-            {{ item.name }}
-          </option>
-        </select>
+        <div class="col-md-10">
+          <select v-model="selecteCategory" @change="updateSelection">
+            <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+          </select>
         </div>
-
 
         <p class="control">
           <button class="button is-info" :disabled="!category">
@@ -75,27 +72,19 @@
   const parkings = ref([
   
   ])
+
   const buttonText= ref('add')
   const parkingsCollectionRef = collection(db, 'parkings')
-  
+  const categoriesCollectionRef = collection(db,'categories')
+
   function isValidFirestoreId(id) {
     return id.match(/^[a-zA-Z0-9\-_]+$/)
   }
   
   onMounted(() => {
-    onSnapshot(parkingsCollectionRef, (querySnapshot) => {
-      const fbTodos = []
-      querySnapshot.forEach((doc) => {
-        const todo = {
-          id: doc.id,
-          address: doc.data().address,
-          side: doc.data().side,
-          category: doc.data().category,
-        }
-        fbTodos.push(todo)
-      })
-      parkings.value = fbTodos
-    })
+    getParkings()
+    getCategories()
+
   })
   
   
@@ -103,6 +92,10 @@
   let side = ref('')
   let category = ref('')
   let newId = ref('')
+
+  const categories = ref([])
+  const seleceteCategory = ref('')
+
   const addToParking = () => {
     addDoc(parkingsCollectionRef, {
     address: address.value,
@@ -116,7 +109,41 @@
   }
   
   
-  
+  /// Getting categories for combobox
+
+  function getCategories(){
+        onSnapshot(categoriesCollectionRef, (querySnapshot) => {
+        const fbTodos = []
+        querySnapshot.forEach((doc) => {
+          const todo = {
+            id: doc.id,
+            category: doc.data().category,
+          }
+          fbTodos.push(todo)
+        })
+        categories.value = fbTodos
+      })
+    }
+
+
+    //Getting parking
+    function getParkings() {
+      onSnapshot(parkingsCollectionRef, (querySnapshot) => {
+      const fbTodos = []
+      querySnapshot.forEach((doc) => {
+        const todo = {
+          id: doc.id,
+          address: doc.data().address,
+          side: doc.data().side,
+          category: doc.data().category,
+        }
+        fbTodos.push(todo)
+      })
+      parkings.value = fbTodos
+    })
+    }
+
+
   function updateParking(id) {
     const frankDocRef = doc(db, "parkings", id);
     setDoc(frankDocRef, {
@@ -157,6 +184,7 @@
     })
   }
   
+
   
   </script>
   
