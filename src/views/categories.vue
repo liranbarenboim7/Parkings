@@ -1,28 +1,60 @@
 <template>
     <div class="badass-todo">
-    
       <div class="title has-text-centered">
         Categories
       </div>
       <form
       @submit.prevent="isValidFirestoreId(newId) ?  updateCategory(newId) : addToCategory() "
       >
-        <div class="field has-addons">
+        <div class="field has-addons" >
         <p class="control is-expanded">
-          <input class="input" type="text" placeholder="Category:" v-model="newCategory">
-         
+
+          <div class="input-group mb-3 mr-6">
+            <span class="input-group-text" id="basic-addon1">Category</span>
+            <input type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="basic-addon1" v-model="newCategory">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Time Start</span>
+            <input type="text" class="form-control" placeholder="Time start" aria-label="Time Start" aria-describedby="basic-addon1" v-model="newFrom">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Time End</span>
+            <input type="text" class="form-control" placeholder="Time End" aria-label="Time End" aria-describedby="basic-addon1" v-model="newTo">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Action</span>
+            <input type="text" class="form-control" placeholder="Action" aria-label="Action" aria-describedby="basic-addon1" v-model="action">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Price</span>
+            <input type="text" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1" v-model="newPrice">
+          </div>
+          
+          <!--<input class="input" type="text" placeholder="Category:" v-model="newCategory">
           <input class="input" type="text" placeholder="Time start:" v-model="newFrom">
           <input class="input" type="text" placeholder="Time End:" v-model="newTo">
           <input class="input" type="text" placeholder="Action:" v-model="action">
-          <input class="input" type="text" placeholder="Price:" v-model="newPrice" >
-          
-          <label>Select day:</label>
-          <!--Combobox for days of the week-->
+          <input class="input" type="text" placeholder="Price:" v-model="newPrice" > -->
+
+
+          <!--<label>Select day:</label>
+
+          Combobox for days of the week
+
           <div>
             <select v-model="newDay">
               <option v-for="day in days" :value="day">{{ day }}</option>
             </select>
+          </div>-->
+
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Select Day</span>
+            <select v-model="newDay">
+              <option v-for="day in days" :value="day">{{ day }}</option>
+            </select>
           </div>
+
+
 
           <p class="control">
             <button class="button is-info" :disabled="!newCategory">
@@ -61,7 +93,8 @@
       </div>
     </div>
     </div>
-    
+
+
     </template>
     
     <script setup>
