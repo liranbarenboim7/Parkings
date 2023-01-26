@@ -11,7 +11,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
     "bulma": "^0.9.4",
-    "firebase": "^9.15.0",
+    "firebase": "^9.16.0",
     "vue": "^3.2.45",
     "vue-router": "^4.0.13"
   },

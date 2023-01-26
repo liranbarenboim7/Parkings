@@ -24,6 +24,11 @@ const count = ref(0)
             <a :href="href" @click.stop="navigate">Categories</a>
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link :to="'/googlogin'" custom v-slot="{ navigate, href }">
+            <a :href="href" @click.stop="navigate">Login with Google</a>
+          </router-link>
+        </li>
       </ul>
     </div>
   </div>
