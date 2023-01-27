@@ -1,12 +1,12 @@
 <template>
-    <div class="badass-todo">
-      <div class="title has-text-centered">
-        Categories
-      </div>
-      <form
-      @submit.prevent="isValidFirestoreId(newId) ?  updateCategory(newId) : addToCategory() "
-      >
-        <div class="field has-addons" >
+    <div class="main-frame">
+              <div class="title has-text-centered">
+                Categories
+              </div>
+              <form
+              @submit.prevent="isValidFirestoreId(newId) ?  updateCategory(newId) : addToCategory() "
+              >
+                <div class="field has-addons" >
         <p class="control is-expanded">
 
           <div class="input-group mb-3 mr-6">
@@ -211,8 +211,8 @@
     </script>
     
     <style>
-    @import 'bulma\css\bulma.min.css';
-    .badass-todo {
+    
+    .main-frame {
         height: 100%;
         border: 1px solid;
         padding: 20px;

@@ -25,8 +25,19 @@ const count = ref(0)
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="'/googlogin'" custom v-slot="{ navigate, href }">
-            <a :href="href" @click.stop="navigate">Login with Google</a>
+          <router-link :to="'/register'" custom v-slot="{ navigate, href }">
+            <a :href="href" @click.stop="navigate">Register</a>
+          </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :to="'/signup'" custom v-slot="{ navigate, href }">
+            <a :href="href" @click.stop="navigate">Sign Up</a>
+          </router-link>
+ 
+          </li>
+          <li class="nav-item">
+         <router-link :to="'/signin'" custom v-slot="{ navigate, href }">
+            <a :href="href" @click.stop="navigate">Sign In</a>
           </router-link>
         </li>
       </ul>

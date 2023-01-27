@@ -13,12 +13,12 @@
         <input class="input" type="text" placeholder="Add side" v-model="side"> -->
         <!-- <input class="input" type="text" placeholder="Category" v-model="category" -->
 
-        <div class="input-group mb-3">
+        <div class="input-group mb-10">
             <span class="input-group-text" id="basic-addon1">Add side</span>
             <input type="text" class="form-control" placeholder="Add side" aria-label="Add side" aria-describedby="basic-addon1" v-model="side">
         </div>
 
-        <div class="input-group mb-3">
+        <div class="input-group mb-10">
             <span class="input-group-text" id="basic-addon1">Add Address</span>
             <input type="text" class="form-control" placeholder="Add address" aria-label="Add address" aria-describedby="basic-addon1" v-model="address">
         </div>
@@ -33,7 +33,7 @@
         </div> -->
         
 
-        <div class="input-group mb-3">
+        <div class="input-group mb-10">
             <span class="input-group-text" id="basic-addon1">Select Category</span>
             <select v-model="category" @change="updateSelection">
               <option v-for="category in categories" :value="category.id">{{ category.category }}</option>
