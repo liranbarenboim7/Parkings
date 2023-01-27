@@ -30,12 +30,6 @@ const count = ref(0)
           </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="'/signup'" custom v-slot="{ navigate, href }">
-            <a :href="href" @click.stop="navigate">Sign Up</a>
-          </router-link>
- 
-          </li>
-          <li class="nav-item">
          <router-link :to="'/signin'" custom v-slot="{ navigate, href }">
             <a :href="href" @click.stop="navigate">Sign In</a>
           </router-link>
@@ -52,5 +46,9 @@ const count = ref(0)
 }
 .nav-item {
   margin-right:10%;
+}
+.navbar-nav{
+  position:relative ;
+  width:100%;
 }
 </style>

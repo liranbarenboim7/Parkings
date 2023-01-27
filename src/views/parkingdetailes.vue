@@ -1,5 +1,5 @@
 <template>
-<div class="badass-todo">
+<div class="app-pages">
 
   <div class="title has-text-centered">
     Details

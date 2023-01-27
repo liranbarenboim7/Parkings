@@ -1,5 +1,5 @@
 <template>
-  <div class="badass-todo">
+  <div class="app-pages">
   
     <div class="title has-text-centered">
       Parkings
@@ -7,8 +7,8 @@
     <form
     @submit.prevent="isValidFirestoreId(newId) ?  updateParking(newId) : addToParking() "
     >
-      <div class="field has-addons">
-      <p class="control is-expanded">
+      <!-- <div class="field has-addons">
+      <p class="control is-expanded"> -->
         <!--<input class="input" type="text" placeholder="Add Address" v-model="address">
         <input class="input" type="text" placeholder="Add side" v-model="side"> -->
         <!-- <input class="input" type="text" placeholder="Category" v-model="category" -->
@@ -22,16 +22,6 @@
             <span class="input-group-text" id="basic-addon1">Add Address</span>
             <input type="text" class="form-control" placeholder="Add address" aria-label="Add address" aria-describedby="basic-addon1" v-model="address">
         </div>
-
-
-        <!-- combobox here -->
-        <!--<label>Select category:</label>
-        <div class="col-md-10">
-          <select v-model="category" @change="updateSelection">
-            <option v-for="category in categories" :value="category.id">{{ category.category }}</option>
-          </select>
-        </div> -->
-        
 
         <div class="input-group mb-10">
             <span class="input-group-text" id="basic-addon1">Select Category</span>
@@ -49,8 +39,8 @@
         </button>
         <!--{{ newId }}-->
         </p>
-      </p>
-    </div>
+      <!-- </p>
+    </div> -->
     </form>
   
   
@@ -213,18 +203,9 @@
   
   </script>
   
-  <style>
-  @import 'bulma\css\bulma.min.css';
-  .badass-todo {
-      height: 100%;
-      border: 1px solid;
-      padding: 20px;
-      margin-top: 5em;
-
-      box-shadow: 5px 5px 5px 5px #888888;
+  <style scoped>
   
-  }
-  
+   
   .line-through {
     text-decoration: line-through;
   }
