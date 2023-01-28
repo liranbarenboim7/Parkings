@@ -94,8 +94,16 @@
   }
   
   onMounted(() => {
+    if(authenticated )
+    {
     getParkings()
     getCategories()
+    
+    }
+    else
+    {
+//route to signin
+    }
 
   })
   

@@ -9,34 +9,26 @@
   </template>
   <script setup>
     import { ref } from 'vue'
-    import {auth} from '@/firebaseDB'
+    //import {auth} from '@/firebaseDB'
     import { useRouter } from 'vue-router' // import router
+    import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
     const email = ref('')
     const password = ref('')
-    const errMsg = ref() // ERROR MESSAGE
+    const errMsg = ref('') // ERROR MESSAGE
     const router = useRouter() // get a reference to our vue router
-    const signIn = () => { // we also renamed this method
-        auth()
-        .signInWithEmailAndPassword(email.value, password.value) // THIS LINE CHANGED
-        .then((data) => {
-          console.log('Successfully logged in!');
-          router.push('/feed') // redirect to the feed
-        })
-        .catch(error => {
-          switch (error.code) {
-            case 'auth/invalid-email':
-                errMsg.value = 'Invalid email'
-                break
-            case 'auth/user-not-found':
-                errMsg.value = 'No account with that email was found'
-                break
-            case 'auth/wrong-password':
-                errMsg.value = 'Incorrect password'
-                break
-            default:
-                errMsg.value = 'Email or password was incorrect'
-                break
-          }
-        });
+   
+    const signIn = () => {
+      const auth = getAuth();
+    signInWithEmailAndPassword(auth, email.value, password.value)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
     }
+    
   </script>
