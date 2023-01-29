@@ -80,7 +80,7 @@
       addDoc, doc ,deleteDoc,updateDoc,
       query, orderBy, limit,setDoc
     } from "firebase/firestore"
-    import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+    import { getAuth, signInWithEmailAndPassword , onAuthStateChanged} from "firebase/auth";
     import router from '../router'
     const parkings = ref([
   
@@ -94,13 +94,18 @@
   function isValidFirestoreId(id) {
     return id.match(/^[a-zA-Z0-9\-_]+$/)
   }
-  onUpdated(() => {
-    console.log("onUpdated"+ auth.currentUser)
-   if(!auth.currentUser )
-   {
-    router.push('/Signin')
-   }
-})
+  onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    router.push('SignIn')
+  }
+});
+
 
   onMounted(() => {
     

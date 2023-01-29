@@ -4,6 +4,7 @@ import Parkings  from '../views/parkings.vue';
 import Parkingdetailes  from '../views/parkingdetailes.vue';
 import Register  from '../views/Register.vue';
 import Signin  from '../views/Signin.vue';
+import SignOut from '../views/SignOut.vue';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const routes = [
@@ -29,7 +30,8 @@ const routes = [
     meta: { requiresAuth: true }
     },
     { path:"/Signin", component: Signin},
-    { path:"/Register", component: Register}
+    { path:"/Register", component: Register},
+    { path:"/Signout", component: SignOut}
     // {
     //     path: '/loginView',
     //     name: 'LoginView',

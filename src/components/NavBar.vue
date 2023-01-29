@@ -1,11 +1,27 @@
 <script setup>
-import { ref } from 'vue'
-
+import { ref , reactive} from 'vue'
+import { getAuth,onAuthStateChanged } from "firebase/auth";
+const auth = getAuth();
+const isAuth = ref(false);
+const currentuser = reactive({});
 defineProps({
   title: String
 })
 
 const count = ref(0)
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    isAuth.value = user?.email.toLowerCase() == 'liranbarenboim10@gmail.com'
+    currentuser.value = user
+    // ...
+  } else {
+    // User is signed out
+    router.push('SignIn')
+  }
+});
+
 </script>
 
 <template>
@@ -30,9 +46,15 @@ const count = ref(0)
           </router-link>
           </li>
           <li class="nav-item">
-         <router-link :to="'/signin'" custom v-slot="{ navigate, href }">
-            <a :href="href" @click.stop="navigate">Sign In</a>
+         <router-link v-if="isAuth" :to="'/signout'" custom v-slot="{ navigate, href }" >
+            <a  :href="href" @click.stop="navigate">Sign Out{{ currentuser.email }}</a>         
           </router-link>
+          <router-link v-else :to="'/signin'" custom v-slot="{ navigate, href }" >
+            <a  :href="href" @click.stop="navigate">Sign In</a>         
+          </router-link>
+
+
+
         </li>
       </ul>
     </div>
