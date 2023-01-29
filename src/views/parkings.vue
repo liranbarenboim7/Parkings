@@ -80,7 +80,7 @@
       addDoc, doc ,deleteDoc,updateDoc,
       query, orderBy, limit,setDoc
     } from "firebase/firestore"
-  
+    import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
   const parkings = ref([
   
   ])
@@ -88,13 +88,14 @@
   const buttonText= ref('add')
   const parkingsCollectionRef = collection(db, 'parkings')
   const categoriesCollectionRef = collection(db,'categories')
-
+  const auth = getAuth();
   function isValidFirestoreId(id) {
     return id.match(/^[a-zA-Z0-9\-_]+$/)
   }
   
   onMounted(() => {
-    if(authenticated )
+    
+    if(auth.currentUser )
     {
     getParkings()
     getCategories()
@@ -102,7 +103,7 @@
     }
     else
     {
-//route to signin
+//auth.currentUser
     }
 
   })
