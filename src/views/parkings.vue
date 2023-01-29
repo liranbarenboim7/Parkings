@@ -74,14 +74,15 @@
   </template>
   
   <script setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted,onUpdated  } from 'vue'
     import {db} from '@/firebaseDB'
     import { collection, onSnapshot,
       addDoc, doc ,deleteDoc,updateDoc,
       query, orderBy, limit,setDoc
     } from "firebase/firestore"
     import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-  const parkings = ref([
+    import router from '../router'
+    const parkings = ref([
   
   ])
 
@@ -89,10 +90,18 @@
   const parkingsCollectionRef = collection(db, 'parkings')
   const categoriesCollectionRef = collection(db,'categories')
   const auth = getAuth();
+  
   function isValidFirestoreId(id) {
     return id.match(/^[a-zA-Z0-9\-_]+$/)
   }
-  
+  onUpdated(() => {
+    console.log("onUpdated"+ auth.currentUser)
+   if(!auth.currentUser )
+   {
+    router.push('/Signin')
+   }
+})
+
   onMounted(() => {
     
     if(auth.currentUser )
@@ -103,7 +112,7 @@
     }
     else
     {
-//auth.currentUser
+      router.push('/Signin')
     }
 
   })
