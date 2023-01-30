@@ -1,6 +1,7 @@
 <script setup>
 import { ref , reactive} from 'vue'
 import { getAuth,onAuthStateChanged } from "firebase/auth";
+import router from '../router'
 const auth = getAuth();
 const isAuth = ref(false);
 const currentuser = reactive({});
@@ -13,12 +14,12 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
-    isAuth.value = user?.email.toLowerCase() == 'liranbarenboim10@gmail.com'
+    isAuth.value = true;//user?.email.toLowerCase() == 'liranbarenboim10@gmail.com'
     currentuser.value = user
     // ...
   } else {
     // User is signed out
-    router.push('SignIn')
+    router.push('/SignIn')
   }
 });
 
