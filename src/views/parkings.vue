@@ -1,54 +1,12 @@
 <template>
   <div class="app-pages">
-  
-    <div class="title has-text-centered">
+  <div class="row main">
+    <div class="col md-6 parkings">
+      <div class="title has-text-centered">
       Parkings
-    </div>
-    <form
-    @submit.prevent="isValidFirestoreId(newId) ?  updateParking(newId) : addToParking() "
-    >
-      <!-- <div class="field has-addons">
-      <p class="control is-expanded"> -->
-        <!--<input class="input" type="text" placeholder="Add Address" v-model="address">
-        <input class="input" type="text" placeholder="Add side" v-model="side"> -->
-        <!-- <input class="input" type="text" placeholder="Category" v-model="category" -->
-
-        <div class="input-group mb-10">
-            <span class="input-group-text" id="basic-addon1">Add side</span>
-            <input type="text" class="form-control" placeholder="Add side" aria-label="Add side" aria-describedby="basic-addon1" v-model="side">
-        </div>
-
-        <div class="input-group mb-10">
-            <span class="input-group-text" id="basic-addon1">Add Address</span>
-            <input type="text" class="form-control" placeholder="Add address" aria-label="Add address" aria-describedby="basic-addon1" v-model="address">
-        </div>
-
-        <div class="input-group mb-10">
-          <input type="text" class="form-control" placeholder="Categories" aria-label="Categories" aria-describedby="basic-addon1" v-model="parkingCategories">
-        </div>
-        <div class="input-group mb-10">
-            <span class="input-group-text" id="basic-addon1">Select Category</span>
-            <select v-model="category" @change="updateSelection">
-              <option v-for="category in categories" :value="category.id">{{ category.category }}</option>
-            </select>
-        </div>
-
-
-
-
-        <p class="control">
-          <button class="button is-info" :disabled="!category">
-          {{ isValidFirestoreId(newId) ? "update" : "add" }}
-        </button>
-        <!--{{ newId }}-->
-        </p>
-      <!-- </p>
-    </div> -->
-    </form>
-  
-  
+     </div>
     <div class="card mb-5" v-for="parking in parkings">
-     <div class="card-content">
+      <div class="card-content">
       <div class="content">
         <div class="columns 
         is-mobile is-vcentered">
@@ -71,13 +29,67 @@
         </div>
       </div>
     </div>
+      </div>>
+    </div>
+    <div class="col md-6 detailes">
+      <div class="row fields">
+        <form
+    @submit.prevent="isValidFirestoreId(newId) ?  updateParking(newId) : addToParking() "
+    >
+   
+        <div class="input-group mb-10">
+            <span class="input-group-text" id="basic-addon1">Add side</span>
+            <input type="text" class="form-control" placeholder="Add side" aria-label="Add side" aria-describedby="basic-addon1" v-model="side">
+        </div>
+
+        <div class="input-group mb-10">
+            <span class="input-group-text" id="basic-addon1">Add Address</span>
+            <input type="text" class="form-control" placeholder="Add address" aria-label="Add address" aria-describedby="basic-addon1" v-model="address">
+        </div>
+
+        <div class="input-group mb-10">
+          <input type="text" class="form-control" placeholder="Categories" aria-label="Categories" aria-describedby="basic-addon1" v-model="parkingCategories">
+        </div>
+
+
+
+
+        <p class="control">
+          <button class="button is-info" :disabled="!category">
+          {{ isValidFirestoreId(newId) ? "update" : "add" }}
+        </button>
+        <!--{{ newId }}-->
+        </p>
+      <!-- </p>
+    </div> -->
+    </form>
+      </div>
+      <div class="row parking-categories">
+        <div class="input-group mb-10">
+            <span class="input-group-text" id="basic-addon1">Select Category</span>
+            <select v-model="category" @change="updateSelection">
+              <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}</option>
+            </select>
+        </div>
+      </div>
+
+          <div>
+        <il>
+          <li v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}</li>
+        </il>
+      </div>
+
+    </div>
   </div>
-  </div>
+   
+   
+   </div>
+  
   
   </template>
   
   <script setup>
-    import { ref, onMounted,onUpdated  } from 'vue'
+    import { ref, onMounted,onUpdated ,reactive } from 'vue'
     import {db} from '@/firebaseDB'
     import { collection, onSnapshot,
       addDoc, doc ,deleteDoc,updateDoc,
@@ -109,8 +121,9 @@
   }
 });
 
-
-  onMounted(() => {
+  const categories = ref([])
+  const parkingCategories = ref([])
+  onMounted(async() => {
     
     if(auth.currentUser )
     {
@@ -131,11 +144,13 @@
   let category = ref('')
   let newId = ref('')
 
-  const categories = ref([])
-  const parkingCategories = ref([])
+  // const categories = reactive([])
+  // const parkingCategories = reactive([])
   
   function updateSelection()
   {
+  
+    parkingCategories.value.Add(category)
 
   }
   const addToParking = () => {
@@ -150,9 +165,60 @@
     category.value = ''
   }
   
-  
-  /// Getting categories for combobox
+  function AddCategoriesToParking(parkingId)
+  {
+    // Reference to the parent document
+    const parkingDocRef = db.collection("parkings").doc(parkingId);
 
+    // Reference to the subcollection
+    const parkingCategoryCollectionRef = parkingDocRef.collection("categories");
+
+// Array of data to be added to the subcollection
+  // const subCollectionData = [
+  //   { name: "Item 1", value: 1 },
+  //   { name: "Item 2", value: 2 },
+  //   { name: "Item 3", value: 3 },
+  // ];
+
+// Adding the data to the subcollection
+const promises = categories.map(data => {
+  return parkingCategoryCollectionRef.add(data);
+});
+
+// Waiting for all writes to complete
+Promise.all(promises)
+  .then(() => {
+    console.log("Data added to subcollection");
+    // Adding the subcollection reference as a field in the parent document
+    parkingDocRef.update({
+      categories: parkingCategoryCollectionRef
+
+    })
+    .then(() => {
+      console.log("Subcollection reference added as field in parent document");
+    })
+    .catch(error => {
+      console.error("Error adding subcollection reference: ", error);
+    });
+  })
+  .catch(error => {
+    console.error("Error adding data to subcollection: ", error);
+  });
+
+  }
+  /// Getting categories for combobox
+function GetCategoriesFromParking(documentId)
+{
+  const parkingCategoriesRef = doc(collection(db, 'parkings'), documentId)
+    .collection('categories');
+  onSnapshot(parkingCategoriesRef, (querySnapshot) => {
+    const subcollection = [];
+    querySnapshot.forEach((doc) => {
+      subcollection.push({ id: doc.id, ...doc.data() });
+    });
+    parkingCategories.value = subcollection;
+  });
+}
   function getCategories(){
         onSnapshot(categoriesCollectionRef, (querySnapshot) => {
         const fbTodos = []
@@ -192,6 +258,7 @@
     address: address.value,
     side: side.value,
     category: category.value,
+
   });
   
   }
@@ -225,13 +292,14 @@
       console.log("Error getting document:", error);
     })
   }
-  
 
-  
   </script>
   
   <style scoped>
-  
+  .main{
+    position:relative;
+    width:100%;
+  }
    
   .line-through {
     text-decoration: line-through;
