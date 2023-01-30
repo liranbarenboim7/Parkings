@@ -24,6 +24,9 @@
         </div>
 
         <div class="input-group mb-10">
+          <input type="text" class="form-control" placeholder="Categories" aria-label="Categories" aria-describedby="basic-addon1" v-model="parkingCategories">
+        </div>
+        <div class="input-group mb-10">
             <span class="input-group-text" id="basic-addon1">Select Category</span>
             <select v-model="category" @change="updateSelection">
               <option v-for="category in categories" :value="category.id">{{ category.category }}</option>
@@ -129,6 +132,7 @@
   let newId = ref('')
 
   const categories = ref([])
+  const parkingCategories = ref([])
   
   function updateSelection()
   {
