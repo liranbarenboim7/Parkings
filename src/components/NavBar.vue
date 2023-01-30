@@ -4,7 +4,7 @@ import { getAuth,onAuthStateChanged } from "firebase/auth";
 import router from '../router'
 const auth = getAuth();
 const isAuth = ref(false);
-const currentuser = reactive({});
+const currentuser = ref('');
 defineProps({
   title: String
 })
@@ -15,9 +15,10 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     isAuth.value = true;//user?.email.toLowerCase() == 'liranbarenboim10@gmail.com'
-    currentuser.value = user
+    currentuser.value = user.email
     // ...
   } else {
+    isAuth.value = false;
     // User is signed out
     router.push('/SignIn')
   }
@@ -48,14 +49,14 @@ onAuthStateChanged(auth, (user) => {
           </li>
           <li class="nav-item">
          <router-link v-if="isAuth" :to="'/signout'" custom v-slot="{ navigate, href }" >
-            <a  :href="href" @click.stop="navigate">Sign Out{{ currentuser.email }}</a>         
+            <a  :href="href" @click.stop="navigate" >Sign Out</a>         
           </router-link>
           <router-link v-else :to="'/signin'" custom v-slot="{ navigate, href }" >
             <a  :href="href" @click.stop="navigate">Sign In</a>         
           </router-link>
-
-
-
+        </li>
+        <li>
+          <a  :href="href" @click.stop="navigate">{{currentuser}}</a>    
         </li>
       </ul>
     </div>
