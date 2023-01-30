@@ -19,6 +19,7 @@ onAuthStateChanged(auth, (user) => {
     // ...
   } else {
     isAuth.value = false;
+    currentuser.value  = ''
     // User is signed out
     router.push('/SignIn')
   }
