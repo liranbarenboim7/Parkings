@@ -2,68 +2,12 @@
   <div class="app-pages">
   <div class="row main">
     <div class="col md-6 parkings">
-      <div class="title has-text-centered">
-      Parkings
-     </div>
-    <div class="card mb-5" v-for="parking in parkings">
-      <div class="card-content">
-      <div class="content">
-        <div class="columns 
-        is-mobile is-vcentered">
-          <div class="column">
-            {{parking.address}}
-          </div>
-        <div class="column is-5 has-text-right">
-          <button class="button" 
-          @click="toggleDone(parking.id)"
-          >
-            &check;
-          </button>
-          <button 
-          class="button is-danger ml-2"
-          @click="deleteTodo(parking.id)"
-          >
-          &cross;
-        </button>
-        </div>
-        </div>
-      </div>
+          <ParkingList/>
     </div>
-      </div>>
-    </div>
-    <div class="col md-6 detailes">
-      <div class="row fields">
-        <form
-    @submit.prevent="isValidFirestoreId(newId) ?  updateParking(newId) : addToParking() "
-    >
    
-        <div class="input-group mb-10">
-            <span class="input-group-text" id="basic-addon1">Add side</span>
-            <input type="text" class="form-control" placeholder="Add side" aria-label="Add side" aria-describedby="basic-addon1" v-model="side">
-        </div>
-
-        <div class="input-group mb-10">
-            <span class="input-group-text" id="basic-addon1">Add Address</span>
-            <input type="text" class="form-control" placeholder="Add address" aria-label="Add address" aria-describedby="basic-addon1" v-model="address">
-        </div>
-
-        <div class="input-group mb-10">
-          <input type="text" class="form-control" placeholder="Categories" aria-label="Categories" aria-describedby="basic-addon1" v-model="parkingCategories">
-        </div>
-
-
-
-
-        <p class="control">
-          <button class="button is-info" :disabled="!category">
-          {{ isValidFirestoreId(newId) ? "update" : "add" }}
-        </button>
-        <!--{{ newId }}-->
-        </p>
-      <!-- </p>
-    </div> -->
-    </form>
-      </div>
+    <div class="col md-6 parkingslist">
+    <ParkingDetails />
+    
       <div class="row parking-categories">
         <div class="input-group mb-10">
             <span class="input-group-text" id="basic-addon1">Select Category</span>
@@ -81,9 +25,10 @@
 
     </div>
   </div>
+  </div>
    
    
-   </div>
+  
   
   
   </template>
@@ -97,6 +42,8 @@
     } from "firebase/firestore"
     import { getAuth, signInWithEmailAndPassword , onAuthStateChanged} from "firebase/auth";
     import router from '../router'
+    import ParkingDetails from "../components/ParkingDetails.vue"
+    import ParkingList from "../components/parkinglist.vue"
     const parkings = ref([
   
   ])
@@ -109,6 +56,7 @@
   function isValidFirestoreId(id) {
     return id.match(/^[a-zA-Z0-9\-_]+$/)
   }
+
   onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
