@@ -30,7 +30,7 @@
           />
         </div>
 
-        <div class="input-group mb-10">
+        <!-- <div class="input-group mb-10">
           <input
             type="text"
             class="form-control"
@@ -39,42 +39,16 @@
             aria-describedby="basic-addon1"
             v-model="parkingCategories"
           />
-        </div>
+        </div> -->
 
         <p class="control">
           <button class="button is-info" :disabled="!category">
-            {{ isValidFirestoreId(newId) ? "update" : "add" }}
+            {{ isValidFirestoreId(newId) ? "update" : "add parking" }}
           </button>
      
         </p>
  
       </form>
-    </div>
-    <div class="row parking-categories">
-      <div class="input-group mb-10">
-        <span class="input-group-text" id="basic-addon1">Select Category</span>
-        <select v-model="category" @change="updateSelection">
-          <option
-            v-for="category in categories"
-            :value="category.id"
-            :key="category.id"
-          >
-            {{ category.category }}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div>
-      <il>
-        <li
-          v-for="category in categories"
-          :value="category.id"
-          :key="category.id"
-        >
-          {{ category.category }}
-        </li>
-      </il>
     </div>
   </div>
 </template>
