@@ -29,23 +29,6 @@
             <span class="input-group-text" id="basic-addon1">Price</span>
             <input type="text" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1" v-model="newPrice">
           </div>
-          
-          <!--<input class="input" type="text" placeholder="Category:" v-model="newCategory">
-          <input class="input" type="text" placeholder="Time start:" v-model="newFrom">
-          <input class="input" type="text" placeholder="Time End:" v-model="newTo">
-          <input class="input" type="text" placeholder="Action:" v-model="action">
-          <input class="input" type="text" placeholder="Price:" v-model="newPrice" > -->
-
-
-          <!--<label>Select day:</label>
-
-          Combobox for days of the week
-
-          <div>
-            <select v-model="newDay">
-              <option v-for="day in days" :value="day">{{ day }}</option>
-            </select>
-          </div>-->
 
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Select Day</span>
@@ -104,10 +87,24 @@
         addDoc, doc ,deleteDoc,updateDoc,
         query, orderBy, limit,setDoc,Firestore
       } from "firebase/firestore"
+      import { useStore } from 'vuex';
+
+
+    const store = useStore();
+ ////////////////////DATA//////////////////////////////////////   
+    const categories = categoryData
     
-    const categories = ref([
-    
-    ])
+    const newDay = computed(() => store.state.categoryModule.selectedCategory.day)
+    const newFrom = computed(() => store.state.categoryModule.selectedCategory.from)
+    const newTo = computed(() => store.state.categoryModule.selectedCategory.to)
+    const newPrice = computed(() => store.state.categoryModule.selectedCategory.price)
+    const action = computed(() => store.state.categoryModule.selectedCategory.action)
+    const newId = computed(() => store.state.categoryModule.selectedCategory.id)
+    const newCategory = computed(() => store.state.categoryModule.selectedCategory.category);
+    const loading = computed(() => store.state.citiesModule.loading);
+    const error = computed(() => store.state.citiesModule.error);
+    //const daySelect = ref('')
+    const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
 
     const buttonText= ref('add')
     const categoriesCollectionRef = collection(db, 'categories')
@@ -140,17 +137,8 @@
     })
     
     
-    let newCategory = ref('')
-    const newDay = ref('')
-    const newFrom = ref('')
-    const newTo = ref('')
-    const newPrice = ref('')
-    const action = ref('')
-    const newId = ref('')
     
-    //const daySelect = ref('')
-    const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
-
+   
     const  addToCategory = () => {
       addDoc(categoriesCollectionRef, {
       category: newCategory.value,     

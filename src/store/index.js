@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import citiesModule from './CitiesModule/index';
+import CategoryModule from './CategoryModule/index.js';
 
 export default createStore({
     state: {},
@@ -7,7 +7,7 @@ export default createStore({
     actions: {},
     getters: {},
     modules: {
-        citiesModule: citiesModule
+        CategoryModule: CategoryModule
     }
 });
 // https://next.vuex.vuejs.org/guide/modules.html#accessing-global-assets-in-namespaced-modules
