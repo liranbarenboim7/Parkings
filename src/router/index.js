@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Categories  from '../views/categories.vue';
 import Parkings  from '../views/parkings.vue';
-import Parkingdetailes  from '../views/parkingdetailes.vue';
+import ParkingdetailesQR  from '../views/parkingdetailesQR.vue';
 import Register  from '../views/Register.vue';
 import Signin  from '../views/Signin.vue';
 import SignOut from '../views/SignOut.vue';
@@ -24,10 +24,10 @@ const routes = [
     component: Categories,
     meta: { requiresAuth: true } 
     },
-    { path: '/parking',
-    name: 'Parking',
-    component: Parkingdetailes,
-    meta: { requiresAuth: true }
+    { path: '/parkingQR',
+    name: 'ParkingQR',
+    component: ParkingdetailesQR
+    
     },
     { path:"/Signin", component: Signin},
     { path:"/Register", component: Register},
