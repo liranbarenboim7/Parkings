@@ -73,7 +73,14 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import router from "../router";
-
+///////////////////////////////////////////PROPS/////////////////////
+const props = defineProps({
+        parkingId: {
+           
+            default: () => ''
+        }
+    })
+////////////////////////////////////////////////////
 const parkings = ref([]);
 
 const buttonText = ref("add");

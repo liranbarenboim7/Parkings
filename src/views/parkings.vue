@@ -7,7 +7,8 @@
 
       <div class="col md-6 details">
         <div class="row parkingdetailes">
-        <ParkingDetails />
+        <ParkingDetails 
+        :parkingid="currentParking"/>
       </div>
       <div class="row parkingcategories">
         <ParkingCategory />
