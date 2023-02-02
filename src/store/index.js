@@ -7,7 +7,8 @@ export default createStore({
     actions: {},
     getters: {},
     modules: {
-        CategoryModule: CategoryModule
+        categoryModule: CategoryModule
+        //parkingModule: ParkingModule
     }
 });
 // https://next.vuex.vuejs.org/guide/modules.html#accessing-global-assets-in-namespaced-modules

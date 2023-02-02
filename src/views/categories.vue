@@ -81,7 +81,7 @@
     </template>
     
     <script setup>
-      import { ref, onMounted } from 'vue'
+      import { ref, onMounted , computed} from 'vue'
       import {db} from '@/firebaseDB'
       import { collection, onSnapshot,
         addDoc, doc ,deleteDoc,updateDoc,
@@ -92,7 +92,7 @@
 
     const store = useStore();
  ////////////////////DATA//////////////////////////////////////   
-    const categories = categoryData
+    const categories = computed(() => store.state.categoryModule.categoryData) 
     
     const newDay = computed(() => store.state.categoryModule.selectedCategory.day)
     const newFrom = computed(() => store.state.categoryModule.selectedCategory.from)
@@ -101,8 +101,8 @@
     const action = computed(() => store.state.categoryModule.selectedCategory.action)
     const newId = computed(() => store.state.categoryModule.selectedCategory.id)
     const newCategory = computed(() => store.state.categoryModule.selectedCategory.category);
-    const loading = computed(() => store.state.citiesModule.loading);
-    const error = computed(() => store.state.citiesModule.error);
+    // const loading = computed(() => store.state.citiesModule.loading);
+    // const error = computed(() => store.state.citiesModule.error);
     //const daySelect = ref('')
     const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
 
@@ -179,20 +179,10 @@
     const deleteCategory = id => {
       deleteDoc(doc(categoriesCollectionRef, id))
     }
-    
-    const showCategory= id => {
-      const index = categories.value.findIndex(park => park.id === id)
-      newCategory.value = categories.value[index].category
-      newId.value = id
-      newFrom.value = categories.value[index].from
-      newTo.value = categories.value[index].to
-      newPrice.value = categories.value[index].price
-      action.value = categories.value[index].action
-      newDay.value = categories.value[index].day
-      // updateDoc(doc(parkingsCollectionRef, id), {
-      //    done: !parkings.value[index].done
-      //  });
-    }
+    //move to action
+    const showCategory = async id => {
+  await store.dispatch('categoryModule/SelectCategory', { selectedCategoryId: id });
+};
     
    
     

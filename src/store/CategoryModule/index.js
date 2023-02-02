@@ -3,13 +3,13 @@ import { Mutations } from './CategoryMutations.js';
 import { Getters } from './CategoryGetters.js';
 
 const categoryData = [
-    { id: 1, category:"abc",day:"Monday",from:"8:00",price:"20",to: "17:00",action:"sds" },
-    { id: 2, category:"abcd",day:"Monday",from:"8:00",price:"20",to: "17:00",action:"sds"},
-    { id: 3, category:"efgh",day:"Monday",from:"8:00",price:"20",to: "17:00",action:"sds" }
+    { id: "1", category:"abc",day:"Monday",from:"8:00",price:"20",to: "17:00",action:"sds" },
+    { id: "2", category:"abcd",day:"Monday",from:"8:00",price:"20",to: "17:00",action:"sds"},
+    { id: "3", category:"efgh",day:"Monday",from:"8:00",price:"20",to: "17:00",action:"sds" }
 ];
 
 const selectedCategory = {
-     id: 1, 
+     id: "1", 
      category:"abc",
      day:"Monday",
      from:"8:00",
