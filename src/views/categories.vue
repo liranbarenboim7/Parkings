@@ -113,27 +113,10 @@
       return id.match(/^[a-zA-Z0-9\-_]+$/)
     }
     
-    function renderCategory(){
-      onSnapshot(categoriesCollectionRef, (querySnapshot) => {
-        const fbTodos = []
-        querySnapshot.forEach((doc) => {
-          const todo = {
-            id: doc.id,
-            category: doc.data().category,
-            price: doc.data().price,
-            day: doc.data().day,
-            from: doc.data().from,
-            to :doc.data().to,
-            action: doc.data().action,
-          }
-          fbTodos.push(todo)
-        })
-        categories.value = fbTodos
-      })
-    }
 
-    onMounted(() => {
-      renderCategory()
+
+    onMounted(async () => {
+      await store.dispatch('categoryModule/getCategories', {})
     })
     
     

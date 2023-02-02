@@ -20,5 +20,8 @@ export const Mutations = {
         state.selectedCategory.price.value = categoryData[index].price
         state.selectedCategory.action.value = categoryData[index].action
         state.selectedCategory.day.value = categoryData[index].day       
+    },
+    SET_CATEGORIES(state, { categories }) {
+        state.categoryData = categories
     }
 };
