@@ -143,18 +143,23 @@
     
     
     
-    function updateCategory(id) {
-      const frankDocRef = doc(db, "categories", id);
-      setDoc(frankDocRef, {
-      category: newCategory.value,
-      
+    async function updateCategory(id) {
+      await store.dispatch('categoryModule/UpdateCategory', {
+      category: newCategory.value,   
       from: newFrom.value,
       to: newTo.value,
       price: newPrice.value,
       action: action.value,
-      day: newDay.value
-    });
-    
+      day: newDay.value,
+      id:id
+    })
+    newCategory.value = ''
+      newDay.value = ''
+      newFrom.value = ''
+      newTo.value = ''
+      newPrice.value = ''
+      action.value = ''
+      newId.value = ''
     }
     
     

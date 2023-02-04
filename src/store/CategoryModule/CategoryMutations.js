@@ -14,12 +14,12 @@ export const Mutations = {
         
         const index = state.categoryData.findIndex(category => category.id === categoryId)
         state.selectedCategory.category = state.categoryData[index].category
-        state.selectedCategory.Id = state.categoryData[index].id
-        state.selectedCategory.from = categoryData[index].from
-        state.selectedCategory.to.value = categoryData[index].to
-        state.selectedCategory.price.value = categoryData[index].price
-        state.selectedCategory.action.value = categoryData[index].action
-        state.selectedCategory.day.value = categoryData[index].day       
+        state.selectedCategory.id = state.categoryData[index].id
+        state.selectedCategory.from = state.categoryData[index].from
+        state.selectedCategory.to = state.categoryData[index].to
+        state.selectedCategory.price = state.categoryData[index].price
+        state.selectedCategory.action = state.categoryData[index].action
+        state.selectedCategory.day = state.categoryData[index].day       
     },
     SET_CATEGORIES(state, { categories }) {
         state.categoryData = categories
