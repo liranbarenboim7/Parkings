@@ -4,35 +4,36 @@
         Categories
       </div>
       <form
-      @submit.prevent="isValidFirestoreId(newId) ?  updateCategory(newId) : addToCategory() "
+      @submit.prevent="isValidFirestoreId(formCategory.id) ?  updateCategory(formCategory.id) : addToCategory() "
       >
         <div class="field has-addons" >
-        <p class="control is-expanded">
-
-          <div class="input-group mb-3 mr-6">
-            <span class="input-group-text" id="basic-addon1">Category</span>
-            <input type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="basic-addon1" v-model="newCategory">
-          </div>
-          <div class="input-group mb-3">
+       
+          <p class="control">
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">Category</span>
+              <input type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="basic-addon1" v-model="formCategory.category">
+            </div>
+          </p>
+          <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Time Start</span>
-            <input type="text" class="form-control" placeholder="Time start" aria-label="Time Start" aria-describedby="basic-addon1" v-model="newFrom">
+            <input type="text" class="form-control" placeholder="Time start" aria-label="Time Start" aria-describedby="basic-addon1" v-model="formCategory.from">
           </div>
-          <div class="input-group mb-3">
+          <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Time End</span>
-            <input type="text" class="form-control" placeholder="Time End" aria-label="Time End" aria-describedby="basic-addon1" v-model="newTo">
+            <input type="text" class="form-control" placeholder="Time End" aria-label="Time End" aria-describedby="basic-addon1" v-model="formCategory.to">
           </div>
-          <div class="input-group mb-3">
+          <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Action</span>
-            <input type="text" class="form-control" placeholder="Action" aria-label="Action" aria-describedby="basic-addon1" v-model="action">
+            <input type="text" class="form-control" placeholder="Action" aria-label="Action" aria-describedby="basic-addon1" v-model="formCategory.action">
           </div>
-          <div class="input-group mb-3">
+          <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Price</span>
-            <input type="text" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1" v-model="newPrice">
+            <input type="text" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon1" v-model="formCategory.price">
           </div>
 
-          <div class="input-group mb-3">
+          <div class="input-group">
             <span class="input-group-text" id="basic-addon1">Select Day</span>
-            <select v-model="newDay">
+            <select v-model="formCategory.day">
               <option v-for="day in days" :value="day">{{ day }}</option>
             </select>
           </div>
@@ -40,12 +41,12 @@
 
 
           <p class="control">
-            <button class="button is-info" :disabled="!newCategory">
-            {{ isValidFirestoreId(newId) ? "update" : "add" }}
+            <button class="button is-info" :disabled="!formCategory.id">
+            {{ isValidFirestoreId(formCategory.id) ? "update" : "add" }}
           </button>
           <!--{{ newId }}-->
           </p>
-        </p>
+      
       </div>
       </form>
     
@@ -81,7 +82,7 @@
     </template>
     
     <script setup>
-      import { ref, onMounted , computed} from 'vue'
+      import { ref, onMounted , computed,reactive} from 'vue'
       import {db} from '@/firebaseDB'
       import { collection, onSnapshot,
         addDoc, doc ,deleteDoc,updateDoc,
@@ -91,16 +92,12 @@
 
 
     const store = useStore();
+    let formCategory =  {}
+ 
  ////////////////////DATA//////////////////////////////////////   
     const categories = computed(() => store.state.categoryModule.categoryData) 
-    
-    const newDay = computed(() => store.state.categoryModule.selectedCategory.day)
-    const newFrom = computed(() => store.state.categoryModule.selectedCategory.from)
-    const newTo = computed(() => store.state.categoryModule.selectedCategory.to)
-    const newPrice = computed(() => store.state.categoryModule.selectedCategory.price)
-    const action = computed(() => store.state.categoryModule.selectedCategory.action)
-    const newId = computed(() => store.state.categoryModule.selectedCategory.id)
-    const newCategory = computed(() => store.state.categoryModule.selectedCategory.category);
+    formCategory = computed(() => store.state.categoryModule.selectedCategory) 
+ 
     // const loading = computed(() => store.state.citiesModule.loading);
     // const error = computed(() => store.state.citiesModule.error);
     //const daySelect = ref('')
@@ -110,7 +107,13 @@
     const categoriesCollectionRef = collection(db, 'categories')
     
     function isValidFirestoreId(id) {
-      return id.match(/^[a-zA-Z0-9\-_]+$/)
+      if(id)
+      {
+          return id.match(/^[a-zA-Z0-9\-_]+$/)
+      }
+      else{
+          return false;
+      }
     }
     
 
@@ -123,46 +126,25 @@
     
    
     const  addToCategory = () => {
-      addDoc(categoriesCollectionRef, {
-      category: newCategory.value,     
-      day: newDay.value,
-      from: newFrom.value,
-      to: newTo.value,
-      price: newPrice.value,
-      action: action.value
-    });
-      newCategory.value = ''
-      newDay.value = ''
-      newFrom.value = ''
-      newTo.value = ''
-      newPrice.value = ''
-      action.value = ''
-      newId.value = ''
+      addDoc(categoriesCollectionRef, formCategory);
+   
       
     }
     
     
     
     async function updateCategory(id) {
-      await store.dispatch('categoryModule/UpdateCategory', {
-      category: newCategory.value,   
-      from: newFrom.value,
-      to: newTo.value,
-      price: newPrice.value,
-      action: action.value,
-      day: newDay.value,
-      id:id
-    })
-    newCategory.value = ''
-      newDay.value = ''
-      newFrom.value = ''
-      newTo.value = ''
-      newPrice.value = ''
-      action.value = ''
-      newId.value = ''
-    }
-    
-    
+      // let formCategoryToUpdate = {
+      //     category: formCategory.categories,     
+      //     day: formCategory.day,
+      //     from: formCategory.from ,
+      //     to: formCategory.to,
+      //     price: formCategory.price ,
+      //     action: formCategory.action,
+      //     id:formCategory.id
+      // }
+      await store.dispatch('categoryModule/UpdateCategory', {category:formCategory.value})
+    }    
     
     const deleteCategory = id => {
       deleteDoc(doc(categoriesCollectionRef, id))
