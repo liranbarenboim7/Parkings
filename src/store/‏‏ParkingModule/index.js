@@ -1,27 +1,23 @@
-import { Actions } from './CategoryActions.js';
-import { Mutations } from './CategoryMutations.js';
-import { Getters } from './CategoryGetters.js';
+import { Actions } from './ParkingActions.js';
+import { Mutations } from './ParkingMutations.js';
+import { Getters } from './ParkingGetters.js';
 
 
-const categoryData = [
+const parkingsData = [
  
 ];
 
-const selectedCategory = {
+const selectedParking = {
      id: "", 
-     category:"please select",
-     day:"",
-     from:"",
-     price:"",
-     to: "",
-     action:""
+     address :"",
+     side :""     
 }
 const initState = {
 
     loading: true,
     error: null,
-    categoryData: categoryData,
-    selectedCategory: selectedCategory
+    parkingsData: parkingsData,
+    selectedParking: selectedParking
 };
 export default {
     namespaced: true,

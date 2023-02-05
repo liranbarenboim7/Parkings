@@ -1,16 +1,8 @@
 
 export const Mutations = {
 
-    // SET_DATA(state, { searchTerm , data }) {
-    //     console.log('SET_DATA : ' +  data); 
-    //     state.citiesData = data;
-    //     state.loading = false;
-    // },
-    // SET_ERROR(state, { error }) {
-    //     console.log('SET_ERROR : ' + error);
-    //     state.error = 'ERROR : ' + error;
-    // }
-    SET_SELECTED_CATEGORY(state, { categoryId }) {
+
+    SET_SELECTED_PARKING(state, { parkingId }) {
         
         const index = state.categoryData.findIndex(category => category.id === categoryId)
         state.selectedCategory.category = state.categoryData[index].category
@@ -21,7 +13,7 @@ export const Mutations = {
         state.selectedCategory.action = state.categoryData[index].action
         state.selectedCategory.day = state.categoryData[index].day       
     },
-    SET_CATEGORIES(state, { categories }) {
-        state.categoryData = categories
+    SET_PARKINGS(state, { parkings }) {
+        state.parkingsData = parkings
     }
 };

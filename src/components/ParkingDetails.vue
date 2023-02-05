@@ -30,17 +30,6 @@
           />
         </div>
 
-        <!-- <div class="input-group mb-10">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Categories"
-            aria-label="Categories"
-            aria-describedby="basic-addon1"
-            v-model="parkingCategories"
-          />
-        </div> -->
-
         <p class="control">
           <button class="button is-info" :disabled="!category">
             {{ isValidFirestoreId(newId) ? "update" : "add parking" }}
@@ -73,6 +62,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import router from "../router";
+import { useStore } from 'vuex';
 ///////////////////////////////////////////PROPS/////////////////////
 const props = defineProps({
         parkingId: {
