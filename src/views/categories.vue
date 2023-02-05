@@ -6,7 +6,7 @@
       <form
       @submit.prevent="isValidFirestoreId(formCategory.id) ?  updateCategory(formCategory.id) : addToCategory() "
       >
-        <div class="field has-addons" >
+        <div class="card field has-addons" >
        
           <p class="control">
             <div class="input-group">
@@ -104,7 +104,7 @@
     const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
 
     const buttonText= ref('add')
-    const categoriesCollectionRef = collection(db, 'categories')
+    //const categoriesCollectionRef = collection(db, 'categories')
     
     function isValidFirestoreId(id) {
       if(id)
@@ -127,22 +127,13 @@
    
     const  addToCategory = () => {
       addDoc(categoriesCollectionRef, formCategory);
-   
-      
+ 
     }
     
     
     
     async function updateCategory(id) {
-      // let formCategoryToUpdate = {
-      //     category: formCategory.categories,     
-      //     day: formCategory.day,
-      //     from: formCategory.from ,
-      //     to: formCategory.to,
-      //     price: formCategory.price ,
-      //     action: formCategory.action,
-      //     id:formCategory.id
-      // }
+
       await store.dispatch('categoryModule/UpdateCategory', {category:formCategory.value})
     }    
     
@@ -151,8 +142,8 @@
     }
     //move to action
     const showCategory = async id => {
-  await store.dispatch('categoryModule/SelectCategory', { selectedCategoryId: id });
-};
+            await store.dispatch('categoryModule/SelectCategory', { selectedCategoryId: id });
+    };
     
    
     
