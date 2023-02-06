@@ -64,7 +64,12 @@ import {
 import router from "../router";
 import { useStore } from 'vuex';
 const store = useStore();
-let formParking =  {}
+   
+ 
+ ////////////////////DATA//////////////////////////////////////   
+    const parkings = computed(() => store.state.parkingModule.parkingsData) 
+    const formParking = computed(() => store.state.parkingModule.selectedParking) 
+
 ///////////////////////////////////////////PROPS/////////////////////
 const props = defineProps({
         parkingId: {
@@ -73,11 +78,11 @@ const props = defineProps({
         }
     })
 ////////////////////////////////////////////////////
-const parkings = ref([]);
+
 
 const buttonText = ref("add");
-const parkingsCollectionRef = collection(db, "parkings");
-const categoriesCollectionRef = collection(db, "categories");
+//const parkingsCollectionRef = collection(db, "parkings");
+//const categoriesCollectionRef = collection(db, "categories");
 const auth = getAuth();
 
 function isValidFirestoreId(id) {
@@ -96,12 +101,12 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-const categories = ref([]);
-const parkingCategories = ref([]);
+// const categories = ref([]);
+// const parkingCategories = ref([]);
 onMounted(async () => {
   if (auth.currentUser) {
-    getParkings();
-    getCategories();
+//    getParkings();
+//    getCategories();
   } else {
     router.push("/Signin");
   }

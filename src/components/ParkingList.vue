@@ -38,8 +38,8 @@ const parkings = ref([
 ])
 
 const buttonText= ref('add')
-const parkingsCollectionRef = collection(db, 'parkings')
-const categoriesCollectionRef = collection(db,'categories')
+// const parkingsCollectionRef = collection(db, 'parkings')
+// const categoriesCollectionRef = collection(db,'categories')
 const auth = getAuth();
 
 function isValidFirestoreId(id) {
@@ -58,28 +58,27 @@ router.push('SignIn')
 }
 });
 
-const categories = ref([])
-const parkingCategories = ref([])
+// const categories = ref([])
+// const parkingCategories = ref([])
 onMounted(async() => {
 
-if(auth.currentUser )
-{
-getParkings()
-getCategories()
+    if(auth.currentUser )
+    {
 
-}
-else
-{
-  router.push('/Signin')
-}
+          await store.dispatch('parkingModule/getParkings', {})
+    }
+    else
+    {
+      router.push('/Signin')
+    }
 
 })
 
 
-let address = ref('')
-let side = ref('')
-let category = ref('')
-let newId = ref('')
+// let address = ref('')
+// let side = ref('')
+// let category = ref('')
+// let newId = ref('')
 
 // const categories = reactive([])
 // const parkingCategories = reactive([])
@@ -110,12 +109,6 @@ const parkingDocRef = db.collection("parkings").doc(parkingId);
 // Reference to the subcollection
 const parkingCategoryCollectionRef = parkingDocRef.collection("categories");
 
-// Array of data to be added to the subcollection
-// const subCollectionData = [
-//   { name: "Item 1", value: 1 },
-//   { name: "Item 2", value: 2 },
-//   { name: "Item 3", value: 3 },
-// ];
 
 // Adding the data to the subcollection
 const promises = categories.map(data => {

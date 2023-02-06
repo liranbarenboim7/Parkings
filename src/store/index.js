@@ -1,14 +1,14 @@
 import { createStore } from 'vuex';
 import CategoryModule from './CategoryModule/index.js';
-
+import ParkingModule from './ParkingModule/index.js';
 export default createStore({
     state: {},
     mutations: {},
     actions: {},
     getters: {},
     modules: {
-        categoryModule: CategoryModule
-        //parkingModule: ParkingModule
+        categoryModule: CategoryModule,
+        parkingModule: ParkingModule
     }
 });
 // https://next.vuex.vuejs.org/guide/modules.html#accessing-global-assets-in-namespaced-modules
