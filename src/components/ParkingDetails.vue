@@ -63,6 +63,8 @@ import {
 } from "firebase/auth";
 import router from "../router";
 import { useStore } from 'vuex';
+const store = useStore();
+let formParking =  {}
 ///////////////////////////////////////////PROPS/////////////////////
 const props = defineProps({
         parkingId: {
