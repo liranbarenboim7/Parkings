@@ -42,7 +42,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUpdated, reactive } from "vue";
+import { ref, onMounted, onUpdated, reactive, computed } from "vue";
 import { db } from "@/firebaseDB";
 import {
   collection,

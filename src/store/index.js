@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 import CategoryModule from './CategoryModule/index.js';
-import ParkingModule from './ParkingModule/index.js';
+import ParkingModule from './ParkingModule/index';
 export default createStore({
     state: {},
     mutations: {},
