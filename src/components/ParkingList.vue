@@ -1,92 +1,120 @@
 <template>
-        <div class="title has-text-centered">
-            Parkings
+  <div class="row">
+    <div class="col">
+      <div class="title has-text-centered">Parkings</div>
+    </div>
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-primary"
+        @click="addParking()"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <div class="card mb-5" v-for="parking in parkings">
+    <div class="card-content">
+      <div class="content">
+        <div class="columns is-mobile is-vcentered">
+          <div class="column">
+            {{ parking.address }}
+          </div>
+          <div class="column is-5 has-text-right">
+            <button class="button" @click="selectParking(parking.id)">
+              &check;
+            </button>
+            <button
+              class="button is-danger ml-2"
+              @click="deleteParking(parking.id)"
+            >
+              &cross;
+            </button>
+          </div>
         </div>
-        <div class="card mb-5" v-for="parking in parkings">
-            <div class="card-content">
-                <div class="content">
-                    <div class="columns 
-                is-mobile is-vcentered">
-                        <div class="column">
-                            {{ parking.address }}
-                        </div>
-                        <div class="column is-5 has-text-right">
-                            <button class="button" @click="selectParking(parking.id)">
-                                &check;
-                            </button>
-                            <button class="button is-danger ml-2" @click="deleteParking(parking.id)">
-                                &cross;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script setup>
-import { ref, onMounted,onUpdated ,computed,reactive } from 'vue'
-import {db} from '@/firebaseDB'
-import { collection, onSnapshot,
-  addDoc, doc ,deleteDoc,updateDoc,
-  query, orderBy, limit,setDoc
-} from "firebase/firestore"
-import { getAuth, signInWithEmailAndPassword , onAuthStateChanged} from "firebase/auth";
-import router from '../router'
-import ParkingDetails from "../components/ParkingDetails.vue"
-import { useStore } from 'vuex';
+import { ref, onMounted, onUpdated, computed, reactive } from "vue";
+import { db } from "@/firebaseDB";
+import {
+  collection,
+  onSnapshot,
+  addDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+  query,
+  orderBy,
+  limit,
+  setDoc,
+} from "firebase/firestore";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import router from "../router";
+import ParkingDetails from "../components/ParkingDetails.vue";
+import { useStore } from "vuex";
 const store = useStore();
-   // let formCategory =  {}
- 
- ////////////////////DATA//////////////////////////////////////   
-  const parkings = computed(() => store.state.parkingModule.parkingsData) 
-   // formCategory = computed(() => store.state.categoryModule.selectedCategory) 
- 
-const buttonText= ref('add')
+// let formCategory =  {}
+
+////////////////////DATA//////////////////////////////////////
+const parkings = computed(() => store.state.parkingModule.parkingsData);
+// formCategory = computed(() => store.state.categoryModule.selectedCategory)
+
+const buttonText = ref("add");
 // const parkingsCollectionRef = collection(db, 'parkings')
 // const categoriesCollectionRef = collection(db,'categories')
 const auth = getAuth();
 
 function isValidFirestoreId(id) {
-return id.match(/^[a-zA-Z0-9\-_]+$/)
+  return id.match(/^[a-zA-Z0-9\-_]+$/);
 }
 
 onAuthStateChanged(auth, (user) => {
-if (user) {
-// User is signed in, see docs for a list of available properties
-// https://firebase.google.com/docs/reference/js/firebase.User
-const uid = user.uid;
-// ...
-} else {
-// User is signed out
-router.push('SignIn')
-}
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    router.push("SignIn");
+  }
 });
 
-onMounted(async() => {
+onMounted(async () => {
+  if (auth.currentUser) {
+    await store.dispatch("parkingModule/getParkings", {});
+  } else {
+    router.push("/Signin");
+  }
+});
 
-    if(auth.currentUser )
-    {
+const addParking = () => {
+  addDoc(parkingsCollectionRef, {
+    address: address.value,
+    side: side.value,
+    category: category.value,
+  });
+  address.value = "";
+  side.value = "";
+  category.value = "";
+};
 
-          await store.dispatch('parkingModule/getParkings', {})
-    }
-    else
-    {
-      router.push('/Signin')
-    }
+const deleteParking = (id) => {
+  deleteDoc(doc(parkingsCollectionRef, id));
+};
 
-})
-
-
-
-
-const deleteParking = id => {
-deleteDoc(doc(parkingsCollectionRef, id))
-}
-
-const selectParking = async id => {
-  await store.dispatch('parkingModule/SelectParking', { selectedParkingId: id });
-  
-}
+const selectParking = async (id) => {
+  await store.dispatch("parkingModule/SelectParking", {
+    selectedParkingId: id,
+  });
+};
 
 // const getParking = (id) => {
 // db.collection('parkings').doc(id).get().then(function(doc) {
@@ -99,16 +127,15 @@ const selectParking = async id => {
 //   console.log("Error getting document:", error);
 // })
 // }
-
 </script>
 
 <style scoped>
-.main{
-position:relative;
-width:100%;
+.main {
+  position: relative;
+  width: 100%;
 }
 
 .line-through {
-text-decoration: line-through;
+  text-decoration: line-through;
 }
 </style>
