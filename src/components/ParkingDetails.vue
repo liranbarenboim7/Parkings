@@ -14,7 +14,7 @@
             placeholder="Add side"
             aria-label="Add side"
             aria-describedby="basic-addon1"
-            v-model="side"
+            v-model="formParking.side"
           />
         </div>
 
@@ -26,16 +26,16 @@
             placeholder="Add address"
             aria-label="Add address"
             aria-describedby="basic-addon1"
-            v-model="address"
+            v-model="formParking.address"
           />
         </div>
 
-        <p class="control">
+        <!-- <p class="control">
           <button class="button is-info" :disabled="!category">
             {{ isValidFirestoreId(newId) ? "update" : "add parking" }}
           </button>
      
-        </p>
+        </p> -->
  
       </form>
     </div>
