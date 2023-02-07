@@ -11,10 +11,10 @@
                             {{ parking.address }}
                         </div>
                         <div class="column is-5 has-text-right">
-                            <button class="button" @click="toggleDone(parking.id)">
+                            <button class="button" @click="selectParking(parking.id)">
                                 &check;
                             </button>
-                            <button class="button is-danger ml-2" @click="deleteTodo(parking.id)">
+                            <button class="button is-danger ml-2" @click="deleteParking(parking.id)">
                                 &cross;
                             </button>
                         </div>
@@ -83,21 +83,22 @@ const deleteParking = id => {
 deleteDoc(doc(parkingsCollectionRef, id))
 }
 
-const selectParking = id => {
-
+const selectParking = async id => {
+  await store.dispatch('parkingModule/SelectParking', { selectedParkingId: id });
+  
 }
 
-const getParking = (id) => {
-db.collection('parkings').doc(id).get().then(function(doc) {
-  if (doc.exists) {
-    console.log("Document data:", doc.data());
-  } else {
-    console.log("No such document!");
-  }
-}).catch(function(error) {
-  console.log("Error getting document:", error);
-})
-}
+// const getParking = (id) => {
+// db.collection('parkings').doc(id).get().then(function(doc) {
+//   if (doc.exists) {
+//     console.log("Document data:", doc.data());
+//   } else {
+//     console.log("No such document!");
+//   }
+// }).catch(function(error) {
+//   console.log("Error getting document:", error);
+// })
+// }
 
 </script>
 
