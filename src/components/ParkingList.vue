@@ -95,19 +95,12 @@ onMounted(async () => {
   }
 });
 
-const addParking = () => {
-  addDoc(parkingsCollectionRef, {
-    address: address.value,
-    side: side.value,
-    category: category.value,
-  });
-  address.value = "";
-  side.value = "";
-  category.value = "";
+const addParking = async () => {
+  await store.dispatch("parkingModule/AddParking", {})
 };
 
-const deleteParking = (id) => {
-  deleteDoc(doc(parkingsCollectionRef, id));
+const deleteParking = async (id) => {
+  await store.dispatch("parkingModule/DeleteParking", {parkingId:id})
 };
 
 const selectParking = async (id) => {

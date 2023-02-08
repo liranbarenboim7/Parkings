@@ -39,13 +39,15 @@ export const Actions = {
     },
     async ['AddParking']({ commit }, { parking }) {
         
-        addDoc(parkingsCollectionRef, {
-          address: address.value,
-          side: side.value,
-          category: category.value,
+       await addDoc(parkingsCollectionRef, {
+          address: "new parking",
+          side: "",
+          category: "",
         });
-        address.value = "";
-        side.value = "";
-        category.value = "";
+
+      },
+      async ['DeleteParking']({ commit }, { parkingId }) {
+        await deleteDoc(doc(parkingsCollectionRef, parkingId));
       }
+
 };
