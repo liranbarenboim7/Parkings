@@ -48,14 +48,14 @@ router.push('SignIn')
 }
 });
 
-const categories = ref([])
-const parkingCategories = ref([])
+const parkingCategories = computed(() => store.state.parkingCategoryModule.parkingCategoryData);
+
 onMounted(async() => {
 
 if(auth.currentUser )
 {
-getParkings()
-getCategories()
+  getParkingCategory()
+
 
 }
 else
@@ -66,10 +66,7 @@ else
 })
 
 
-let address = ref('')
-let side = ref('')
-let category = ref('')
-let newId = ref('')
+
 
 // const categories = reactive([])
 // const parkingCategories = reactive([])

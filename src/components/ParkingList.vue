@@ -4,32 +4,30 @@
       <div class="title has-text-centered">Parkings</div>
     </div>
     <div class="col">
-      <button
-        type="button"
-        class="btn btn-primary"
-        @click="addParking()"
-      >
+      <button type="button" class="btn btn-primary" @click="addParking()">
         Add
       </button>
     </div>
   </div>
-  <div class="card mb-5" v-for="parking in parkings">
-    <div class="card-content">
-      <div class="content">
-        <div class="columns is-mobile is-vcentered">
-          <div class="column">
-            {{ parking.address }}
-          </div>
-          <div class="column is-5 has-text-right">
-            <button class="button" @click="selectParking(parking.id)">
-              &check;
-            </button>
-            <button
-              class="button is-danger ml-2"
-              @click="deleteParking(parking.id)"
-            >
-              &cross;
-            </button>
+  <div class="card parking-list">
+    <div class="card" v-for="parking in parkings">
+      <div class="card-content">
+        <div class="content">
+          <div class="columns is-mobile is-vcentered">
+            <div class="column">
+              {{ parking.address }}
+            </div>
+            <div class="column is-5 has-text-right">
+              <button class="button" @click="selectParking(parking.id)">
+                &check;
+              </button>
+              <button
+                class="button is-danger ml-2"
+                @click="deleteParking(parking.id)"
+              >
+                &cross;
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -60,15 +58,13 @@ import router from "../router";
 import ParkingDetails from "../components/ParkingDetails.vue";
 import { useStore } from "vuex";
 const store = useStore();
-// let formCategory =  {}
+
 
 ////////////////////DATA//////////////////////////////////////
 const parkings = computed(() => store.state.parkingModule.parkingsData);
 // formCategory = computed(() => store.state.categoryModule.selectedCategory)
 
 const buttonText = ref("add");
-// const parkingsCollectionRef = collection(db, 'parkings')
-// const categoriesCollectionRef = collection(db,'categories')
 const auth = getAuth();
 
 function isValidFirestoreId(id) {
@@ -96,11 +92,11 @@ onMounted(async () => {
 });
 
 const addParking = async () => {
-  await store.dispatch("parkingModule/AddParking", {})
+  await store.dispatch("parkingModule/AddParking", {});
 };
 
 const deleteParking = async (id) => {
-  await store.dispatch("parkingModule/DeleteParking", {parkingId:id})
+  await store.dispatch("parkingModule/DeleteParking", { parkingId: id });
 };
 
 const selectParking = async (id) => {
@@ -109,17 +105,7 @@ const selectParking = async (id) => {
   });
 };
 
-// const getParking = (id) => {
-// db.collection('parkings').doc(id).get().then(function(doc) {
-//   if (doc.exists) {
-//     console.log("Document data:", doc.data());
-//   } else {
-//     console.log("No such document!");
-//   }
-// }).catch(function(error) {
-//   console.log("Error getting document:", error);
-// })
-// }
+
 </script>
 
 <style scoped>
@@ -130,5 +116,10 @@ const selectParking = async (id) => {
 
 .line-through {
   text-decoration: line-through;
+}
+.parking-list
+{
+  height:80vh;
+  overflow-y: auto;
 }
 </style>
