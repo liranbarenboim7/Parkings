@@ -1,8 +1,15 @@
 <template>
     <div class="main-frame">
-      <div class="title has-text-centered">
-        Categories
-      </div>
+      <div class="row">
+    <div class="col">
+      <div class="title has-text-centered">Categories</div>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" @click="addToCategory()">
+        Add
+      </button>
+    </div>
+  </div>
       <form
       @submit.prevent="isValidFirestoreId(formCategory.id) ?  updateCategory(formCategory.id) : addToCategory() "
       >

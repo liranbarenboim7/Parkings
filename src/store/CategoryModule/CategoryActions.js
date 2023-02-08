@@ -42,5 +42,17 @@ export const Actions = {
             day: category.day
 
         })
-    }
+    },
+    async ['AddCategory']({ commit }, { parkingId , categoryId }) {
+        
+        await addDoc(parkingCategoryCollectionRef, {
+           address: "new parking",
+           side: "",
+           category: "",
+         });
+ 
+       },
+       async ['DeleteCategory']({ commit }, { parkingId,categoryId }) {
+         await deleteDoc(doc(parkingCategoryCollectionRef, parkingId));
+       }
 };
