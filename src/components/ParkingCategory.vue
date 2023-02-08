@@ -13,7 +13,7 @@
     </ul>
 </template>
 <script setup>
-import { ref, onMounted,onUpdated ,reactive } from 'vue'
+import { ref, onMounted,onUpdated ,reactive ,computed} from 'vue'
 import {db} from '@/firebaseDB'
 import { collection, onSnapshot,
   addDoc, doc ,deleteDoc,updateDoc,
@@ -23,10 +23,11 @@ import { getAuth, signInWithEmailAndPassword , onAuthStateChanged} from "firebas
 import router from '../router'
 import ParkingDetails from "../components/ParkingDetails.vue"
 import ParkingList from "../components/parkinglist.vue"
+import { useStore } from "vuex";
 const parkings = ref([
 
 ])
-
+const store = useStore();
 const buttonText= ref('add')
 const parkingsCollectionRef = collection(db, 'parkings')
 const categoriesCollectionRef = collection(db,'categories')
@@ -49,13 +50,14 @@ router.push('SignIn')
 });
 
 const parkingCategories = computed(() => store.state.parkingCategoryModule.parkingCategoryData);
-
+const formParking = computed(() => store.state.parkingModule.selectedParking);
+const categories = computed(() => store.state.categoryModule.categoryData) 
 onMounted(async() => {
 
 if(auth.currentUser )
 {
-  getParkingCategory()
-
+  await store.dispatch('categoryModule/getCategories', {})
+  await store.dispatch("parkingModule/getParkings", {});
 
 }
 else
