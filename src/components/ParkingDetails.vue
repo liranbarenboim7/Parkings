@@ -1,9 +1,23 @@
 <template>
   <div class="col md-6 detailes">
+    <div class="row">
+    <div class="col">
+      <div class="title has-text-centered">Parking</div>
+    </div>
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-primary"
+        @click="updateParking()"
+      >
+        Add
+      </button>
+    </div>
+  </div>
     <div class="row fields">
       <form
         @submit.prevent="
-          isValidFirestoreId(newId) ? updateParking(newId) : addToParking()
+          isValidFirestoreId(newId) ? updateParking() : addToParking()
         "
       >
         <div class="input-group mb-10">
@@ -36,7 +50,6 @@
           </button>
      
         </p> -->
- 
       </form>
     </div>
   </div>
@@ -62,23 +75,20 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import router from "../router";
-import { useStore } from 'vuex';
+import { useStore } from "vuex";
 const store = useStore();
-   
- 
- ////////////////////DATA//////////////////////////////////////   
-    const parkings = computed(() => store.state.parkingModule.parkingsData) 
-    const formParking = computed(() => store.state.parkingModule.selectedParking) 
+
+////////////////////DATA//////////////////////////////////////
+const parkings = computed(() => store.state.parkingModule.parkingsData);
+const formParking = computed(() => store.state.parkingModule.selectedParking);
 
 ///////////////////////////////////////////PROPS/////////////////////
 const props = defineProps({
-        parkingId: {
-           
-            default: () => ''
-        }
-    })
+  parkingId: {
+    default: () => "",
+  },
+});
 ////////////////////////////////////////////////////
-
 
 const buttonText = ref("add");
 //const parkingsCollectionRef = collection(db, "parkings");
@@ -105,8 +115,8 @@ onAuthStateChanged(auth, (user) => {
 // const parkingCategories = ref([]);
 onMounted(async () => {
   if (auth.currentUser) {
-//    getParkings();
-//    getCategories();
+    //    getParkings();
+    //    getCategories();
   } else {
     router.push("/Signin");
   }
@@ -120,19 +130,11 @@ let newId = ref("");
 // const categories = reactive([])
 // const parkingCategories = reactive([])
 
-function updateSelection() {
-  parkingCategories.value.Add(category);
-}
-const addToParking = () => {
-  addDoc(parkingsCollectionRef, {
-    address: address.value,
-    side: side.value,
-    category: category.value,
+async function updateParking() {
+  await store.dispatch("parkingModule/UpdateParking", {
+    parking: formParking.value,
   });
-  address.value = "";
-  side.value = "";
-  category.value = "";
-};
+}
 
 function AddCategoriesToParking(parkingId) {
   // Reference to the parent document
@@ -220,14 +222,14 @@ function getParkings() {
   });
 }
 
-function updateParking(id) {
-  const frankDocRef = doc(db, "parkings", id);
-  setDoc(frankDocRef, {
-    address: address.value,
-    side: side.value,
-    category: category.value,
-  });
-}
+// function updateParking(id) {
+//   const frankDocRef = doc(db, "parkings", id);
+//   setDoc(frankDocRef, {
+//     address: address.value,
+//     side: side.value,
+//     category: category.value,
+//   });
+// }
 
 const deleteTodo = (id) => {
   deleteDoc(doc(parkingsCollectionRef, id));

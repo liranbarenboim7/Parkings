@@ -2,7 +2,7 @@ import { db } from '@/firebaseDB'
 import {
     collection, onSnapshot,
     addDoc, doc, deleteDoc, updateDoc,
-    query, orderBy, limit, setDoc, Firestore
+    query, orderBy, limit, setDoc, Firestore,serverTimestamp 
 } from "firebase/firestore"
 const parkingsCollectionRef = collection(db, 'parkings')
 export const Actions = {
@@ -33,7 +33,19 @@ export const Actions = {
         setDoc(frankDocRef, {
             id: parking.id,
             address: parking.address,
-            side: parking.side
+            side: parking.side,
+            modifiedAt : serverTimestamp()
         })
-    }
+    },
+    async ['AddParking']({ commit }, { parking }) {
+        
+        addDoc(parkingsCollectionRef, {
+          address: address.value,
+          side: side.value,
+          category: category.value,
+        });
+        address.value = "";
+        side.value = "";
+        category.value = "";
+      }
 };
