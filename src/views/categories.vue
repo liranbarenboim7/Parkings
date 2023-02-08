@@ -5,7 +5,7 @@
       <div class="title has-text-centered">Categories</div>
     </div>
     <div class="col">
-      <button type="button" class="btn btn-primary" @click="addToCategory()">
+      <button type="button" class="btn btn-primary" @click="addCategory()">
         Add
       </button>
     </div>
@@ -132,11 +132,13 @@
     
     
    
-    const  addToCategory = () => {
-      addDoc(categoriesCollectionRef, formCategory);
- 
-    }
-    
+    const addCategory = async () => {
+  await store.dispatch("categoryModule/AddCategory", {});
+};
+
+const deleteCategory = async (id) => {
+  await store.dispatch("categoryModule/DeleteCategory", { categoryId: id });
+}
     
     
     async function updateCategory(id) {
@@ -144,9 +146,9 @@
       await store.dispatch('categoryModule/UpdateCategory', {category:formCategory.value})
     }    
     
-    const deleteCategory = id => {
-      deleteDoc(doc(categoriesCollectionRef, id))
-    }
+    // const deleteCategory = id => {
+    //   deleteDoc(doc(categoriesCollectionRef, id))
+    // }
     //move to action
     const showCategory = async id => {
             await store.dispatch('categoryModule/SelectCategory', { selectedCategoryId: id });

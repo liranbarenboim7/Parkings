@@ -43,16 +43,19 @@ export const Actions = {
 
         })
     },
-    async ['AddCategory']({ commit }, { parkingId , categoryId }) {
+    async ['AddCategory']({ commit }, {  }) {
         
-        await addDoc(parkingCategoryCollectionRef, {
-           address: "new parking",
-           side: "",
-           category: "",
+        await addDoc(categoriesCollectionRef, {
+            category: 'new category',
+            from: "",
+            to: "",
+            price: "",
+            action: "",
+            day: ""
          });
  
        },
-       async ['DeleteCategory']({ commit }, { parkingId,categoryId }) {
-         await deleteDoc(doc(parkingCategoryCollectionRef, parkingId));
+       async ['DeleteCategory']({ commit }, { categoryId }) {
+         await deleteDoc(doc(categoriesCollectionRef, categoryId));
        }
 };
