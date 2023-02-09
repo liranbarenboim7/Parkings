@@ -34,7 +34,8 @@ export const Actions = {
             id: parking.id,
             address: parking.address,
             side: parking.side,
-            modifiedAt : serverTimestamp()
+            modifiedAt : serverTimestamp(),
+            createdAt : serverTimestamp()
         })
     },
     async ['AddParking']({ commit }, { parking }) {

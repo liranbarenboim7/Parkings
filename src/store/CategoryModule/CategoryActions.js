@@ -2,7 +2,7 @@ import { db } from '@/firebaseDB'
 import {
     collection, onSnapshot,
     addDoc, doc, deleteDoc, updateDoc,
-    query, orderBy, limit, setDoc, Firestore
+    query, orderBy, limit, setDoc, Firestore,serverTimestamp
 } from "firebase/firestore"
 const categoriesCollectionRef = collection(db, 'categories')
 export const Actions = {
@@ -39,7 +39,9 @@ export const Actions = {
             to: category.to,
             price: category.price,
             action: category.action,
-            day: category.day
+            day: category.day,
+            modifiedAt : serverTimestamp(),
+            createdAt : serverTimestamp()
 
         })
     },

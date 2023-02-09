@@ -27,26 +27,18 @@ export const Actions = {
     
     },
 
-    // async ['UpdateParking']({ commit }, { parking }) {
-    //     //upate of firebase db
-    //     const frankDocRef = doc(db, "parkings", parking.id);
-    //     setDoc(frankDocRef, {
-    //         id: parking.id,
-    //         address: parking.address,
-    //         side: parking.side,
-    //         modifiedAt : serverTimestamp()
-    //     })
-    // },
+ 
     async ['AddParkingCategory']({ commit }, { parkingId , categoryId }) {
         
        await addDoc(parkingCategoryCollectionRef, {
-          address: "new parking",
-          side: "",
-          category: "",
+          parkingId: parkingId,
+          categoryId: "",
+          modifiedAt : serverTimestamp(),
+          createdAt : serverTimestamp()
         });
 
       },
-      async ['DeleteParking']({ commit }, { parkingId,categoryId }) {
+      async ['DeleteParkingCategory']({ commit }, { parkingId,categoryId }) {
         await deleteDoc(doc(parkingCategoryCollectionRef, parkingId));
       }
 
