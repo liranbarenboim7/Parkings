@@ -9,14 +9,17 @@
       </button>
     </div>
   </div>
+
   <div class="card parking-list">
     <div class="card" v-for="parking in parkings">
       <div class="card-content">
         <div class="content">
           <div class="columns is-mobile is-vcentered">
+
             <div class="column">
               {{ parking.address }}
             </div>
+
             <div class="column is-5 has-text-right">
               <button class="button" @click="selectParking(parking.id)">
                 &check;
@@ -33,6 +36,7 @@
       </div>
     </div>
   </div>
+
 </template>
 <script setup>
 import { ref, onMounted, onUpdated, computed, reactive } from "vue";

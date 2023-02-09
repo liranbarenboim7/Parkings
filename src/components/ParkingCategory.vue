@@ -1,16 +1,44 @@
 <template>
-    <div class="input-group mb-10">
-        <span class="input-group-text" id="basic-addon1">Select Category</span>
+    <div class="input-group mb-10 ">
+        <span class="input-group-text" id="basic-addon1">Select categories</span>
         <select v-model="category" @change="updateSelection">
             <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}
             </option>
         </select>
     </div>
-
-
+ 
     <ul>
-        <li v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}</li>
+        <!-- <li v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}</li> -->
+        <div class="card parking-list">
+        <div class="card" v-for="category in categories" :key="category.id">
+          <div class="card-content">
+            <div class="content">
+              <div class="columns is-mobile is-vcentered">
+
+                <div class="column">
+                  <input type="checkbox" v-model="selectedCategories" :value="category.id" @change="updateCategories"/>
+                  {{ category.category }}
+                </div>
+
+                <!-- <div class="column is-5 has-text-right">
+                  <button class="button" @click="selectParking(parking.id)">
+                    &check;
+                  </button>
+                  <button
+                    class="button is-danger ml-2"
+                    @click="deleteParking(parking.id)"
+                  >
+                    &cross;
+                  </button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
     </ul>
+
+
 </template>
 <script setup>
 import { ref, onMounted,onUpdated ,reactive ,computed} from 'vue'
@@ -24,6 +52,7 @@ import router from '../router'
 import ParkingDetails from "../components/ParkingDetails.vue"
 import ParkingList from "../components/parkinglist.vue"
 import { useStore } from "vuex";
+
 const parkings = ref([
 
 ])
@@ -229,5 +258,10 @@ width:100%;
 
 .line-through {
 text-decoration: line-through;
+}
+.parking-list
+{
+  height:80vh;
+  overflow-y: auto;
 }
 </style>
