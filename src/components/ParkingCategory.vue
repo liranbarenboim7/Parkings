@@ -1,53 +1,44 @@
 <template>
-    <div class="input-group mb-10 ">
-        <span class="input-group-text" id="basic-addon1">Select categories</span>
-        <select v-model="category" @change="updateSelection">
-            <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}
-            </option>
-        </select>
-    </div>
- 
-    <ul>
-        <!-- <li v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}</li> -->
-        <div class="card parking-list">
-        <div class="card" v-for="category in categories" :key="category.id">
-          <div class="card-content">
-            <div class="content">
-              <div class="columns is-mobile is-vcentered">
+  <div class="input-group mb-10 ">
+    <span class="input-group-text" id="basic-addon1">Select categories</span>
+    <select v-model="category" @change="updateSelection">
+      <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}
+      </option>
+    </select>
+  </div>
 
-                <div class="column">
-                  <input type="checkbox" v-model="selectedCategories" :value="category.id" @change="updateCategories"/>
-                  {{ category.category }}
-                </div>
+  <ul>
+    <!-- <li v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}</li> -->
+    <div class="card parking-list">
+      <div class="card" v-for="category in categories" :key="category.id">
+        <div class="card-content">
+          <div class="content">
+            <div class="columns is-mobile is-vcentered">
 
-                <!-- <div class="column is-5 has-text-right">
-                  <button class="button" @click="selectParking(parking.id)">
-                    &check;
-                  </button>
-                  <button
-                    class="button is-danger ml-2"
-                    @click="deleteParking(parking.id)"
-                  >
-                    &cross;
-                  </button> -->
-                </div>
+              <div class="column">
+                <input type="checkbox" :value="IsConnected(category.id)" @change="updateParkingCategory(category.id)" />
+                {{ category.category }}
               </div>
+
             </div>
           </div>
         </div>
-      <!-- </div> -->
-    </ul>
+      </div>
+    </div>
+    <!-- </div> -->
+  </ul>
 
 
 </template>
 <script setup>
-import { ref, onMounted,onUpdated ,reactive ,computed} from 'vue'
-import {db} from '@/firebaseDB'
-import { collection, onSnapshot,
-  addDoc, doc ,deleteDoc,updateDoc,
-  query, orderBy, limit,setDoc
+import { ref, onMounted, onUpdated, reactive, computed } from 'vue'
+import { db } from '@/firebaseDB'
+import {
+  collection, onSnapshot,
+  addDoc, doc, deleteDoc, updateDoc,
+  query, orderBy, limit, setDoc
 } from "firebase/firestore"
-import { getAuth, signInWithEmailAndPassword , onAuthStateChanged} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import router from '../router'
 import ParkingDetails from "../components/ParkingDetails.vue"
 import ParkingList from "../components/parkinglist.vue"
@@ -57,211 +48,68 @@ const parkings = ref([
 
 ])
 const store = useStore();
-const buttonText= ref('add')
+const buttonText = ref('add')
 const parkingsCollectionRef = collection(db, 'parkings')
-const categoriesCollectionRef = collection(db,'categories')
+const categoriesCollectionRef = collection(db, 'categories')
 const auth = getAuth();
 
 function isValidFirestoreId(id) {
-return id.match(/^[a-zA-Z0-9\-_]+$/)
+  return id.match(/^[a-zA-Z0-9\-_]+$/)
 }
 
 onAuthStateChanged(auth, (user) => {
-if (user) {
-// User is signed in, see docs for a list of available properties
-// https://firebase.google.com/docs/reference/js/firebase.User
-const uid = user.uid;
-// ...
-} else {
-// User is signed out
-router.push('SignIn')
-}
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    router.push('SignIn')
+  }
 });
 
 const parkingCategories = computed(() => store.state.parkingCategoryModule.parkingCategoryData);
 const formParking = computed(() => store.state.parkingModule.selectedParking);
-const categories = computed(() => store.state.categoryModule.categoryData) 
-onMounted(async() => {
+const categories = computed(() => store.state.categoryModule.categoryData)
+onMounted(async () => {
 
-if(auth.currentUser )
-{
-  await store.dispatch('categoryModule/getCategories', {})
-  await store.dispatch("parkingModule/getParkings", {});
-
-}
-else
-{
-  router.push('/Signin')
-}
-
-})
-
-
-
-
-// const categories = reactive([])
-// const parkingCategories = reactive([])
-
-function updateSelection()
-{
-
-parkingCategories.value.Add(category)
-
-}
-const addToParking = () => {
-addDoc(parkingsCollectionRef, {
-address: address.value,
-side: side.value,
-category: category.value,
-
-});
-address.value = ''
-side.value = ''
-category.value = ''
-}
-
-function AddCategoriesToParking(parkingId)
-{
-// Reference to the parent document
-const parkingDocRef = db.collection("parkings").doc(parkingId);
-
-// Reference to the subcollection
-const parkingCategoryCollectionRef = parkingDocRef.collection("categories");
-
-// Array of data to be added to the subcollection
-// const subCollectionData = [
-//   { name: "Item 1", value: 1 },
-//   { name: "Item 2", value: 2 },
-//   { name: "Item 3", value: 3 },
-// ];
-
-// Adding the data to the subcollection
-const promises = categories.map(data => {
-return parkingCategoryCollectionRef.add(data);
-});
-
-// Waiting for all writes to complete
-Promise.all(promises)
-.then(() => {
-console.log("Data added to subcollection");
-// Adding the subcollection reference as a field in the parent document
-parkingDocRef.update({
-  categories: parkingCategoryCollectionRef
-
-})
-.then(() => {
-  console.log("Subcollection reference added as field in parent document");
-})
-.catch(error => {
-  console.error("Error adding subcollection reference: ", error);
-});
-})
-.catch(error => {
-console.error("Error adding data to subcollection: ", error);
-});
-
-}
-/// Getting categories for combobox
-function GetCategoriesFromParking(documentId)
-{
-const parkingCategoriesRef = doc(collection(db, 'parkings'), documentId)
-.collection('categories');
-onSnapshot(parkingCategoriesRef, (querySnapshot) => {
-const subcollection = [];
-querySnapshot.forEach((doc) => {
-  subcollection.push({ id: doc.id, ...doc.data() });
-});
-parkingCategories.value = subcollection;
-});
-}
-function getCategories(){
-    onSnapshot(categoriesCollectionRef, (querySnapshot) => {
-    const fbTodos = []
-    querySnapshot.forEach((doc) => {
-      const todo = {
-        id: doc.id,
-        category: doc.data().category,
-      }
-      fbTodos.push(todo)
-    })
-    categories.value = fbTodos
-  })
-}
-
-
-//Getting parking
-function getParkings() {
-  onSnapshot(parkingsCollectionRef, (querySnapshot) => {
-  const fbTodos = []
-  querySnapshot.forEach((doc) => {
-    const todo = {
-      id: doc.id,
-      address: doc.data().address,
-      side: doc.data().side,
-      category: doc.data().category,
-    }
-    fbTodos.push(todo)
-  })
-  parkings.value = fbTodos
-})
-}
-
-
-function updateParking(id) {
-const frankDocRef = doc(db, "parkings", id);
-setDoc(frankDocRef, {
-address: address.value,
-side: side.value,
-category: category.value,
-
-});
-
-}
-
-
-
-const deleteTodo = id => {
-deleteDoc(doc(parkingsCollectionRef, id))
-}
-
-const toggleDone = id => {
-const index = parkings.value.findIndex(park => park.id === id)
-category.value = parkings.value[index].category
-newId.value = id
-address.value = parkings.value[index].address
-side.value = parkings.value[index].side
-
-// updateDoc(doc(parkingsCollectionRef, id), {
-//    done: !parkings.value[index].done
-//  });
-}
-
-const getParking = (id) => {
-db.collection('parkings').doc(id).get().then(function(doc) {
-  if (doc.exists) {
-    console.log("Document data:", doc.data());
-  } else {
-    console.log("No such document!");
+  if (auth.currentUser) {
+    await store.dispatch('categoryModule/getCategories', {})
+    await store.dispatch('parkingCategoryModule/getParkingCategory', {})
   }
-}).catch(function(error) {
-  console.log("Error getting document:", error);
+  else {
+    router.push('/Signin')
+  }
+
 })
-}
+//html items with checkbox fires change event write event handler function which checks is check box selected call to method methA else call method methB
+const updateParkingCategory(async (event, id) => {
+  if (event.target.checked) {
+    await store.dispatch('parkingCategoryModule/AddParkingCategory', { parkingId: formParking.id, categoryId: id })
+  } else {
+    await store.dispatch('parkingCategoryModule/DeleteParkingCategory', { parkingId: formParking.id, categoryId: id })
+  }
+})
+
+const IsConnected( async (categoryId)=>{
+  return await store.dispatch('parkingCategoryModule/IsConnected', { parkingId: formParking.id, categoryId: categoryId })
+})
 
 </script>
 
 <style scoped>
-.main{
-position:relative;
-width:100%;
+.main {
+  position: relative;
+  width: 100%;
 }
 
 .line-through {
-text-decoration: line-through;
+  text-decoration: line-through;
 }
-.parking-list
-{
-  height:80vh;
+
+.parking-list {
+  height: 80vh;
   overflow-y: auto;
 }
 </style>
