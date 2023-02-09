@@ -16,7 +16,8 @@
             <div class="columns is-mobile is-vcentered">
 
               <div class="column">
-                <input type="checkbox" :value="IsConnected(category.id)" @change="updateParkingCategory(category.id)" />
+                <input type="checkbox" :value="IsConnected(category.id)"
+                  @change="updateParkingCategory($event, category.id)" />
                 {{ category.category }}
               </div>
 
@@ -31,7 +32,7 @@
 
 </template>
 <script setup>
-import { ref, onMounted, onUpdated, reactive, computed } from 'vue'
+import { ref, onMounted, onUpdated, reactive, computed,watch } from 'vue'
 import { db } from '@/firebaseDB'
 import {
   collection, onSnapshot,
@@ -70,7 +71,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 const parkingCategories = computed(() => store.state.parkingCategoryModule.parkingCategoryData);
-const formParking = computed(() => store.state.parkingModule.selectedParking);
+const formParkingId = computed(() => store.state.parkingModule.selectedParking.id);
 const categories = computed(() => store.state.categoryModule.categoryData)
 onMounted(async () => {
 
@@ -84,18 +85,27 @@ onMounted(async () => {
 
 })
 //html items with checkbox fires change event write event handler function which checks is check box selected call to method methA else call method methB
-const updateParkingCategory(async (event, id) => {
+const updateParkingCategory = (async (event, id) => {
   if (event.target.checked) {
-    await store.dispatch('parkingCategoryModule/AddParkingCategory', { parkingId: formParking.id, categoryId: id })
+    await store.dispatch('parkingCategoryModule/AddParkingCategory', { parkingId: formParkingId.value, categoryId: id })
   } else {
-    await store.dispatch('parkingCategoryModule/DeleteParkingCategory', { parkingId: formParking.id, categoryId: id })
+    await store.dispatch('parkingCategoryModule/DeleteParkingCategory', { parkingId: formParkingId.value, categoryId: id })
   }
 })
 
-const IsConnected( async (categoryId)=>{
-  return await store.dispatch('parkingCategoryModule/IsConnected', { parkingId: formParking.id, categoryId: categoryId })
+const IsConnected = (async (categoryId) => {
+  return await store.dispatch('parkingCategoryModule/IsConnected', { parkingId: formParkingId.value, categoryId: categoryId })
 })
-
+watch(()=>formParkingId.value, async (newA, prevA) => {
+   await store.dispatch('categoryModule/getCategories', {})
+ });
+// watch: {
+//   formParking: {
+//         immediate: true,
+//         handler(value) { 
+//           await store.dispatch('categoryModule/getCategories', {})
+//         }
+//     }
 </script>
 
 <style scoped>

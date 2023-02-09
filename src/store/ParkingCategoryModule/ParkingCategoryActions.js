@@ -2,7 +2,7 @@ import { db } from '@/firebaseDB'
 import {
     collection, onSnapshot,
     addDoc, doc, deleteDoc, updateDoc,
-    query, orderBy, limit, setDoc, Firestore, serverTimestamp
+    query, orderBy, limit, setDoc, Firestore, serverTimestamp,where,getDocs
 } from "firebase/firestore"
 const parkingCategoryCollectionRef = collection(db, 'parkingcategory')
 export const Actions = {
@@ -42,11 +42,11 @@ export const Actions = {
     //   }
     async ['IsConnected']({ commit }, { parkingId, categoryId }) {
         try {
- 
-            const doc = await parkingCategoryCollectionRef.where('parkingId', '==', parkingId)
-                .where('categoryId', '==', categoryId)
-                .get();
-            return !doc.empty;
+            const q1 = query(parkingCategoryCollectionRef, where("parkingId", "==", "parkingId"), where("categoryId", "==", "categoryId"));
+           // const docs = await parkingCategoryCollectionRef.where('parkingId', '==', parkingId)
+            const querySnapshot = await getDocs(q1);
+            
+            return !querySnapshot.empty;
         } catch (error) {
             console.error(error);
             return false;
