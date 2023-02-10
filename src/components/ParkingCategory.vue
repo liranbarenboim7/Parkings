@@ -1,11 +1,11 @@
 <template>
-  <div class="input-group mb-10 ">
+  <!-- <div class="input-group mb-10 ">
     <span class="input-group-text" id="basic-addon1">Select categories</span>
     <select v-model="category" @change="updateSelection">
       <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}
       </option>
     </select>
-  </div>
+  </div> -->
 
   <ul>
     <!-- <li v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}</li> -->
@@ -118,7 +118,7 @@ watch(()=>formParkingId.value, async (newA, prevA) => {
 }
 
 .parking-list {
-  height: 80vh;
+  height: 70vh;
   overflow-y: auto;
 }
 </style>
