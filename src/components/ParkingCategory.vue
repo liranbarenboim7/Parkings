@@ -104,13 +104,7 @@ watch(()=>formParkingId.value, async (newA, prevA) => {
   await store.dispatch('parkingCategoryModule/getParkingCategory', {parkingId:formParkingId})
   isConnectedArray.value = await store.dispatch('parkingCategoryModule/IsConnectedArray', { parkingId: formParkingId.value })
  });
-// watch: {
-//   formParking: {
-//         immediate: true,
-//         handler(value) { 
-//           await store.dispatch('categoryModule/getCategories', {})
-//         }
-//     }
+
 </script>
 
 <style scoped>

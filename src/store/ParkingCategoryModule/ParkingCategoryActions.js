@@ -77,7 +77,7 @@ export const Actions = {
             return parkingCategoryConnections
 
         } catch (error) {
-            console.error(error);
+            console.log(error);
             return false;
         }
     },
@@ -93,16 +93,19 @@ export const Actions = {
     },
     async ['DeleteParkingCategory']({ commit }, { parkingId, categoryId }) {
         try {
-
-            const doc = await parkingCategoryCollectionRef.where('parkingId', '==', parkingId)
-                .where('categoryId', '==', categoryId)
-                .get();
-            return !doc.empty;
-        } catch (error) {
+            const q1 = query(parkingCategoryCollectionRef, where("parkingId", "==", parkingId),where("categoryId", "==", categoryId));
+            const querySnapshot = await getDocs(q1);
+            querySnapshot.forEach((doc1) => {
+                 
+                 let docref = doc(parkingCategoryCollectionRef,doc1.id)
+                 deleteDoc(docref);
+            })
+        }
+         catch (error) {
             console.error(error);
             return false;
         }
-        await deleteDoc(doc);
+        
     }
 
 };
