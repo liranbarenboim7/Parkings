@@ -10,13 +10,13 @@
   <ul>
     <!-- <li v-for="category in categories" :value="category.id" :key="category.id">{{ category.category }}</li> -->
     <div class="card parking-list">
-      <div class="card" v-for="category in categories" :key="category.id">
+      <div class="card" v-for="category in categories" v-bind:key="isConnectedArray.value">
         <div class="card-content">
           <div class="content">
             <div class="columns is-mobile is-vcentered">
 
               <div class="column">
-                <input type="checkbox" :value="IsConnected(category.id)"
+                <input type="checkbox"  :checked="isConnected(category.id)" 
                   @change="updateParkingCategory($event, category.id)" />
                 {{ category.category }}
               </div>
@@ -77,7 +77,7 @@ onMounted(async () => {
 
   if (auth.currentUser) {
     await store.dispatch('categoryModule/getCategories', {})
-    await store.dispatch('parkingCategoryModule/getParkingCategory', {})
+    await store.dispatch('parkingCategoryModule/getParkingCategory', {parkingId:formParkingId})
   }
   else {
     router.push('/Signin')
@@ -93,11 +93,16 @@ const updateParkingCategory = (async (event, id) => {
   }
 })
 
-const IsConnected = (async (categoryId) => {
-  return await store.dispatch('parkingCategoryModule/IsConnected', { parkingId: formParkingId.value, categoryId: categoryId })
+const isConnectedArray = reactive([])
+
+
+const isConnected = ((catId)=>{
+  const conn = isConnectedArray.value.filter(element => element.categoryId === catId)
+  return conn.length > 0
 })
 watch(()=>formParkingId.value, async (newA, prevA) => {
-   await store.dispatch('categoryModule/getCategories', {})
+  await store.dispatch('parkingCategoryModule/getParkingCategory', {parkingId:formParkingId})
+  isConnectedArray.value = await store.dispatch('parkingCategoryModule/IsConnectedArray', { parkingId: formParkingId.value })
  });
 // watch: {
 //   formParking: {

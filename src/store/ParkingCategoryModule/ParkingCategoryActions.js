@@ -2,12 +2,28 @@ import { db } from '@/firebaseDB'
 import {
     collection, onSnapshot,
     addDoc, doc, deleteDoc, updateDoc,
-    query, orderBy, limit, setDoc, Firestore, serverTimestamp,where,getDocs
+    query, orderBy, limit, setDoc, Firestore, serverTimestamp, where, getDocs
 } from "firebase/firestore"
 const parkingCategoryCollectionRef = collection(db, 'parkingcategory')
 export const Actions = {
 
 
+    async ['getParkingCategoryAll']({ commit }, { }) {
+        onSnapshot(parkingCategoryCollectionRef, (querySnapshot) => {
+            const parkingCategory = []
+            querySnapshot.forEach((doc) => {
+                const parking = {
+                    id: doc.id,
+                    parkingId: doc.data().parkingId,
+                    categoryId: doc.data().categoryId
+
+                }
+                parkingCategory.push(parking)
+            })
+            commit('SET_PARKINGCATEGORY', { parkingCategory: parkingCategory })
+        })
+
+    },
     async ['getParkingCategory']({ commit }, { parkingId }) {
         onSnapshot(parkingCategoryCollectionRef, (querySnapshot) => {
             const parkingCategory = []
@@ -40,13 +56,26 @@ export const Actions = {
     //       return false;
     //     }
     //   }
-    async ['IsConnected']({ commit }, { parkingId, categoryId }) {
+    async ['IsConnectedArray']({ commit }, { parkingId }) {
         try {
-            const q1 = query(parkingCategoryCollectionRef, where("parkingId", "==", "parkingId"), where("categoryId", "==", "categoryId"));
-           // const docs = await parkingCategoryCollectionRef.where('parkingId', '==', parkingId)
+            const q1 = query(parkingCategoryCollectionRef, where("parkingId", "==", parkingId));
+            // const docs = await parkingCategoryCollectionRef.where('parkingId', '==', parkingId)
             const querySnapshot = await getDocs(q1);
-            
-            return !querySnapshot.empty;
+            let parkingCategoryConnections = []
+            querySnapshot.forEach((doc) => {
+                const parking = {
+                    id: doc.id,
+                    parkingId: doc.data().parkingId,
+                    categoryId: doc.data().categoryId
+
+                }
+                parkingCategoryConnections.push(parking)
+            }
+
+            )
+
+            return parkingCategoryConnections
+
         } catch (error) {
             console.error(error);
             return false;
@@ -64,7 +93,7 @@ export const Actions = {
     },
     async ['DeleteParkingCategory']({ commit }, { parkingId, categoryId }) {
         try {
- 
+
             const doc = await parkingCategoryCollectionRef.where('parkingId', '==', parkingId)
                 .where('categoryId', '==', categoryId)
                 .get();
