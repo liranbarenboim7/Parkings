@@ -21,6 +21,12 @@
             </div>
 
             <div class="column is-5 has-text-right">
+              <button
+                class="btn btn-primary ml-2"
+                @click="viewParking(parking.id)"
+              >
+                &#9871;
+              </button>
               <button class="button" @click="selectParking(parking.id)">
                 &check;
               </button>
@@ -108,7 +114,9 @@ const selectParking = async (id) => {
     selectedParkingId: id,
   });
 };
-
+const viewParking = (id) => {
+router.push({ path: '/parkingQR', query: { id: id } })
+}
 
 </script>
 
