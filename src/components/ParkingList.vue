@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div class="card parking-list">
+  <div class="card parking-list" >
     <div class="card" v-for="parking in parkings">
       <div class="card-content">
         <div class="content">
@@ -108,6 +108,7 @@ const selectParking = async (id) => {
     selectedParkingId: id,
   });
 };
+// added glowing button
 
 
 </script>
@@ -126,4 +127,6 @@ const selectParking = async (id) => {
   height:80vh;
   overflow-y: auto;
 }
+
+
 </style>
