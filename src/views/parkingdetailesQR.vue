@@ -1,46 +1,39 @@
 <template>
-<div class="app-pages">
+  <div class="app-pages container card">
 
-  <div class="title has-text-centered">
-    Details
+    <div class="row">
+      Details
+    </div>
+    <div class="row">
+    <div class="col md-6">
+      {{ formParking.address }}
+    </div>
+      </div>
+
+
+
+
   </div>
-  <form
-  @submit.prevent="isValidFirestoreId(newId) ?  updateParking(newId) : addToParking() "
-  >
-    <div class="field has-addons">
-    <p class="control is-expanded">
-      <input class="input" type="text" placeholder="Add a category" v-model="newCategory">
-      <input class="input" type="text" placeholder="Add a Date" v-model="newDate">
-      <input class="input" type="text" placeholder="From:" v-model="newFrom">
-      <input class="input" type="text" placeholder="To:" v-model="newTo">
-      <input class="input" type="text" placeholder="Price:" v-model="newPrice">
-      <input class="input" type="text" placeholder="Name:" v-model="newName" >
- 
-      {{ newId }}
-      </p>
-   
-  </div>
-  </form>
- 
-    
-</div>
-   
+
 
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
-  import {db} from '@/firebaseDB'
-  import { collection, onSnapshot,
-    addDoc, doc ,deleteDoc,updateDoc,
-    query, orderBy, limit,setDoc,getDoc
-  } from "firebase/firestore"
-  import {useRoute,useRouter} from 'vue-router'
-const parkings = ref([  
-])
-const buttonText= ref('add')
-const parkingsCollectionRef = collection(db, 'parkings')
+import { ref, onMounted, onUpdated, computed, reactive , watch} from "vue";
+import { useStore } from "vuex"
+import {
+  collection, onSnapshot,
+  addDoc, doc, deleteDoc, updateDoc,
+  query, orderBy, limit, setDoc, getDoc
+} from "firebase/firestore"
+import { useRoute, useRouter } from 'vue-router'
 
+const store = useStore();
+const isConnectedArray = reactive([])
+const formParking = computed(() => store.state.parkingModule.selectedParking);
+const formParkingId = computed(() => store.state.parkingModule.selectedParking.id);
+const parkings = computed(() => store.state.parkingModule.parkingsData);
+const urlId = ref('')
 function isValidFirestoreId(id) {
   return id.match(/^[a-zA-Z0-9\-_]+$/)
 }
@@ -50,95 +43,29 @@ const router = useRouter()
 onMounted(async () => {
   console.log('Before Router Preparation', route.name);
   await router.isReady();
-  console.log('After Router Preparation', route.name+route.query.id);
+  console.log('After Router Preparation', route.name + route.query.id);
   await getParking(route.query.id)
-  })
- 
+  urlId.value = route.query.id;
+  //select parki
+})
+
+watch(()=>formParkingId.value, async (newA, prevA) => {
+  await store.dispatch('parkingCategoryModule/getParkingCategory', {parkingId:formParkingId})
+  isConnectedArray.value = await store.dispatch('parkingCategoryModule/IsConnectedArray', { parkingId: formParkingId.value })
+ });
+
+ watch(()=>parkings.value, async (newA, prevA) => {
+  await store.dispatch("parkingModule/SelectParking", {
+    selectedParkingId: urlId.value,
+  });
+ });
 
 
-let newCategory = ref('')
-let newDate = ref('')
-let newFrom = ref('')
-let newTo = ref('')
-let newPrice = ref('')
-let newName = ref('')
-let newId = ref('')
-
-
-const addToParking = () => {
-  addDoc(parkingsCollectionRef, {
-  category: newCategory.value,
-  date: newDate.value,
-  from: newFrom.value,
-  to: newTo.value,
-  price: newPrice.value,
-  name: newName.value
-
-});
-  newCategory.value = ''
-  newDate.value = ''
-  newFrom.value = ''
-  newTo.value = ''
-  newPrice.value = ''
-  newName.value = ''
-  newId.value = ''
-}
-
-
-
-function updateParking(id) {
-  const frankDocRef = doc(db, "parkings", id);
-  setDoc(frankDocRef, {
-  category: newCategory.value,
-  date: newDate.value,
-  from: newFrom.value,
-  to: newTo.value,
-  price: newPrice.value,
-  name: newName.value
-});
-
-}
-
-
-
-const deleteTodo = id => {
-  deleteDoc(doc(parkingsCollectionRef, id))
-}
-
-const toggleDone = id => {
-  const index = parkings.value.findIndex(park => park.id === id)
-  newCategory.value = parkings.value[index].category
-  newId.value = id
-  newFrom.value = parkings.value[index].from
-  newTo.value = parkings.value[index].to
-  newPrice.value = parkings.value[index].price
-  newName.value = parkings.value[index].name
-  
-  // updateDoc(doc(parkingsCollectionRef, id), {
-  //    done: !parkings.value[index].done
-  //  });
-}
 
 async function getParking(id) {
 
-  let docRef = doc(parkingsCollectionRef, id)
+  await store.dispatch("parkingModule/getParkings", {});
 
-  try {
-    const snapshot = await getDoc(docRef);
-    if (snapshot.exists) {
-      let doc = snapshot.data()
-      newId.value = doc.id,
-        newCategory.value = doc.category,
-        newDate.value = doc.date,
-        newFrom.value = doc.from,
-        newTo.value = doc.to,
-        newPrice.value = doc.price,
-        newName.value = doc.name
-      console.log(docSnap.data());
-    }
-  } catch (error) {
-    console.log(error)
-  }
 
 }
 
