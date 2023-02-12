@@ -50,8 +50,8 @@ const parkings = ref([
 ])
 const store = useStore();
 const buttonText = ref('add')
-const parkingsCollectionRef = collection(db, 'parkings')
-const categoriesCollectionRef = collection(db, 'categories')
+//const parkingsCollectionRef = collection(db, 'parkings')
+//const categoriesCollectionRef = collection(db, 'categories')
 const auth = getAuth();
 
 function isValidFirestoreId(id) {
@@ -73,6 +73,7 @@ onAuthStateChanged(auth, (user) => {
 const parkingCategories = computed(() => store.state.parkingCategoryModule.parkingCategoryData);
 const formParkingId = computed(() => store.state.parkingModule.selectedParking.id);
 const categories = computed(() => store.state.categoryModule.categoryData)
+
 onMounted(async () => {
 
   if (auth.currentUser) {
