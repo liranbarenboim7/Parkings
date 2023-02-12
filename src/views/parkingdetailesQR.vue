@@ -5,10 +5,21 @@
       Details
     </div>
     <div class="row">
-    <div class="col md-6">
-      {{ formParking.address }}
-    </div>
+      <div class="col md-6">
+        {{ formParking.address }}
+        {{ formParking.side }}
+
       </div>
+    </div>
+    <div class="row">
+      <div class="title">Categories</div>
+
+      <div class="col md-12">
+        <div v-for="category in isConnectedArray" v-bind:key="isConnectedArray.value">
+          Category:{{ category.categoryId }}
+        </div>
+      </div>
+    </div>
 
 
 
@@ -19,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated, computed, reactive , watch} from "vue";
+import { ref, onMounted, onUpdated, computed, reactive, watch } from "vue";
 import { useStore } from "vuex"
 import {
   collection, onSnapshot,
@@ -49,16 +60,16 @@ onMounted(async () => {
   //select parki
 })
 
-watch(()=>formParkingId.value, async (newA, prevA) => {
-  await store.dispatch('parkingCategoryModule/getParkingCategory', {parkingId:formParkingId})
+watch(() => formParkingId.value, async (newA, prevA) => {
+  await store.dispatch('parkingCategoryModule/getParkingCategory', { parkingId: formParkingId })
   isConnectedArray.value = await store.dispatch('parkingCategoryModule/IsConnectedArray', { parkingId: formParkingId.value })
- });
+});
 
- watch(()=>parkings.value, async (newA, prevA) => {
+watch(() => parkings.value, async (newA, prevA) => {
   await store.dispatch("parkingModule/SelectParking", {
     selectedParkingId: urlId.value,
   });
- });
+});
 
 
 
@@ -74,13 +85,14 @@ async function getParking(id) {
 
 <style>
 @import 'bulma\css\bulma.min.css';
-.badass-todo {
-    height: 100%;
-    border: 1px solid;
-    padding: 20px;
-    margin-top: 5em;
 
-    box-shadow: 5px 5px 5px 5px #888888;
+.badass-todo {
+  height: 100%;
+  border: 1px solid;
+  padding: 20px;
+  margin-top: 5em;
+
+  box-shadow: 5px 5px 5px 5px #888888;
 
 }
 
