@@ -15,7 +15,7 @@
       <div class="title">Categories</div>
 
       <div class="col md-12">
-        <div v-for="category in isConnectedArray" v-bind:key="isConnectedArray.value">
+        <div v-for="category in isConnectedArray.value" v-bind:key="category.id">
           Category:{{ category.categoryId }}
         </div>
       </div>
