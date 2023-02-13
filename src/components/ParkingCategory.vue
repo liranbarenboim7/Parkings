@@ -98,7 +98,7 @@ const isConnectedArray = reactive([])
 
 const isConnected = ((catId) => {
   if (isConnectedArray && isConnectedArray.value) {
-    const conn = isConnectedArray.value.filter(element => element.categoryId === catId)
+    const conn = isConnectedArray.value.filter(element => element === catId)
     return conn.length > 0
   }
   return false
