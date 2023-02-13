@@ -13,8 +13,8 @@ import NavBar from "./components/NavBar.vue";
 
 </template>
 
-<style scoped>
-
+<style>
+@import 'bulma\css\bulma.min.css';
 .top-bar {
   margin: auto;
   padding: 0px;

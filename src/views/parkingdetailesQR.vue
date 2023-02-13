@@ -14,9 +14,17 @@
       <div class="title">Categories</div>
 
       <div class="col md-12">
-        <div v-for="category in parkingCategories.value" v-bind:key="category.id">
-          Category:{{ category.price }}
-        </div>
+ 
+          <table style="width:100%">
+ 
+            <tr v-for="category in parkingCategories.value" v-bind:key="category.id">
+
+              <td class="right">מחירון: {{ category.price }}</td>
+              <td class="right">עד שעה: {{category.to}}</td>
+              <td class="right">משעה : {{category.from}}</td>
+              <td class="right"> {{category.category}} : {{ category.action }}</td>
+            </tr>
+          </table>
       </div>
     </div>
 
@@ -104,8 +112,8 @@ async function getCategories() {
 
 </script>
 
-<style>
-@import 'bulma\css\bulma.min.css';
+<style scoped>
+
 
 .badass-todo {
   height: 100%;
@@ -115,6 +123,21 @@ async function getCategories() {
 
   box-shadow: 5px 5px 5px 5px #888888;
 
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid black;
+}
+tr {
+  border: 3px solid black;
+}
+.right {
+  text-align: right;
+  height: 50px;
+  vertical-align: bottom;
 }
 
 .line-through {

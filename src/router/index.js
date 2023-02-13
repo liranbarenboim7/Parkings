@@ -9,11 +9,11 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const routes = [
     
-    { path: '/',
-    name: 'Home',
-    component: Parkings,
-    meta: { requiresAuth: true }
-    },
+    // { path: '/',
+    // name: 'Home',
+    // component: Parkings,
+    // meta: { requiresAuth: true }
+    // },
     { path: '/Parkings',
     name: 'Parkings',
     component: Parkings,

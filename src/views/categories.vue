@@ -110,7 +110,9 @@ import {
   Firestore,
 } from "firebase/firestore";
 import { useStore } from "vuex";
-
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import router from '../router'
+const auth = getAuth()
 const store = useStore();
 let formCategory = {};
 
@@ -156,6 +158,18 @@ async function updateCategory(id) {
     category: formCategory.value,
   });
 }
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    router.push('SignIn')
+  }
+});
 
 // const deleteCategory = id => {
 //   deleteDoc(doc(categoriesCollectionRef, id))
