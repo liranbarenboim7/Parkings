@@ -30,6 +30,13 @@
               >
                 &cross;
               </button>
+              <button
+                class="btn btn-primary ml-2"
+                @click="viewParking(parking.id)"
+              >
+                &#9871;
+              </button>
+              
             </div>
           </div>
         </div>
@@ -99,6 +106,9 @@ const addParking = async () => {
   await store.dispatch("parkingModule/AddParking", {});
 };
 
+const viewParking = (id) => {
+router.push({ path: '/parkingQR', query: { id: id } })
+}
 const deleteParking = async (id) => {
   await store.dispatch("parkingModule/DeleteParking", { parkingId: id });
 };

@@ -63,13 +63,8 @@ export const Actions = {
             const querySnapshot = await getDocs(q1);
             let parkingCategoryConnections = []
             querySnapshot.forEach((doc) => {
-                const parking = {
-                    id: doc.id,
-                    parkingId: doc.data().parkingId,
-                    categoryId: doc.data().categoryId
-
-                }
-                parkingCategoryConnections.push(parking)
+ 
+                parkingCategoryConnections.push(doc.data().categoryId)
             }
 
             )

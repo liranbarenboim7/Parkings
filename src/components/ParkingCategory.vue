@@ -16,7 +16,7 @@
             <div class="columns is-mobile is-vcentered">
 
               <div class="column">
-                <input type="checkbox"  :checked="isConnected(category.id)" 
+                <input type="checkbox" :checked="isConnected(category.id)"
                   @change="updateParkingCategory($event, category.id)" />
                 {{ category.category }}
               </div>
@@ -32,7 +32,7 @@
 
 </template>
 <script setup>
-import { ref, onMounted, onUpdated, reactive, computed,watch } from 'vue'
+import { ref, onMounted, onUpdated, reactive, computed, watch } from 'vue'
 import { db } from '@/firebaseDB'
 import {
   collection, onSnapshot,
@@ -77,7 +77,7 @@ onMounted(async () => {
 
   if (auth.currentUser) {
     await store.dispatch('categoryModule/getCategories', {})
-    await store.dispatch('parkingCategoryModule/getParkingCategory', {parkingId:formParkingId})
+    await store.dispatch('parkingCategoryModule/getParkingCategory', { parkingId: formParkingId })
   }
   else {
     router.push('/Signin')
@@ -96,14 +96,17 @@ const updateParkingCategory = (async (event, id) => {
 const isConnectedArray = reactive([])
 
 
-const isConnected = ((catId)=>{
-  const conn = isConnectedArray.value.filter(element => element.categoryId === catId)
-  return conn.length > 0
+const isConnected = ((catId) => {
+  if (isConnectedArray && isConnectedArray.value) {
+    const conn = isConnectedArray.value.filter(element => element === catId)
+    return conn.length > 0
+  }
+  return false
 })
-watch(()=>formParkingId.value, async (newA, prevA) => {
-  await store.dispatch('parkingCategoryModule/getParkingCategory', {parkingId:formParkingId})
+watch(() => formParkingId.value, async (newA, prevA) => {
+  await store.dispatch('parkingCategoryModule/getParkingCategory', { parkingId: formParkingId })
   isConnectedArray.value = await store.dispatch('parkingCategoryModule/IsConnectedArray', { parkingId: formParkingId.value })
- });
+});
 
 </script>
 
