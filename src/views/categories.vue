@@ -47,7 +47,7 @@
             <div class="input-group">
               <span class="input-group-text" id="basic-addon1">Select Day</span>
               <select v-model="formCategory.day">
-                <option v-for="day in days" :value="day">{{ day }}</option>
+                <option v-for="day in days" :value="day.value">{{ day.name }}</option>
               </select>
             </div>
 
@@ -55,7 +55,7 @@
 
             <p class="control">
               <button class="button is-info" :disabled="!formCategory.id">
-                {{ isValidFirestoreId(formCategory.id) ?"update": "add" }}
+                {{ isValidFirestoreId(formCategory.id) ? "update" : "add" }}
               </button>
               <!--{{ newId }}-->
             </p>
@@ -70,9 +70,17 @@
           <div class="card-content">
             <div class="content">
               <div class="columns 
-      is-mobile is-vcentered">
+        is-mobile is-vcentered">
                 <div class="column">
                   {{ category.category }}
+                  from:
+                  {{ category.from }}
+                  to:
+                  {{ category.to }}
+                  day:
+                  {{ category.day }}
+                  price:
+                  {{ category.price }}
                 </div>
                 <div class="column is-5 has-text-right">
                   <button class="button" @click="showCategory(category.id)">
@@ -89,8 +97,6 @@
       </div>
     </div>
   </div>
-
-
 </template>
     
 <script setup>
@@ -121,13 +127,40 @@ const categories = computed(() => store.state.categoryModule.categoryData);
 formCategory = computed(() => store.state.categoryModule.selectedCategory);
 
 const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
+  {
+
+    name: "No Day",
+    value: -1
+  },
+  {
+
+    name: "Sunday",
+    value: 0
+  },
+  {
+    name: "Monday",
+    value: 1
+  },
+  {
+    name: "Tuesday",
+    value: 2
+  },
+  {
+    name: "Wednesday",
+    value: 3
+  },
+  {
+    name: "Thursday",
+    value: 4
+  },
+  {
+    name: "Friday",
+    value: 5
+  },
+  {
+    name: "Saturday",
+    value: 6
+  },
 ];
 
 const buttonText = ref("add");
@@ -199,8 +232,9 @@ const showCategory = async (id) => {
 .line-through {
   text-decoration: line-through;
 }
+
 .list-categories {
-height:80vh;
-overflow-y: auto;
+  height: 80vh;
+  overflow-y: auto;
 }
 </style>
