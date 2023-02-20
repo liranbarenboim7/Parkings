@@ -2,11 +2,15 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import NavBar from "./components/NavBar.vue";
+import { useRoute, useRouter } from 'vue-router'
+import {computed} from 'vue'
+const route=useRoute();
+const path = computed(() =>route.path)
 </script>
 
 <template>
   <div class="top-bar">
-    <NavBar title="PandoLogic"/>
+    <NavBar title="PandoLogic" v-if="path !=='/'"/>
   </div>
 
   <router-view />
