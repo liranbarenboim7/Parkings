@@ -5,15 +5,16 @@ import ParkingdetailesQR  from '../views/parkingdetailesQR.vue';
 import Register  from '../views/Register.vue';
 import Signin  from '../views/Signin.vue';
 import SignOut from '../views/SignOut.vue';
+import home from '../views/home.vue';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const routes = [
     
-    // { path: '/',
-    // name: 'Home',
-    // component: Parkings,
-    // meta: { requiresAuth: true }
-    // },
+     { path: '/',
+     name: 'Home',
+     component: home,
+     meta: { requiresAuth: false }
+     },
     { path: '/Parkings',
     name: 'Parkings',
     component: Parkings,

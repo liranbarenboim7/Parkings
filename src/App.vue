@@ -9,6 +9,7 @@ const path = computed(() =>route.path)
 </script>
 
 <template>
+ 
   <div class="top-bar">
     <NavBar title="PandoLogic" v-if="path !=='/'"/>
   </div>
