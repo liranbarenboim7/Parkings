@@ -6,18 +6,14 @@
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
                         <a href="#" class="logo">
-                            <img src="assets/images/logo.png" alt="Softy Pinko"/>
+                            <img src="../assets/images/work-process-item-01.png" alt="Softy Pinko"/>
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li><a href="#welcome" class="active">דף בית</a></li>
-                            <li><a href="#features">About</a></li>
-                            <li><a href="#work-process">Work Process</a></li>
-                            <li><a href="#testimonials">Testimonials</a></li>
-                            <li><a href="#pricing-plans">Pricing Tables</a></li>
-                            <li><a href="#blog">Blog Entries</a></li>
-                            <li><a href="#contact-us">Contact Us</a></li>
+                            <li><a href="#contact">צור קשר</a></li>
+                            <li><a href="#pricing-plans">שלם חניה</a></li>
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -28,8 +24,13 @@
             </div>
         </div>
     </header>
+<div class="container" style="position:relative;left:8vw;top:22vh;width:180% ; max-height: 90vh">
+  <div class="row">
+    <div class="col md-6">
 
-    <div class="d-flex text-center" style="position:relative;top:200px;height: 20vh">
+  
+
+      <div class="text-left" style="position:relative;top:200px;height: 20vh">
       <div class="m-auto">
         <h4>Your Position</h4>
         Latitude: {{ currPos.lat.toFixed(2) }}, Longitude:
@@ -47,8 +48,15 @@
         </span>
         <span v-else>Click the map to select a position</span>
       </div>
+      </div>
     </div>
-    <div ref="mapDiv" style="width: 100%; height: 80vh" />
+    <div class="col md-6">
+    <div ref="mapDiv" style="position relative;width: 100%; height: 70vh" />
+    </div>
+    </div>
+  
+
+  </div>
   </template>
 <script setup>import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 import { useGeolocation } from '../geo/useGeolocation'

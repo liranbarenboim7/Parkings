@@ -11,7 +11,7 @@ const path = computed(() =>route.path)
 <template>
  
   <div class="top-bar">
-    <NavBar title="PandoLogic" v-if="path !=='/'"/>
+    <NavBar title="PandoLogic" v-if="path !=='/'&& path !=='/parkingQR'" />
   </div>
 
   <router-view />

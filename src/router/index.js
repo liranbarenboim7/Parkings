@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Categories  from '../views/categories.vue';
 import Parkings  from '../views/parkings.vue';
 import ParkingdetailesQR  from '../views/parkingdetailesQR.vue';
+import homeQR  from '../views/homeQR.vue';
 import Register  from '../views/Register.vue';
 import Signin  from '../views/Signin.vue';
 import SignOut from '../views/SignOut.vue';
@@ -27,7 +28,7 @@ const routes = [
     },
     { path: '/parkingQR',
     name: 'ParkingQR',
-    component: ParkingdetailesQR
+    component: homeQR
     
     },
     { path:"/Signin", component: Signin},
