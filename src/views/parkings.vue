@@ -1,26 +1,28 @@
 <template>
   <div class="app-pages">
     <div class="row main">
-      <div class="col md-6 parkings">
+      <div class="col md-4">
+        <div ref="mapDiv" style="position relative;width: 100%; height: 70vh" />
+      </div>
+ 
+      <div class="col md-4 parkings">
         <ParkingList />
       </div>
 
-      <div class="col md-6 details">
+      <div class="col md-4 details">
         <div class="row parkingdetailes">
-        <ParkingDetails 
-        :parkingid="currentParking"/>
-      </div>
-      <div class="row parkingcategories">
-        <ParkingCategory />
+          <ParkingDetails :parkingid="currentParking" />
+        </div>
+        <div class="row parkingcategories">
+          <ParkingCategory />
+        </div>
       </div>
     </div>
   </div>
-</div>
-
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated, reactive } from 'vue'
+import { ref, onMounted, onUpdated, reactive,computed } from 'vue'
 import { db } from '@/firebaseDB'
 import {
   collection, onSnapshot,
@@ -32,9 +34,16 @@ import router from '../router'
 import ParkingDetails from "../components/ParkingDetails.vue"
 import ParkingList from "../components/parkinglist.vue"
 import ParkingCategory from "../components/parkingcategory.vue"
+import { Loader } from '@googlemaps/js-api-loader'
+import { useGeolocation } from '../geo/useGeolocation'
+const loader = new Loader({ apiKey: 'AIzaSyAmIvnZ49fJwnY0xYQmwbv0hebHejPnFPE' })
 const parkings = ref([
 
 ])
+
+const mapDiv = ref(null)
+let map = ref(null)
+let clickListener = null
 
 const buttonText = ref('add')
 const parkingsCollectionRef = collection(db, 'parkings')
@@ -59,6 +68,12 @@ onAuthStateChanged(auth, (user) => {
 
 const categories = ref([])
 const parkingCategories = ref([])
+const { coords } = useGeolocation()
+const currPos = computed(() => ({
+  lat: coords.value.latitude,
+  lng: coords.value.longitude
+}))
+const otherPos = ref(null)
 onMounted(async () => {
 
   if (auth.currentUser) {
@@ -69,7 +84,16 @@ onMounted(async () => {
   else {
     router.push('/Signin')
   }
-
+  await loader.load()
+      map.value = new google.maps.Map(mapDiv.value, {
+        center: currPos.value,
+        zoom: 7
+      })
+      clickListener = map.value.addListener(
+        'click',
+        ({ latLng: { lat, lng } }) =>
+          (otherPos.value = { lat: lat(), lng: lng() })
+      )
 })
 
 
