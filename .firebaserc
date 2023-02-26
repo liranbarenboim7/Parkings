@@ -1,5 +1,10 @@
 {
   "projects": {
-    "default": "parking-production-project"
-  }
+    "default": "poaonline",
+    "parkingscity": "poaonline",
+    "trial": "ilanpoa",
+    "parkingCity": "parkingscity-e233f"
+  },
+  "targets": {},
+  "etags": {}
 }

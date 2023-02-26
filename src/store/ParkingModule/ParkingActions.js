@@ -17,8 +17,11 @@ export const Actions = {
                 const parking = {
                     id: doc.id,
                     address: doc.data().address,
-                    side: doc.data().side
-
+                    side: doc.data().side,
+                    latitude: doc.data().latitude, 
+                    longitude: doc.data().longitude ,
+                    modifiedAt : serverTimestamp(),
+                    createdAt : serverTimestamp() 
                 }
                 parkings.push(parking)
             })
@@ -34,6 +37,8 @@ export const Actions = {
             id: parking.id,
             address: parking.address,
             side: parking.side,
+            latitude: parking.latitude, 
+            longitude: parking.longitude ,
             modifiedAt : serverTimestamp(),
             createdAt : serverTimestamp()
         })
@@ -44,6 +49,8 @@ export const Actions = {
           address: "new parking",
           side: "",
           category: "",
+          latitude: 0, 
+          longitude: 0
         });
 
       },

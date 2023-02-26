@@ -43,6 +43,28 @@
             v-model="formParking.address"
           />
         </div>
+        <div class="input-group mb-10">
+          <span class="input-group-text" id="basic-addon1">latitude</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="latitude"
+            aria-label="latitude"
+            aria-describedby="basic-addon1"
+            v-model="formParking.latitude"
+          />
+        </div>
+        <div class="input-group mb-10">
+          <span class="input-group-text" id="basic-addon1">longitude</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="longitude"
+            aria-label="longitude"
+            aria-describedby="basic-addon1"
+            v-model="formParking.longitude"
+          />
+        </div>
       </form>
     </div>
   </div>

@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
-const prod = false
+const prod = true
 const firebaseConfig = {
   apiKey: "AIzaSyAnmGiTSp9mwB9ENrnLhlAor-NWP7HtxeI",
   authDomain: "badass-todo-a676c.firebaseapp.com",
@@ -19,8 +19,18 @@ const firebaseConfigProd = {
   appId: "1:11809067301:web:9a69962f01daf930404acc",
   measurementId: "G-KJHF88PNCL"
 };
+const firebaseConfigparkingsCity = {
+  apiKey: "AIzaSyAFWMMkLXNnXX8iaotsUNHuF0h5KZ2sL6g",
+  authDomain: "parkingscity-e233f.firebaseapp.com",
+  projectId: "parkingscity-e233f",
+  storageBucket: "parkingscity-e233f.appspot.com",
+  messagingSenderId: "291459922943",
+  appId: "1:291459922943:web:0cb822ad00abfc0106c5ca",
+  measurementId: "G-12MYYR1QVX"
+};
 
-const app = prod?initializeApp(firebaseConfigProd):initializeApp(firebaseConfig)
+
+const app = prod?initializeApp(firebaseConfigparkingsCity):initializeApp(firebaseConfig)
 const db = getFirestore(app)
 const auth = getAuth(app)
 

@@ -64,11 +64,11 @@ import { useGeolocation } from '../geo/useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
 const { coords } = useGeolocation()
 const currPos = computed(() => ({
-  lat: coords.value.latitude,
-  lng: coords.value.longitude
+  lat: coords?.value?.latitude,
+  lng: coords?.value?.longitude
 }))
 const otherPos = ref(null)
-const loader = new Loader({ apiKey: 'AIzaSyAmIvnZ49fJwnY0xYQmwbv0hebHejPnFPE' })
+const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
 const mapDiv = ref(null)
 let map = ref(null)
 let clickListener = null

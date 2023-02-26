@@ -10,7 +10,9 @@ const parkingsData = [
 const selectedParking = {
      id: "", 
      address :"",
-     side :""     
+     side :"",
+     latitude: 0, 
+     longitude: 0     
 }
 const initState = {
 
