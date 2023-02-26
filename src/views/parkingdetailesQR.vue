@@ -17,12 +17,12 @@
  
           <table style="width:100%">
  
-            <tr v-for="category in parkingCategories.value" v-bind:key="category.id">
+            <tr v-for="category in parkingCategoriesSelect.value" v-bind:key="category.id">
 
-              <td class="right">מחירון: {{ category.price }}</td>
-              <td class="right">עד שעה: {{category.to}}</td>
-              <td class="right">משעה : {{category.from}}</td>
-              <td class="right"> {{category.category}} : {{ category.action }}</td>
+              <td :class="category.isMatch ? 'match' : 'right'">מחירון: {{ category.price }}</td>
+              <td :class="category.isMatch ? 'match' : 'right'">עד שעה: {{category.to}}</td>
+              <td :class="category.isMatch ? 'match' : 'right'">משעה : {{category.from}}</td>
+              <td :class="category.isMatch ? 'match' : 'right'"> {{category.category}} : {{ category.action }}</td>
             </tr>
           </table>
       </div>
@@ -55,6 +55,7 @@ const categories = computed(() => store.state.categoryModule.categoryData);
 
 const urlId = ref('')
 const parkingCategories = reactive([])
+const parkingCategoriesSelect = reactive([])
 function isValidFirestoreId(id) {
   return id.match(/^[a-zA-Z0-9\-_]+$/)
 }
@@ -87,6 +88,25 @@ watch(() => categories.value, async (newA, prevA) => {
     isConnectedArray.value = await store.dispatch('parkingCategoryModule/IsConnectedArray', { parkingId: urlId.value })
     const connectedCategories = categories.value.filter(category => isConnectedArray.value.includes(category.id))
     parkingCategories.value = connectedCategories
+    var today = new Date();
+    const hour = today.getHours();
+    const day = today.getDay();
+    parkingCategoriesSelect.value = connectedCategories.map(cat =>{
+      const catSelect = cat
+      catSelect.isMatch = parseInt(cat.from) <= hour && parseInt(cat.to) > hour && day === cat.day
+      return catSelect;
+    })
+    console.lod(parkingCategoriesSelect.value)
+    if(parkingCategoriesSelect.length == 0)
+    {
+      parkingCategoriesSelect.value = connectedCategories.map(cat =>{
+      const catSelect = cat
+      catSelect.isMatch = parseInt(cat.from) <= hour && parseInt(cat.to) > hour && cat.day === -1
+      return catSelect;
+    })
+    }
+
+
 
   }
   
@@ -138,6 +158,12 @@ tr {
   text-align: right;
   height: 50px;
   vertical-align: bottom;
+}
+.match {
+  text-align: right;
+  height: 50px;
+  vertical-align: bottom;
+  color:red;
 }
 
 .line-through {
