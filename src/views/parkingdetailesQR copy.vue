@@ -14,17 +14,17 @@
       <div class="title">Categories</div>
 
       <div class="col md-12">
+ 
+          <table style="width:100%">
+ 
+            <tr v-for="category in parkingCategoriesSelect.value" v-bind:key="category.id">
 
-        <table style="width:100%">
-
-          <tr v-for="category in parkingCategoriesSelect.value" v-bind:key="category.id">
-
-            <td :class="category.isMatch ? 'match' : 'right'">מחירון: {{ category.price }}</td>
-            <td :class="category.isMatch ? 'match' : 'right'">עד שעה: {{ category.to }}</td>
-            <td :class="category.isMatch ? 'match' : 'right'">משעה : {{ category.from }}</td>
-            <td :class="category.isMatch ? 'match' : 'right'"> {{ category.category }} : {{ category.action }}</td>
-          </tr>
-        </table>
+              <td :class="category.isMatch ? 'match' : 'right'">מחירון: {{ category.price }}</td>
+              <td :class="category.isMatch ? 'match' : 'right'">עד שעה: {{category.to}}</td>
+              <td :class="category.isMatch ? 'match' : 'right'">משעה : {{category.from}}</td>
+              <td :class="category.isMatch ? 'match' : 'right'"> {{category.category}} : {{ category.action }}</td>
+            </tr>
+          </table>
       </div>
     </div>
 
@@ -32,6 +32,8 @@
 
 
   </div>
+
+
 </template>
 
 <script setup>
@@ -67,7 +69,7 @@ onMounted(async () => {
   console.log('After Router Preparation', route.name + route.query.id);
   await getParkings()
   await getCategories()
-
+  
   //select parki
 })
 
@@ -89,25 +91,26 @@ watch(() => categories.value, async (newA, prevA) => {
     var today = new Date();
     const hour = today.getHours();
     const day = today.getDay();
-    parkingCategoriesSelect.value = connectedCategories.map(cat => {
+    parkingCategoriesSelect.value = connectedCategories.map(cat =>{
       const catSelect = cat
       catSelect.isMatch = parseInt(cat.from) <= hour && parseInt(cat.to) > hour && day === cat.day
       return catSelect;
     })
     console.lod(parkingCategoriesSelect.value)
-    if (parkingCategoriesSelect.length == 0) {
-      parkingCategoriesSelect.value = connectedCategories.map(cat => {
-        const catSelect = cat
-        catSelect.isMatch = parseInt(cat.from) <= hour && parseInt(cat.to) > hour && cat.day === -1
-        return catSelect;
-      })
+    if(parkingCategoriesSelect.length == 0)
+    {
+      parkingCategoriesSelect.value = connectedCategories.map(cat =>{
+      const catSelect = cat
+      catSelect.isMatch = parseInt(cat.from) <= hour && parseInt(cat.to) > hour && cat.day === -1
+      return catSelect;
+    })
     }
 
 
 
   }
-
-
+  
+  
 });
 
 
@@ -130,6 +133,8 @@ async function getCategories() {
 </script>
 
 <style scoped>
+
+
 .badass-todo {
   height: 100%;
   border: 1px solid;
@@ -146,22 +151,19 @@ table {
   border-collapse: collapse;
   border: 3px solid black;
 }
-
 tr {
   border: 3px solid black;
 }
-
 .right {
   text-align: right;
   height: 50px;
   vertical-align: bottom;
 }
-
 .match {
   text-align: right;
   height: 50px;
   vertical-align: bottom;
-  color: red;
+  color:red;
 }
 
 .line-through {
