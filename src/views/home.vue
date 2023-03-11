@@ -6,14 +6,15 @@
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
             <a href="#" class="logo">
-              <img src="../assets/images/work-process-item-01.png" alt="Softy Pinko" />
+              <img src="../assets/logo.png" width="50" height="50" style="position:relative;left:3px;top:-20px" alt="Softy Pinko" />
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
-              <li><a href="#welcome" class="active">דף בית</a></li>
-              <li><a href="#contact">צור קשר</a></li>
-              <li><a href="#pricing-plans">שלם חניה</a></li>
+              <li><a href="\">צור קשר</a></li>
+              <li><a href="\">שלם חניה</a></li>
+              <li><a href="\" class="active">דף בית</a></li>
+
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
@@ -59,7 +60,7 @@
   </div>
 </template>
 <script setup>
-import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch,toRaw } from 'vue'
 import { useGeolocation } from '../geo/useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
 const { coords } = useGeolocation()
@@ -70,14 +71,18 @@ const currPos = computed(() => ({
 const otherPos = ref(null)
 const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
 const mapDiv = ref(null)
+const marker = ref(null)
+let markers = ref([]);
+
 let map = ref(null)
 let clickListener = null
 onMounted(async () => {
   await loader.load()
   map.value = new google.maps.Map(mapDiv.value, {
     center: currPos.value,
-    zoom: 7
+    zoom: 12
   })
+ 
   clickListener = map.value.addListener(
     'click',
     ({ latLng: { lat, lng } }) =>
@@ -88,14 +93,52 @@ onUnmounted(async () => {
   if (clickListener) clickListener.remove()
 })
 let line = null
-watch([map, currPos, otherPos], () => {
-  if (line) line.setMap(null)
+watch([  currPos, otherPos],async () => {
+  await loader.load()
+  if(currPos.value)
+  {
+    // map.value = new google.maps.Map(mapDiv.value, {
+    // center: currPos.value,
+    // zoom: 12
+  //})
+  }
+ // if (line) line.setMap(null)
   if (map.value && otherPos.value != null)
-    line = new google.maps.Polyline({
-      path: [currPos.value, otherPos.value],
-      map: map.value
-    })
+  {
+      deleteMarkers()
+      addMarker(otherPos.value,map.value)
+      // The marker, positioned at Uluru
+ 
+  }
+    // line = new google.maps.Polyline({
+    //   path: [currPos.value, otherPos.value],
+    //   map: map.value
+    // })
 })
+function setMapOnAll() {
+  for (let i = 0; i < markers.value.length; i++) 
+  {
+    toRaw(markers.value[i]).setMap(map.value);
+  }
+}
+function hideMarkers(){
+  setMapOnAll(null);
+}
+function addMarker(position,map) {
+  const marker = new google.maps.Marker({
+    position,
+    map
+  });
+
+  markers.value.push(marker);
+}
+function deleteMarkers() {
+  for (let i = 0; i < markers.value.length; i++) 
+  {
+    toRaw(markers.value[i]).setMap(null);
+  }
+  markers.value = [];
+}
 const haversineDistance = (pos1, pos2) => {
   const R = 3958.8 // Radius of the Earth in miles
   const rlat1 = pos1.lat * (Math.PI / 180) // Convert degrees to radians
@@ -121,5 +164,7 @@ const distance = computed(() =>
     ? 0
     : haversineDistance(currPos.value, otherPos.value)
 )
+
 //https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
 </script>
+
