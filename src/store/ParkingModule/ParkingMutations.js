@@ -9,6 +9,8 @@ export const Mutations = {
         state.selectedParking.id = state.parkingsData[index].id
         state.selectedParking.address = state.parkingsData[index].address 
         state.selectedParking.side = state.parkingsData[index].side 
+        state.selectedParking.latitude = state.parkingsData[index].latitude 
+        state.selectedParking.longitude = state.parkingsData[index].longitude 
     },
     SET_PARKINGS(state, { parkings }) {
         state.parkingsData = parkings
