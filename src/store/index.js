@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import CategoryModule from './CategoryModule/index.js';
 import ParkingModule from './ParkingModule/index';
 import ParkingCategoryModule from './ParkingCategoryModule/index';
+import GMapModule from './GMap/index';
 export default createStore({
     state: {},
     mutations: {},
@@ -10,7 +11,8 @@ export default createStore({
     modules: {
         categoryModule: CategoryModule,
         parkingModule: ParkingModule,
-        parkingCategoryModule: ParkingCategoryModule
+        parkingCategoryModule: ParkingCategoryModule,
+        gMapModule: GMapModule
     }
 });
 // https://next.vuex.vuejs.org/guide/modules.html#accessing-global-assets-in-namespaced-modules
