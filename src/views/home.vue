@@ -59,8 +59,8 @@
           <div class="m-auto">
             <h4>Clicked Position</h4>
             <span v-if="otherPos">
-              Latitude: {{ otherPos.lat.toFixed(2) }}, Longitude:
-              {{ otherPos.lng.toFixed(2) }}
+              Latitude: {{ otherPos.lat.toFixed(4) }}, Longitude:
+              {{ otherPos.lng.toFixed(4) }}
             </span>
             <span v-else>Click the map to select a position</span>
           </div>

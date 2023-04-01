@@ -3,7 +3,7 @@ import { Mutations } from './MapMutations.js';
 //import { Getters } from './ParkingGetters.js';
 
 
-const currentCoords = { latitude: 32, longitude: 34 }
+const currentCoords = { latitude: 32.06, longitude: 34.8 }
 
 // const selectedParking = {
 //      id: "", 
