@@ -133,18 +133,21 @@ watch(() => categories.value, async (newA, prevA) => {
     const connectedCategories = categories.value.filter(category => isConnectedArray.value.includes(category.id))
     parkingCategories.value = connectedCategories
     var today = new Date();
+    var found=false;
     const hour = today.getHours();
     const day = today.getDay();
     parkingCategoriesSelect.value = connectedCategories.map(cat => {
       const catSelect = cat
       catSelect.isMatch = parseInt(cat.from) <= hour && parseInt(cat.to) > hour && day === cat.day
+      if(!found)
+        found=catSelect.isMatch
       return catSelect;
     })
     console.log(parkingCategoriesSelect.value)
-    if (parkingCategoriesSelect.value.length == 0) {
+    if(!found) {
       parkingCategoriesSelect.value = connectedCategories.map(cat => {
         const catSelect = cat
-        catSelect.isMatch = parseInt(cat.from) <= hour && parseInt(cat.to) > hour && cat.day === -1
+        catSelect.isMatch = (parseInt(cat.from) <= hour && parseInt(cat.to) > hour) && (cat.day === -1 ||cat.day === "")
         return catSelect;
       })
     }
