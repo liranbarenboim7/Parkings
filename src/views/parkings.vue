@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated, reactive,computed,watch } from 'vue'
+import { ref, onMounted, onUpdated, reactive,computed,watch ,toRaw} from 'vue'
 import { db } from '@/firebaseDB'
 import {
   collection, onSnapshot,
@@ -46,7 +46,7 @@ const mapDiv = ref(null)
 let map = ref(null)
 let mapZoom = ref(15)
 let clickListener = null
-
+let markers = ref([])
 const buttonText = ref('add')
 
 const auth = getAuth();
@@ -70,6 +70,8 @@ onAuthStateChanged(auth, (user) => {
 const categories = ref([])
 const parkingCategories = ref([])
 const currPos = computed(() => store.state.gMapModule.currentCoords);
+const formParkingId = computed(() => store.state.parkingModule.selectedParking.id);
+const formParking = computed(() => store.state.parkingModule.selectedParking);
 let myLatlng = { lat: 31.85, lng: 34.76 };
 let line = null
 watch([map,  otherPos], () => {
@@ -88,6 +90,14 @@ watch( currPos, () => {
       })
 
 })
+watch(() => formParkingId.value, async () => {
+  deleteMarkers()
+  const pos = {lat:parseFloat(formParking.value.latitude),lng:parseFloat(formParking.value.longitude)}
+  addMarker(pos, map.value)
+ 
+    // map.value.setZoom(12);
+    map.value.setCenter(pos);
+});
 onMounted(async () => {
 
   if (auth.currentUser) {
@@ -118,7 +128,28 @@ function updateSelection() {
 
 }
 
+function setMapOnAll() {
+  for (let i = 0; i < markers.value.length; i++) {
+    toRaw(markers.value[i]).setMap(map.value);
+  }
+}
+function hideMarkers() {
+  setMapOnAll(null);
+}
+function addMarker(position, map) {
+  const marker = new google.maps.Marker({
+    position,
+    map
+  });
 
+  markers.value.push(marker);
+}
+function deleteMarkers() {
+  for (let i = 0; i < markers.value.length; i++) {
+    toRaw(markers.value[i]).setMap(null);
+  }
+  markers.value = [];
+}
 
 </script>
 

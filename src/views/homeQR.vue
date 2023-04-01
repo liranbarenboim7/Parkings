@@ -124,7 +124,7 @@ watch(() => parkings.value, async (newA, prevA) => {
     map.value.setZoom(14);
 
 });
-watch([formParking.value.id], async () => {
+watch(() => formParkingId.value, async () => {
   addMarker({lat:parseFloat(formParking.value.latitude),lng:parseFloat(formParking.value.longitude)}, map.value)
 });
 watch(() => categories.value, async (newA, prevA) => {
