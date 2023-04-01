@@ -6,7 +6,8 @@
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
             <a href="#" class="logo">
-              <img src="../assets/logo.png" width="50" height="50" style="position:relative;left:3px;top:-20px" alt="Softy Pinko" />
+              <img src="../assets/logo.png" width="50" height="50" style="position:relative;left:3px;top:-20px"
+                alt="Softy Pinko" />
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
@@ -25,17 +26,31 @@
       </div>
     </div>
   </header>
+
+
   <div class="container" style="position:relative;left:8vw;top:22vh;width:180% ; max-height: 90vh">
+
     <div class="row">
       <div class="col md-6">
+        <div  v-for="parking in parkings">
+     
+   
+  
+              <div class="column">
+                {{ parking.address }}
+              </div>
+
+
+
+        </div>
 
 
 
         <div class="text-left" style="position:relative;top:200px;height: 20vh">
-          <div class="m-auto">
+          <div class="m-auto" v-if="currPos ">
             <h4>Your Position</h4>
-            Latitude: {{ currPos.lat.toFixed(2) }}, Longitude:
-            {{ currPos.lng.toFixed(2) }}
+            Latitude: {{ currPos.latitude.toFixed(2) }}, Longitude:
+            {{ currPos.longitude.toFixed(2) }}
           </div>
           <div class="m-auto">
             <h4>Distance</h4>
@@ -56,75 +71,113 @@
       </div>
     </div>
 
-
   </div>
+
 </template>
 <script setup>
-import { computed, ref, onMounted, onUnmounted, watch,toRaw } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch, toRaw } from 'vue'
 import { useGeolocation } from '../geo/useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
-const { coords } = useGeolocation()
-const currPos = computed(() => ({
-  lat: coords?.value?.latitude,
-  lng: coords?.value?.longitude
-}))
+import { useStore } from "vuex";
+import { useRoute, useRouter } from 'vue-router'
+const isSupported = 'navigator' in window && 'geolocation' in navigator
+const route = useRoute();
+const store = useStore()
+// const currPos = computed(() => ({
+//   lat: coords?.value?.latitude,
+//   lng: coords?.value?.longitude
+// }))
+const currPos = computed(() => store.state.gMapModule.currentCoords);
+const parkings = computed(() => store.state.parkingModule.parkingsData);
+
 const otherPos = ref(null)
 const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
 const mapDiv = ref(null)
 const marker = ref(null)
 let markers = ref([]);
-
+let myLatlng = { lat: 31.85, lng: 34.76 };
 let map = ref(null)
 let clickListener = null
+
 onMounted(async () => {
+  await store.dispatch("parkingModule/getParkings", {});
   await loader.load()
   map.value = new google.maps.Map(mapDiv.value, {
-    center: currPos.value,
+    center: myLatlng,
     zoom: 12
   })
- 
+
   clickListener = map.value.addListener(
     'click',
     ({ latLng: { lat, lng } }) =>
       (otherPos.value = { lat: lat(), lng: lng() })
   )
+  if (isSupported)
+  {
+      var watcher = await navigator.geolocation.watchPosition(
+        async (position) => {
+          var coords = position.coords
+          await store.dispatch("gMapModule/UpdateLocation", {
+            currLocation: coords,
+          });
+        })
+  }
 })
 onUnmounted(async () => {
   if (clickListener) clickListener.remove()
 })
 let line = null
-watch([  currPos, otherPos],async () => {
-  await loader.load()
-  if(currPos.value)
-  {
-    // map.value = new google.maps.Map(mapDiv.value, {
-    // center: currPos.value,
-    // zoom: 12
-  //})
+watch([otherPos], async () => {
+  //await loader.load()
+  // if(currPos.value && map && map.value)
+  // {
+  //   myLatlng.lat = currPos.value.latitude
+  //   myLatlng.lng = currPos.value.longitude
+  //  // map.value.setZoom(12);
+  //   map.value.setCenter(myLatlng );
+
+  // }
+  // if (line) line.setMap(null)
+  if (map.value && otherPos.value != null) {
+    deleteMarkers()
+    addMarker(otherPos.value, map.value)
+    // The marker, positioned at Uluru
+
   }
- // if (line) line.setMap(null)
-  if (map.value && otherPos.value != null)
-  {
-      deleteMarkers()
-      addMarker(otherPos.value,map.value)
-      // The marker, positioned at Uluru
- 
-  }
-    // line = new google.maps.Polyline({
-    //   path: [currPos.value, otherPos.value],
-    //   map: map.value
-    // })
+  // line = new google.maps.Polyline({
+  //   path: [currPos.value, otherPos.value],
+  //   map: map.value
+  // })
 })
+
+watch([parkings], async () => {
+  //await loader.load()
+  if (parkings && parkings.value) {
+    parkings.value.forEach(prk => {
+      addMarker({lat:parseFloat(prk.latitude),lng:parseFloat(prk.longitude)}, map.value)
+    });
+    myLatlng.lat = currPos.value.latitude
+    myLatlng.lng = currPos.value.longitude
+    // map.value.setZoom(12);
+    map.value.setCenter(myLatlng);
+
+  }
+
+  // line = new google.maps.Polyline({
+  //   path: [currPos.value, otherPos.value],
+  //   map: map.value
+  // })
+})
+
 function setMapOnAll() {
-  for (let i = 0; i < markers.value.length; i++) 
-  {
+  for (let i = 0; i < markers.value.length; i++) {
     toRaw(markers.value[i]).setMap(map.value);
   }
 }
-function hideMarkers(){
+function hideMarkers() {
   setMapOnAll(null);
 }
-function addMarker(position,map) {
+function addMarker(position, map) {
   const marker = new google.maps.Marker({
     position,
     map
@@ -133,8 +186,7 @@ function addMarker(position,map) {
   markers.value.push(marker);
 }
 function deleteMarkers() {
-  for (let i = 0; i < markers.value.length; i++) 
-  {
+  for (let i = 0; i < markers.value.length; i++) {
     toRaw(markers.value[i]).setMap(null);
   }
   markers.value = [];

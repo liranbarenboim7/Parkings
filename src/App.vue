@@ -4,8 +4,11 @@
 import NavBar from "./components/NavBar.vue";
 import { useRoute, useRouter } from 'vue-router'
 import {computed} from 'vue'
+import { useStore } from "vuex";
 const route=useRoute();
 const path = computed(() =>route.path)
+const store = useStore()
+
 </script>
 
 <template>

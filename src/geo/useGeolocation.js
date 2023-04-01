@@ -1,6 +1,6 @@
 import { onUnmounted, onMounted, reactive,ref } from 'vue'
 import { useStore } from "vuex";
-export function useGeolocation() {
+export async function useGeolocation() {
   const coords = ref({ latitude: 0, longitude: 0 })
   const isSupported = 'navigator' in window && 'geolocation' in navigator
   const store = useStore();
