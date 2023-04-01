@@ -35,21 +35,20 @@ import router from '../router'
 import ParkingDetails from "../components/ParkingDetails.vue"
 import ParkingList from "../components/parkinglist.vue"
 import ParkingCategory from "../components/parkingcategory.vue"
-import { Loader } from '@googlemaps/js-api-loader'
-import { useGeolocation } from '../geo/useGeolocation'
-const loader = new Loader({ apiKey: 'AIzaSyAmIvnZ49fJwnY0xYQmwbv0hebHejPnFPE' })
+import { loader } from '../firebaseDB/index'
+import { useStore } from "vuex";
+
 const parkings = ref([
 
 ])
-
+const store = useStore()
 const mapDiv = ref(null)
 let map = ref(null)
 let mapZoom = ref(15)
 let clickListener = null
 
 const buttonText = ref('add')
-const parkingsCollectionRef = collection(db, 'parkings')
-const categoriesCollectionRef = collection(db, 'categories')
+
 const auth = getAuth();
 const otherPos = ref(null)
 function isValidFirestoreId(id) {
@@ -70,12 +69,8 @@ onAuthStateChanged(auth, (user) => {
 
 const categories = ref([])
 const parkingCategories = ref([])
-const { coords } = useGeolocation()
-const currPos = computed(() => ({
-  
-  lat: coords?.value?.latitude,
-  lng: coords?.value?.longitude
-}))
+const currPos = computed(() => store.state.gMapModule.currentCoords);
+let myLatlng = { lat: 31.85, lng: 34.76 };
 let line = null
 watch([map,  otherPos], () => {
 
@@ -96,8 +91,8 @@ watch( currPos, () => {
 onMounted(async () => {
 
   if (auth.currentUser) {
-    getParkings()
-    getCategories()
+   // getParkings()
+   // getCategories()
 
   }
   else {
@@ -105,8 +100,8 @@ onMounted(async () => {
   }
   await loader.load()
       map.value = new google.maps.Map(mapDiv.value, {
-        center: currPos.value,
-        zoom: mapZoom.value
+        center: myLatlng,
+        zoom: 14
       })
       clickListener = map.value.addListener(
         'click',
@@ -116,13 +111,6 @@ onMounted(async () => {
 })
 
 
-let address = ref('')
-let side = ref('')
-let category = ref('')
-let newId = ref('')
-
-// const categories = reactive([])
-// const parkingCategories = reactive([])
 
 function updateSelection() {
 
@@ -130,91 +118,7 @@ function updateSelection() {
 
 }
 
-/// Getting categories for combobox
-function GetCategoriesFromParking(documentId) {
-  const parkingCategoriesRef = doc(collection(db, 'parkings'), documentId)
-    .collection('categories');
-  onSnapshot(parkingCategoriesRef, (querySnapshot) => {
-    const subcollection = [];
-    querySnapshot.forEach((doc) => {
-      subcollection.push({ id: doc.id, ...doc.data() });
-    });
-    parkingCategories.value = subcollection;
-  });
-}
-function getCategories() {
-  onSnapshot(categoriesCollectionRef, (querySnapshot) => {
-    const fbTodos = []
-    querySnapshot.forEach((doc) => {
-      const todo = {
-        id: doc.id,
-        category: doc.data().category,
-      }
-      fbTodos.push(todo)
-    })
-    categories.value = fbTodos
-  })
-}
 
-
-//Getting parking
-function getParkings() {
-  onSnapshot(parkingsCollectionRef, (querySnapshot) => {
-    const fbTodos = []
-    querySnapshot.forEach((doc) => {
-      const todo = {
-        id: doc.id,
-        address: doc.data().address,
-        side: doc.data().side,
-        category: doc.data().category,
-      }
-      fbTodos.push(todo)
-    })
-    parkings.value = fbTodos
-  })
-}
-
-
-function updateParking(id) {
-  const frankDocRef = doc(db, "parkings", id);
-  setDoc(frankDocRef, {
-    address: address.value,
-    side: side.value,
-    category: category.value,
-
-  });
-
-}
-
-
-
-const deleteTodo = id => {
-  deleteDoc(doc(parkingsCollectionRef, id))
-}
-
-const toggleDone = id => {
-  const index = parkings.value.findIndex(park => park.id === id)
-  category.value = parkings.value[index].category
-  newId.value = id
-  address.value = parkings.value[index].address
-  side.value = parkings.value[index].side
-
-  // updateDoc(doc(parkingsCollectionRef, id), {
-  //    done: !parkings.value[index].done
-  //  });
-}
-
-const getParking = (id) => {
-  db.collection('parkings').doc(id).get().then(function (doc) {
-    if (doc.exists) {
-      console.log("Document data:", doc.data());
-    } else {
-      console.log("No such document!");
-    }
-  }).catch(function (error) {
-    console.log("Error getting document:", error);
-  })
-}
 
 </script>
 

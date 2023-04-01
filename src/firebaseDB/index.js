@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
+import { Loader } from '@googlemaps/js-api-loader'
 const prod = true
 const firebaseConfig = {
   apiKey: "AIzaSyAnmGiTSp9mwB9ENrnLhlAor-NWP7HtxeI",
@@ -33,7 +34,7 @@ const firebaseConfigparkingsCity = {
 const app = prod?initializeApp(firebaseConfigparkingsCity):initializeApp(firebaseConfig)
 const db = getFirestore(app)
 const auth = getAuth(app)
-
+const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
 export {
-    db,auth,app
+    db,auth,app,loader
 }

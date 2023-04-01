@@ -77,7 +77,7 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted, watch, toRaw } from 'vue'
 import { useGeolocation } from '../geo/useGeolocation'
-import { Loader } from '@googlemaps/js-api-loader'
+import { loader } from '../firebaseDB/index'
 import { useStore } from "vuex";
 import { useRoute, useRouter } from 'vue-router'
 const isSupported = 'navigator' in window && 'geolocation' in navigator
@@ -91,7 +91,7 @@ const currPos = computed(() => store.state.gMapModule.currentCoords);
 const parkings = computed(() => store.state.parkingModule.parkingsData);
 
 const otherPos = ref(null)
-const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
+//const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
 const mapDiv = ref(null)
 const marker = ref(null)
 let markers = ref([]);

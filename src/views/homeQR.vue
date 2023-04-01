@@ -37,7 +37,7 @@
 
 <script setup>
 import { ref, onMounted, onUpdated, computed, reactive, watch } from "vue";
-import { Loader } from '@googlemaps/js-api-loader'
+import { loader } from '../firebaseDB/index'
 import { useStore } from "vuex";
 import {
   collection, onSnapshot,
@@ -45,7 +45,7 @@ import {
   query, orderBy, limit, setDoc, getDoc
 } from "firebase/firestore"
 import { useRoute, useRouter } from 'vue-router'
-const loader = ref(null);
+
 const store = useStore();
 const isConnectedArray = reactive([])
 const formParking = computed(() => store.state.parkingModule.selectedParking);
@@ -68,14 +68,14 @@ const route = useRoute()
 const router = useRouter()
 //https://medium.com/geekculture/vue-js-parameters-of-router-are-undefined-a21accc23c2e
 onMounted(async () => {
-  loader.value = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
+ 
   urlId.value = route.query.id;
   console.log('Before Router Preparation', route.name);
   await router.isReady();
   console.log('After Router Preparation', route.name + route.query.id);
   await getParkings()
   await getCategories()
-  await loader.value.load()
+  await loader.load()
   map.value = new google.maps.Map(mapDiv.value, {
     center: myLatlng,
     zoom: 12
