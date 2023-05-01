@@ -1,12 +1,23 @@
 <template>
   <div class="app-pages container card">
 
-    <div class="row title">
+    <div class="row">
+      <div class="row title right">
+      <div class="col md-12">
      {{ formParking.address }} - {{ formParking.side }}
+      </div>
     </div>
+      <div class="col md-12 right-disclamer">
+        לתשומת ליבך!
+איזי סיטי נועדה להקל עליך להבין את כללי החניה. החוקים של החניה הינם בטבלה מטה. החלק המסומן בצבע אדום הוא הכלל שחל עכשיו – מראה האם מותר או אסור לחנות כאן. 
+לתשומת ליבך: איזי סיטי פועלת בתקופת בדיקה ויתכנו טעויות ואי דיוקים. אין להסתמך על האמור מטה לצורך קבלת החלטה. 
+נשמח לקבל ממך משוב, ביקורת, דעה או רעיון לשיפור. ניתן לכתוב לנו בתיבת הטקסט בתחתית הדף.
+      </div>
+    </div>
+
     <div class="row">
       <div class="col md-6">
-        <div class="title">כלליי חניה</div>
+        <div class="title right">כלליי חניה</div>
 
         <div class="col md-12">
 
@@ -23,10 +34,10 @@
         </div>
 
       </div>
-      <div class="col md-6">
+      <!-- <div class="col md-6">
         <div ref="mapDiv" style="position relative;width: 100%; height: 70vh" />
 
-      </div>
+      </div> -->
     </div>
   
 
@@ -76,10 +87,10 @@ onMounted(async () => {
   await getParkings()
   await getCategories()
   await loader.load()
-  map.value = new google.maps.Map(mapDiv.value, {
-    center: myLatlng,
-    zoom: 12
-  })
+  // map.value = new google.maps.Map(mapDiv.value, {
+  //   center: myLatlng,
+  //   zoom: 12
+  // })
 
   //select parki
 })
@@ -203,6 +214,12 @@ tr {
 .right {
   text-align: right;
   height: 50px;
+  vertical-align: bottom;
+}
+.right-disclamer {
+  text-align: right;
+  font-size: 0.875em;
+  font-weight: bold;
   vertical-align: bottom;
 }
 
