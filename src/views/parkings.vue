@@ -2,7 +2,8 @@
   <div class="app-pages">
     <div class="row main">
       <div class="col md-4">
-        <div ref="mapDiv" style="position relative;width: 100%; height: 70vh" />
+        <div ref="mapDiv" style="position relative;width: 100%; height: 50vh" />
+        <div id="streetDev" ref="streetDiv" style="position relative;width: 100%; height: 50vh" />
       </div>
  
 
@@ -43,6 +44,8 @@ const parkings = ref([
 ])
 const store = useStore()
 const mapDiv = ref(null)
+const panorama = ref(null)
+const streetDiv = ref(null)
 let map = ref(null)
 let mapZoom = ref(15)
 let clickListener = null
@@ -97,6 +100,7 @@ watch(() => formParkingId.value, async () => {
  
     // map.value.setZoom(12);
     map.value.setCenter(pos);
+    updateStreet(pos)
 });
 onMounted(async () => {
 
@@ -118,10 +122,26 @@ onMounted(async () => {
         ({ latLng: { lat, lng } }) =>
           (otherPos.value = { lat: lat(), lng: lng() })
       )
+    //  updateStreet()
 })
 
 
+function updateStreet(pos) {
+  const fenway = { lat: 32.09, lng: 34.81 };
+  panorama.value = new google.maps.StreetViewPanorama(
+        document.getElementById("streetDev") ,
+    {
+      position: pos,
+      pov: {
+        heading: 34,
+        pitch: 10,
+      },
+    }
+  );
 
+  map.value.setStreetView(panorama.value);
+
+}
 function updateSelection() {
 
   parkingCategories.value.Add(category)
