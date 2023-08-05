@@ -26,9 +26,33 @@
       </div>
     </div>
   </header>
+	<section id="service" class="our_services">
+		<div class="container">
+      <div class="row" >
+      <div class="col-lg-6 col-sm-6 col-xs-6" style="height:70vh;overflow-y:auto">
+			<div class="row" v-for="parking in parkings" v-bind:key = parking.id>
+				<div class="col-lg-12 col-sm-12 col-xs-12" data-aos="fade-up">
+					<div class="service">
+						<div class="icon"><i class="fa fa-home" @click="showParking()"></i></div>
+						<h4>Location</h4>
+						<p>         {{ parking.address }}</p>
+					</div>
+				</div><!-- END COL -->
 
+			</div>
+      </div>
+      <div class="col-lg-6 col-sm-6 col-xs-6" data-aos="fade-up">
+					<!-- <div class="map" style="width:100%;height:100%" id="map"> -->
+            <div ref="mapDiv" style="width:100%;height:100%" >
+            </div>
+					
+				</div><!-- END ROW -->
+      </div><!-- END MAIN ROW -->
 
-  <div class="container" style="position:relative;left:8vw;top:22vh;width:180% ; max-height: 90vh">
+		</div><!-- END CONTAINER -->
+	</section>
+
+  <!-- <div class="container" style="position:relative;left:8vw;top:22vh;width:180% ; max-height: 90vh">
 
     <div class="row">
       <div class="col md-6">
@@ -71,7 +95,7 @@
       </div>
     </div>
 
-  </div>
+  </div> -->
 
 </template>
 <script setup>
@@ -95,6 +119,8 @@ const otherPos = ref(null)
 const mapDiv = ref(null)
 const marker = ref(null)
 let markers = ref([]);
+const formParkingId = computed(() => store.state.parkingModule.selectedParking.id);
+const formParking = computed(() => store.state.parkingModule.selectedParking);
 let myLatlng = { lat: 31.85, lng: 34.76 };
 let map = ref(null)
 let clickListener = null
@@ -126,29 +152,42 @@ onMounted(async () => {
 onUnmounted(async () => {
   if (clickListener) clickListener.remove()
 })
-let line = null
-watch([otherPos], async () => {
-  //await loader.load()
-  // if(currPos.value && map && map.value)
-  // {
-  //   myLatlng.lat = currPos.value.latitude
-  //   myLatlng.lng = currPos.value.longitude
-  //  // map.value.setZoom(12);
-  //   map.value.setCenter(myLatlng );
+async function showParking() {
+
+  // if (map.value && otherPos.value != null) {
+  //   deleteMarkers()
+  //   addMarker(otherPos.value, map.value)
+  //   // The marker, positioned at Uluru
 
   // }
-  // if (line) line.setMap(null)
-  if (map.value && otherPos.value != null) {
-    deleteMarkers()
-    addMarker(otherPos.value, map.value)
-    // The marker, positioned at Uluru
+}
+watch(() => formParkingId.value, async () => {
+  deleteMarkers()
+  const pos = {lat:parseFloat(formParking.value.latitude),lng:parseFloat(formParking.value.longitude)}
+  addMarker(pos, map.value)
+ 
+    // map.value.setZoom(12);
+    map.value.setCenter(pos);
+    updateStreet(pos)
+});
+let line = null
+function updateStreet(pos) {
+  const fenway = { lat: 32.09, lng: 34.81 };
+  panorama.value = new google.maps.StreetViewPanorama(
+        document.getElementById("streetDev") ,
+    {
+      position: pos,
+      pov: {
+        heading: 34,
+        pitch: 10,
+      },
+    }
+  );
 
-  }
-  // line = new google.maps.Polyline({
-  //   path: [currPos.value, otherPos.value],
-  //   map: map.value
-  // })
-})
+  map.value.setStreetView(panorama.value);
+
+}
+ 
 
 watch([parkings], async () => {
   //await loader.load()
@@ -159,7 +198,7 @@ watch([parkings], async () => {
     myLatlng.lat = currPos.value.latitude
     myLatlng.lng = currPos.value.longitude
     // map.value.setZoom(12);
-    map.value.setCenter(myLatlng);
+    //map.value.setCenter(myLatlng);
 
   }
 

@@ -14,7 +14,7 @@ const store = useStore()
 <template>
  
   <div class="top-bar">
-    <NavBar title="PandoLogic" v-if="path !=='/'&& path !=='/parkingQR'" />
+    <NavBar title="EasyCity" v-if="path !=='/'&& path !=='/parkingQR'" />
   </div>
 
   <router-view />

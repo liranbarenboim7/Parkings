@@ -77,22 +77,22 @@ const formParkingId = computed(() => store.state.parkingModule.selectedParking.i
 const formParking = computed(() => store.state.parkingModule.selectedParking);
 let myLatlng = { lat: 31.85, lng: 34.76 };
 let line = null
-watch([map,  otherPos], () => {
+// watch([map,  otherPos], () => {
 
-  if (line) line.setMap(null)
-  if (map.value && otherPos.value != null)
-    line = new google.maps.Polyline({
-      path: [currPos.value, otherPos.value],
-      map: map.value
-    })
-})
-watch( currPos, () => {
-  map.value = new google.maps.Map(mapDiv.value, {
-        center: currPos.value,
-        zoom: mapZoom.value
-      })
+//   if (line) line.setMap(null)
+//   if (map.value && otherPos.value != null)
+//     line = new google.maps.Polyline({
+//       path: [currPos.value, otherPos.value],
+//       map: map.value
+//     })
+// })
+// watch( currPos, () => {
+//   map.value = new google.maps.Map(mapDiv.value, {
+//         center: currPos.value,
+//         zoom: mapZoom.value
+//       })
 
-})
+// })
 watch(() => formParkingId.value, async () => {
   deleteMarkers()
   const pos = {lat:parseFloat(formParking.value.latitude),lng:parseFloat(formParking.value.longitude)}
@@ -122,6 +122,11 @@ onMounted(async () => {
         ({ latLng: { lat, lng } }) =>
           (otherPos.value = { lat: lat(), lng: lng() })
       )
+      setTimeout(() => {
+        const fenway = { lat: 32.09, lng: 34.81 };
+        updateStreet(fenway)
+}, 1000);
+
     //  updateStreet()
 })
 
