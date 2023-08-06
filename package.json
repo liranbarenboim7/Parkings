@@ -1,6 +1,6 @@
 {
   "name": "vue3-firebase9",
-  "version": "2.1.1",
+  "version": "2.2.2",
   "private": true,
   "scripts": {
     "dev": "vite",
