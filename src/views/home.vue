@@ -220,5 +220,6 @@ const distance = computed(() =>
   background-color:yellow;
   color:blue;
 }
+
 </style>
 

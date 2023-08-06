@@ -127,11 +127,11 @@ onAuthStateChanged(auth, (user) => {
 
 
 onMounted(async () => {
-  if (auth.currentUser) {
+  // if (auth.currentUser) {
 
-  } else {
-    router.push("/Signin");
-  }
+  // } else {
+  //   router.push("/Signin");
+  // }
 });
 
 

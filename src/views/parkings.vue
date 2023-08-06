@@ -104,14 +104,14 @@ watch(() => formParkingId.value, async () => {
 });
 onMounted(async () => {
 
-  if (auth.currentUser) {
-   // getParkings()
-   // getCategories()
+  // if (auth.currentUser) {
+  //  // getParkings()
+  //  // getCategories()
 
-  }
-  else {
-    router.push('/Signin')
-  }
+  // }
+  // else {
+  //   router.push('/Signin')
+  // }
   await loader.load()
       map.value = new google.maps.Map(mapDiv.value, {
         center: myLatlng,

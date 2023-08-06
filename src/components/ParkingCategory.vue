@@ -75,13 +75,13 @@ const formParkingId = computed(() => store.state.parkingModule.selectedParking.i
 const categories = computed(() => store.state.categoryModule.categoryData)
 onMounted(async () => {
 
-  if (auth.currentUser) {
+ // if (auth.currentUser) {
     await store.dispatch('categoryModule/getCategories', {})
     await store.dispatch('parkingCategoryModule/getParkingCategory', { parkingId: formParkingId })
-  }
-  else {
-    router.push('/Signin')
-  }
+  // }
+  // else {
+  //   router.push('/Signin')
+  // }
 
 })
 //html items with checkbox fires change event write event handler function which checks is check box selected call to method methA else call method methB

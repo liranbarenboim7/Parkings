@@ -95,7 +95,7 @@ a,
     }
     .border{
     	width: 80%;		
-      
+      border-radius: 25px;
       position: relative;	
       box-shadow: 5px -5px 5px 0px #4b3452;
       margin-left:10%;

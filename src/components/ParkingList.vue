@@ -95,11 +95,11 @@ onAuthStateChanged(auth, (user) => {
 });
 
 onMounted(async () => {
-  if (auth.currentUser) {
-    await store.dispatch("parkingModule/getParkings", {});
-  } else {
-    router.push("/Signin");
-  }
+  // if (auth.currentUser) {
+     await store.dispatch("parkingModule/getParkings", {});
+  // } else {
+  //   router.push("/Signin");
+  // }
 });
 
 const addParking = async () => {
