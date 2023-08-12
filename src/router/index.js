@@ -6,7 +6,7 @@ import homeQR  from '../views/homeQR.vue';
 import Register  from '../views/Register.vue';
 import Signin  from '../views/Signin.vue';
 import SignOut from '../views/SignOut.vue';
-import home from '../views/home.vue';
+import home from '../views/mhome.vue';
 import pos from '../views/pos.vue';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 

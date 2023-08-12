@@ -12,23 +12,17 @@ const store = useStore()
 </script>
 
 <template>
- 
+ 	<div class="wrapper">
+    <router-view />
+  </div>
   <div class="top-bar">
     <NavBar title="EasyCity" v-if="path !=='/'&& path !=='/parkingQR'" />
   </div>
 
-  <router-view />
+  
 
 </template>
 
 <style>
-@import 'bulma\css\bulma.min.css';
-.top-bar {
-  margin: auto;
-  padding: 0px;
-  position: fixed;
-  top: 0px;
-  width: 90%;
-  background-color: blanchedalmond;
-}
+
 </style>
