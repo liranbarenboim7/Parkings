@@ -2,11 +2,7 @@
 
 
 <ul class="social">
-  <li><a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"><img src="img/facebook.png" alt=""></a></li>
-  <li><a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"><img src="img/twitter.png" alt=""></a></li>
-  <li><a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"><img src="img/youtube.png" alt=""></a></li>
-  <li><a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"><img src="img/instagram.png" alt=""></a></li>
-  <li><a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"><img src="img/linkedin.png" alt=""></a></li>
+  <NavBar title="EasyCity" v-if="path !=='/parkingQR'" />
 </ul>
 
 <div class="logo">
@@ -77,9 +73,12 @@ import { useGeolocation } from '../geo/useGeolocation'
 import { loader } from '../firebaseDB/index'
 import { useStore } from "vuex";
 import { useRoute, useRouter } from 'vue-router'
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import NavBar from "../components/NavBar.vue";
 const isSupported = 'navigator' in window && 'geolocation' in navigator
 const route = useRoute();
 const store = useStore()
+const auth = getAuth();
 // const currPos = computed(() => ({
 //   lat: coords?.value?.latitude,
 //   lng: coords?.value?.longitude
@@ -102,6 +101,22 @@ const panorama = ref(null)
 const streetDiv = ref(null)
 let map = ref(null)
 let mapZoom = ref(15)
+const isAuth = ref(false);
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    isAuth.value = true;
+    // ...
+  } else {
+    isAuth.value = false;
+    // User is signed out
+    router.push('SignIn')
+    
+  }
+});
+
 onMounted(async () => {
   await store.dispatch("parkingModule/getParkings", {});
   await loader.load()

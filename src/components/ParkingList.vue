@@ -13,37 +13,31 @@
   <div class="card parking-list">
     <div class="card" v-for="parking in parkings">
       <div class="card-content">
-        <div class="content">
-          <div class="columns is-mobile is-vcentered">
 
-            <div class="column">
-              {{ parking.address }}
-            </div>
 
-            <div class="column is-5 has-text-right">
-              <button class="button" @click="selectParking(parking.id)">
-                &check;
-              </button>
-              <button
-                class="button is-danger ml-2"
-                @click="deleteParking(parking.id)"
-              >
-                &cross;
-              </button>
-              <button
-                class="btn btn-primary ml-2"
-                @click="viewParking(parking.id)"
-              >
-                &#9871;
-              </button>
-              
-            </div>
-          </div>
+
+        <div class="three-col">
+          {{ parking.address }}
+        </div>
+
+        <div class="three-col">
+          <button class="btn btn-primary" @click="selectParking(parking.id)">
+            &check;
+          </button>
+
+          <button class="btn btn-primary ml-2" @click="viewParking(parking.id)">
+            &#9871;
+          </button>
+
+        </div>
+        <div class="three-col">
+          <button class="button is-danger ml-2" @click="deleteParking(parking.id)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 <script setup>
 import { ref, onMounted, onUpdated, computed, reactive } from "vue";
@@ -96,7 +90,7 @@ onAuthStateChanged(auth, (user) => {
 
 onMounted(async () => {
   // if (auth.currentUser) {
-     await store.dispatch("parkingModule/getParkings", {});
+  await store.dispatch("parkingModule/getParkings", {});
   // } else {
   //   router.push("/Signin");
   // }
@@ -107,7 +101,7 @@ const addParking = async () => {
 };
 
 const viewParking = (id) => {
-router.push({ path: '/parkingQR', query: { id: id } })
+  router.push({ path: '/parkingQR', query: { id: id } })
 }
 const deleteParking = async (id) => {
   await store.dispatch("parkingModule/DeleteParking", { parkingId: id });
@@ -131,9 +125,9 @@ const selectParking = async (id) => {
 .line-through {
   text-decoration: line-through;
 }
-.parking-list
-{
-  height:80vh;
+
+.parking-list {
+  height: 80vh;
   overflow-y: auto;
 }
 </style>

@@ -12,13 +12,14 @@ const store = useStore()
 </script>
 
 <template>
- 	<div class="wrapper">
-    <router-view />
-  </div>
-  <div class="top-bar">
+ <div class="top-bar">
     <NavBar title="EasyCity" v-if="path !=='/'&& path !=='/parkingQR'" />
   </div>
 
+ 	<div class="wrapper">
+    <router-view />
+  </div>
+ 
   
 
 </template>
