@@ -34,18 +34,18 @@ onAuthStateChanged(auth, (user) => {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto ">
         <li class="nav-item">
-         <router-link :to="'/Parkings'" custom v-slot="{ navigate, href }">
+         <router-link  v-if="isAuth" :to="'/Parkings'" custom v-slot="{ navigate, href }">
           <a :href="href" @click.stop="navigate">Parkings</a>
         </router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="'/Categories'" custom v-slot="{ navigate, href }">
+          <router-link  v-if="isAuth" :to="'/Categories'" custom v-slot="{ navigate, href }">
             <a :href="href" @click.stop="navigate">Categories</a>
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="'/register'" custom v-slot="{ navigate, href }">
-            <a :href="href" @click.stop="navigate">Register</a>
+          <router-link  v-if="isAuth" :to="'/register'" custom v-slot="{ navigate, href }">
+            <a :href="href" @click.stop="navigate">Register User</a>
           </router-link>
           </li>
           <li class="nav-item">

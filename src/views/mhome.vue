@@ -1,10 +1,5 @@
 <template>
 
-
-<ul class="social">
-  <NavBar title="EasyCity" v-if="path !=='/parkingQR'" />
-</ul>
-
 <div class="logo">
   <a href="#" target="_blank"><img src="../assets/logo.png" alt=""></a>
 </div>
@@ -32,7 +27,7 @@
 
 <div class="three-col">
   <h2>Ecommerce</h2>
-  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"><img src="img/1.png" alt=""></a>
+  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
   <p>There are many different email clients to consider when determining the width of your design.</p>
   <div class="button-holder">
     <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Email Course</a>
@@ -41,7 +36,7 @@
 
 <div class="three-col">
   <h2>Web Design</h2>
-  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"><img src="img/2.png" alt=""></a>
+  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
   <p>There are many different email clients to consider when determining the width of your design.</p>
   <div class="button-holder">
     <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Learn More</a>
@@ -50,7 +45,7 @@
 
 <div class="three-col">
   <h2>Email Dev</h2>
-  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"><img src="img/3.png" alt=""></a>
+  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
   <p>There are many different email clients to consider when determining the width of your design.</p>
   <div class="button-holder">
     <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">HTML Email</a>
@@ -73,6 +68,7 @@ import { useGeolocation } from '../geo/useGeolocation'
 import { loader } from '../firebaseDB/index'
 import { useStore } from "vuex";
 import { useRoute, useRouter } from 'vue-router'
+import router from '../router'
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import NavBar from "../components/NavBar.vue";
 const isSupported = 'navigator' in window && 'geolocation' in navigator
@@ -112,7 +108,7 @@ onAuthStateChanged(auth, (user) => {
   } else {
     isAuth.value = false;
     // User is signed out
-    router.push('SignIn')
+    router.push('/signin')
     
   }
 });
