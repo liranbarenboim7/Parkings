@@ -1,66 +1,122 @@
 <template>
-
-<div class="logo">
-  <a href="#" target="_blank"><img src="../assets/logo.png" alt=""></a>
-</div>
-
-<div class="banner">
-<div ref="mapDiv" style="width:100%;height: 40vh">
-
-</div>
-</div>
-
-<div class="two-col">
-  <div id="streetDev" ref="streetDiv" style="width: 100%; height: 35vh" >
-  </div><!-- END col -->
-</div>
-
-<div class="two-col">
-  <h2>Latest Blog Post</h2>
-  <p>There are many different email clients to consider when determining the width of your design but one of the most commonly used is Gmail for the web for HTML Email.</p>
-  <div class="button-holder">
-    <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Get Started</a>
+  <div class="logo two-col">
+    <a href="#" target="_blank"><img src="../assets/logo.png" alt=""></a>
   </div>
-</div>
 
-<div class="line"></div>
+  <div class="pac-card " id="pac-card">
+   
+      <div id="title">Search the place</div>
+      <!-- <div id="type-selector" class="pac-controls">
+        <ul class="social" style="background-color: white;">
+          <li>
+            <input type="radio" name="type" id="changetype-all" checked="checked" />
+            <label for="changetype-all">All</label>
+          </li>
+          <li>
+            <input type="radio" name="type" id="changetype-establishment" />
+            <label for="changetype-establishment">establishment</label>
 
-<div class="three-col">
-  <h2>Ecommerce</h2>
-  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
-  <p>There are many different email clients to consider when determining the width of your design.</p>
-  <div class="button-holder">
-    <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Email Course</a>
+          </li>
+          <li>
+            <input type="radio" name="type" id="changetype-address" />
+            <label for="changetype-address">address</label>
+          </li>
+          <li>
+            <input type="radio" name="type" id="changetype-geocode" />
+            <label for="changetype-geocode">geocode</label>
+          </li>
+          <li>
+            <input type="radio" name="type" id="changetype-cities" />
+            <label for="changetype-cities">(cities)</label>
+          </li>
+          <li>
+            <input type="radio" name="type" id="changetype-regions" />
+            <label for="changetype-regions">(regions)</label>
+          </li>
+        </ul>
+      </div>
+      <br />
+      <div id="strict-bounds-selector" class="pac-controls">
+        <input type="checkbox" id="use-location-bias" value="" checked />
+        <label for="use-location-bias">Bias to map viewport</label>
+
+        <input type="checkbox" id="use-strict-bounds" value="" />
+        <label for="use-strict-bounds">Strict bounds</label>
+      </div>
+    </div> -->
+
+    <div id="pac-container">
+
+      <div class="form-outline">
+        <input type="search" id="pac-input" class="form-control" placeholder="Enter a location" />
+
+      </div>
+
+    </div>
+
   </div>
-</div>
 
-<div class="three-col">
-  <h2>Web Design</h2>
-  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
-  <p>There are many different email clients to consider when determining the width of your design.</p>
-  <div class="button-holder">
-    <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Learn More</a>
+  <div id="infowindow-content">
+    <span id="place-name" class="title"></span><br />
+    <span id="place-address"></span>
   </div>
-</div>
+  <div class="banner">
+    <div ref="mapDiv" style="width:100%;height: 40vh">
 
-<div class="three-col">
-  <h2>Email Dev</h2>
-  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
-  <p>There are many different email clients to consider when determining the width of your design.</p>
-  <div class="button-holder">
-    <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">HTML Email</a>
+    </div>
   </div>
-</div>
 
-<div class="line"></div>
+  <div class="two-col">
+    <div id="streetDev" ref="streetDiv" style="width: 100%; height: 35vh">
+    </div><!-- END col -->
+  </div>
 
-<p class="contact">
-  <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank">www.responsivehtmlemail.com</a><br>
-  1 (800) 555-5555<br>
-  2 Town Road - City - State 99999<br>
-  test@responsivehtmlemail.com</p>
+  <div class="two-col">
+    <h2>Latest Blog Post</h2>
+    <p>There are many different email clients to consider when determining the width of your design but one of the most
+      commonly used is Gmail for the web for HTML Email.</p>
+    <div class="button-holder">
+      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Get Started</a>
+    </div>
+  </div>
 
+  <div class="line"></div>
 
+  <div class="three-col">
+    <h2>Ecommerce</h2>
+    <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
+    <p>There are many different email clients to consider when determining the width of your design.</p>
+    <div class="button-holder">
+      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Email Course</a>
+    </div>
+  </div>
+
+  <div class="three-col">
+    <h2>Web Design</h2>
+    <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
+    <p>There are many different email clients to consider when determining the width of your design.</p>
+    <div class="button-holder">
+      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Learn More</a>
+    </div>
+  </div>
+
+  <div class="three-col">
+    <h2>Email Dev</h2>
+    <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
+    <p>There are many different email clients to consider when determining the width of your design.</p>
+    <div class="button-holder">
+      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">HTML Email</a>
+    </div>
+  </div>
+
+  <div class="line"></div>
+
+  <p class="contact">
+    <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank">www.responsivehtmlemail.com</a><br>
+    1 (800) 555-5555<br>
+    2 Town Road - City - State 99999<br>
+    test@responsivehtmlemail.com
+  </p>
 </template>
 <script setup>
 import { computed, ref, onMounted, onUnmounted, watch, toRaw } from 'vue'
@@ -89,7 +145,7 @@ const marker = ref(null)
 let markers = ref([]);
 const formParkingId = computed(() => store.state.parkingModule.selectedParking.id);
 const formParking = computed(() => store.state.parkingModule.selectedParking);
-let myLatlng = { lat: 31.85, lng: 34.76 };
+let myLatlng = { lat: 32.0831, lng: 34.9030 };
 
 let clickListener = null
 const mapDiv = ref(null)
@@ -109,26 +165,73 @@ onAuthStateChanged(auth, (user) => {
     isAuth.value = false;
     // User is signed out
     router.push('/signin')
-    
+
   }
 });
 
 onMounted(async () => {
-  await store.dispatch("parkingModule/getParkings", {});
+ // await store.dispatch("parkingModule/getParkings", {});
   await loader.load()
   map.value = new google.maps.Map(mapDiv.value, {
     center: myLatlng,
     zoom: 14
   })
 
-  clickListener = map.value.addListener(
-    'click',
-    ({ latLng: { lat, lng } }) =>
-      (otherPos.value = { lat: lat(), lng: lng() })
-  )
-  setTimeout(() => {
-    const fenway = { lat: 32.09, lng: 34.81 };
-    updateStreet(fenway)
+
+  setTimeout(async () => {
+    // map.value = new google.maps.Map(mapDiv.value, {
+    //   center: myLatlng,
+    //   zoom: 14
+    // })
+
+
+    const card = document.getElementById("pac-card");
+    const input = document.getElementById("pac-input");
+    const biasInputElement = document.getElementById("use-location-bias");
+    const strictBoundsInputElement = document.getElementById("use-strict-bounds");
+    const options = {
+      fields: ["formatted_address", "geometry", "name"],
+      strictBounds: false,
+    };
+
+    //map.value.controls[google.maps.ControlPosition.TOP_LEFT].push(card);
+
+    const autocomplete = new google.maps.places.Autocomplete(input, options);
+    // autocomplete.bindTo("bounds", map);
+
+    const infowindow = new google.maps.InfoWindow();
+    const infowindowContent = document.getElementById("infowindow-content");
+
+    infowindow.setContent(infowindowContent);
+
+    const marker = new google.maps.Marker({
+      map:map.value,
+      anchorPoint: new google.maps.Point(0, -29),
+    });
+
+    autocomplete.addListener("place_changed", () => {
+      infowindow.close();
+      marker.setVisible(false);
+
+      const place = autocomplete.getPlace();
+
+
+      map.value.setCenter(place.geometry.location);
+      map.value.setZoom(17);
+
+
+      marker.setPosition(place.geometry.location);
+      marker.setVisible(true);
+      infowindowContent.children["place-name"].textContent = place.name;
+      infowindowContent.children["place-address"].textContent =
+        place.formatted_address;
+      infowindow.open(map.value, marker);
+      updateStreet(place.geometry.location)
+    });
+
+
+    await store.dispatch("parkingModule/getParkings", {});
+    updateStreet(myLatlng)
   }, 1000);
 })
 onUnmounted(async () => {
@@ -242,11 +345,86 @@ const distance = computed(() =>
   cursor: -webkit-grab;
   cursor: grab;
 }
-.active
-{
-  background-color:yellow;
-  color:blue;
+
+.active {
+  background-color: yellow;
+  color: blue;
 }
 
+
+/* 
+ * Optional: Makes the sample page fill the window. 
+ */
+
+
+#description {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+#infowindow-content .title {
+  font-weight: bold;
+}
+
+#infowindow-content {
+  display: none;
+}
+
+#map #infowindow-content {
+  display: inline;
+}
+
+.pac-card {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  font-family: Roboto;
+  padding: 0;
+}
+
+#pac-container {
+  padding-bottom: 12px;
+  margin-right: 12px;
+}
+
+.pac-controls {
+  display: inline-block;
+  padding: 5px 11px;
+}
+
+.pac-controls label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 400px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+#title {
+  color: #fff;
+  background-color: #4d90fe;
+  font-size: 25px;
+  font-weight: 500;
+  padding: 6px 12px;
+}
 </style>
 

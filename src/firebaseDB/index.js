@@ -34,7 +34,10 @@ const firebaseConfigparkingsCity = {
 const app = prod?initializeApp(firebaseConfigparkingsCity):initializeApp(firebaseConfig)
 const db = getFirestore(app)
 const auth = getAuth(app)
-const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
+const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0',
+libraries: ['places']
+ }
+)
 export {
     db,auth,app,loader
 }
