@@ -1,8 +1,8 @@
 <template>
-  <div class="logo two-col" style="height:180px">
+  <div class="logo two-col" style="height:180px;width:20%">
     <a style="float:left" href="#" target="_blank"><img src="../assets/logo.png" alt=""></a>
   </div>
-<div class="two-col" style="height:180px">
+<div class="two-col" style="height:180px;width:60%">
 
   <div class="pac-card " id="pac-card">
    
@@ -12,7 +12,7 @@
     <div id="pac-container" style="padding:10px">
 
       <div class="form-outline">
-        <input type="search" id="pac-input" class="form-control" placeholder="Enter a location" />
+        <input type="search" id="pac-input" class="form-control" placeholder="Enter a location" style="width:100%"/>
 
       </div>
 
