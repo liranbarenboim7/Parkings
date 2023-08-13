@@ -168,7 +168,7 @@ onMounted(async () => {
     });
 
     autocomplete.addListener("place_changed", () => {
-      infowindow.close();
+    
       marker.setVisible(false);
 
       const place = autocomplete.getPlace();
@@ -180,10 +180,10 @@ onMounted(async () => {
 
       marker.setPosition(place.geometry.location);
       marker.setVisible(true);
-      infowindowContent.children["place-name"].textContent = place.name;
-      infowindowContent.children["place-address"].textContent =
-        place.formatted_address;
-      infowindow.open(map.value, marker);
+      // infowindowContent.children["place-name"].textContent = place.name;
+      // infowindowContent.children["place-address"].textContent =
+      //   place.formatted_address;
+      // infowindow.open(map.value, marker);
       updateStreet(place.geometry.location)
     });
 
