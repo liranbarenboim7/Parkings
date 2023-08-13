@@ -1,49 +1,13 @@
 <template>
-  <div class="logo two-col">
-    <a href="#" target="_blank"><img src="../assets/logo.png" alt=""></a>
+  <div style="" class="logo two-col">
+    <a style="float:left" href="#" target="_blank"><img src="../assets/logo.png" alt=""></a>
   </div>
+<div class="two-col">
 
   <div class="pac-card " id="pac-card">
    
       <div id="title">Search the place</div>
-      <!-- <div id="type-selector" class="pac-controls">
-        <ul class="social" style="background-color: white;">
-          <li>
-            <input type="radio" name="type" id="changetype-all" checked="checked" />
-            <label for="changetype-all">All</label>
-          </li>
-          <li>
-            <input type="radio" name="type" id="changetype-establishment" />
-            <label for="changetype-establishment">establishment</label>
 
-          </li>
-          <li>
-            <input type="radio" name="type" id="changetype-address" />
-            <label for="changetype-address">address</label>
-          </li>
-          <li>
-            <input type="radio" name="type" id="changetype-geocode" />
-            <label for="changetype-geocode">geocode</label>
-          </li>
-          <li>
-            <input type="radio" name="type" id="changetype-cities" />
-            <label for="changetype-cities">(cities)</label>
-          </li>
-          <li>
-            <input type="radio" name="type" id="changetype-regions" />
-            <label for="changetype-regions">(regions)</label>
-          </li>
-        </ul>
-      </div>
-      <br />
-      <div id="strict-bounds-selector" class="pac-controls">
-        <input type="checkbox" id="use-location-bias" value="" checked />
-        <label for="use-location-bias">Bias to map viewport</label>
-
-        <input type="checkbox" id="use-strict-bounds" value="" />
-        <label for="use-strict-bounds">Strict bounds</label>
-      </div>
-    </div> -->
 
     <div id="pac-container">
 
@@ -55,11 +19,9 @@
     </div>
 
   </div>
+</div>
 
-  <div id="infowindow-content">
-    <span id="place-name" class="title"></span><br />
-    <span id="place-address"></span>
-  </div>
+ 
   <div class="banner">
     <div ref="mapDiv" style="width:100%;height: 40vh">
 
@@ -199,11 +161,7 @@ onMounted(async () => {
     const autocomplete = new google.maps.places.Autocomplete(input, options);
     // autocomplete.bindTo("bounds", map);
 
-    const infowindow = new google.maps.InfoWindow();
-    const infowindowContent = document.getElementById("infowindow-content");
-
-    infowindow.setContent(infowindowContent);
-
+    
     const marker = new google.maps.Marker({
       map:map.value,
       anchorPoint: new google.maps.Point(0, -29),
