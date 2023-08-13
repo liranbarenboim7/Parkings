@@ -13,7 +13,7 @@ const store = useStore()
 
 <template>
 	<div class="wrapper">
-		<router-view />
+		<router-view :key="$route.fullPath"/>
 		<div class="top-bar">
 			<NavBar title="EasyCity" v-if="path !== '/parkingQR' && path !== '/signin'" />
 		</div>
