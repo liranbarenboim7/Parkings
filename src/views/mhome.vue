@@ -1,15 +1,15 @@
 <template>
-  <div style="" class="logo two-col">
+  <div class="logo two-col" style="height:180px">
     <a style="float:left" href="#" target="_blank"><img src="../assets/logo.png" alt=""></a>
   </div>
-<div class="two-col">
+<div class="two-col" style="height:180px">
 
   <div class="pac-card " id="pac-card">
    
       <div id="title">Search the place</div>
 
 
-    <div id="pac-container">
+    <div id="pac-container" style="padding:10px">
 
       <div class="form-outline">
         <input type="search" id="pac-input" class="form-control" placeholder="Enter a location" />
