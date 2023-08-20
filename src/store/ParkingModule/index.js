@@ -12,7 +12,8 @@ const selectedParking = {
      address :"",
      side :"",
      latitude: 0, 
-     longitude: 0    
+     longitude: 0 ,
+     descr:"description"   
 }
 const initState = {
 

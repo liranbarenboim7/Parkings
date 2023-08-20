@@ -20,6 +20,7 @@ export const Actions = {
                     side: doc.data().side,
                     latitude: doc.data().latitude, 
                     longitude: doc.data().longitude ,
+                    descr:doc.data().descr,
                     modifiedAt : serverTimestamp(),
                     createdAt : serverTimestamp() 
                 }
@@ -39,6 +40,7 @@ export const Actions = {
             side: parking.side,
             latitude: parking.latitude, 
             longitude: parking.longitude ,
+            descr: parking.descr,
             modifiedAt : serverTimestamp(),
             createdAt : serverTimestamp()
         })
@@ -50,7 +52,10 @@ export const Actions = {
           side: "",
           category: "",
           latitude: 0, 
-          longitude: 0
+          longitude: 0,
+          modifiedAt : serverTimestamp(),
+          createdAt : serverTimestamp(),
+          descr: "new description"
         });
 
       },

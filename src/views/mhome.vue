@@ -34,9 +34,8 @@
   </div>
 
   <div class="two-col">
-    <h2>Latest Blog Post</h2>
-    <p>There are many different email clients to consider when determining the width of your design but one of the most
-      commonly used is Gmail for the web for HTML Email.</p>
+    <h2>{{formParking?.value?.address}}</h2>
+    <p dir="rtl"  style="white-space: pre-line;text-align: right;">{{formParking?.value?.descr}}</p>
     <div class="button-holder">
       <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Get Started</a>
     </div>
@@ -201,9 +200,9 @@ const selectParking = async (id) => {
   });
 };
 watch(() => formParkingId.value, async () => {
-  deleteMarkers()
+//  deleteMarkers()
   const pos = { lat: parseFloat(formParking.value.latitude), lng: parseFloat(formParking.value.longitude) }
-  addMarker(pos, map.value)
+ // addMarker(pos,formParking.value.id, map.value)
 
   // map.value.setZoom(12);
   map.value.setCenter(pos);
@@ -232,7 +231,7 @@ watch([parkings], async () => {
   //await loader.load()
   if (parkings && parkings.value) {
     parkings.value.forEach(prk => {
-      addMarker({ lat: parseFloat(prk.latitude), lng: parseFloat(prk.longitude) }, map.value)
+      addMarker({ lat: parseFloat(prk.latitude), lng: parseFloat(prk.longitude) },prk.id, map.value)
     });
     myLatlng.lat = currPos.value.latitude
     myLatlng.lng = currPos.value.longitude
@@ -260,6 +259,10 @@ function addMarker(position, map) {
     position,
     map
   });
+  // marker.addListener("click", () => {
+  //   map.value.setZoom(8);
+  //   map.value.setCenter(marker.getPosition());
+  // });
 
   markers.value.push(marker);
 }

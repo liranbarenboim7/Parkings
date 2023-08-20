@@ -65,6 +65,18 @@
             v-model="formParking.longitude"
           />
         </div>
+        <div class="input-group mb-10">
+          <span class="input-group-text" id="basic-addon1">longitude</span>
+          <textarea dir="rtl" 
+            style="text-align: right;"
+            class="form-control"
+            placeholder="description"
+            aria-label="description"
+            aria-describedby="basic-addon1"
+            v-model="formParking.descr"
+          ></textarea>
+
+        </div>
       </form>
     </div>
   </div>
@@ -154,4 +166,5 @@ async function updateParking() {
 .line-through {
   text-decoration: line-through;
 }
+
 </style>
