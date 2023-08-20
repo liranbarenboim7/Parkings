@@ -33,10 +33,10 @@
     </div><!-- END col -->
   </div>
 
-  <div class="two-col">
-    <h2>Latest Blog Post</h2>
-    <p>There are many different email clients to consider when determining the width of your design but one of the most
-      commonly used is Gmail for the web for HTML Email.</p>
+  <div class="two-col" :key="address">
+    <h2>{{address}}</h2>
+    <p>{{selectedParking.descr}}</p>
+   
     <div class="button-holder">
       <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Get Started</a>
     </div>
@@ -81,7 +81,7 @@
   </p>
 </template>
 <script setup>
-import { computed, ref, onMounted, onUnmounted, watch, toRaw } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch, toRaw ,reactive} from 'vue'
 import { useGeolocation } from '../geo/useGeolocation'
 import { loader } from '../firebaseDB/index'
 import { useStore } from "vuex";
@@ -101,6 +101,10 @@ const currPos = computed(() => store.state.gMapModule.currentCoords);
 const parkings = computed(() => store.state.parkingModule.parkingsData);
 
 const otherPos = ref(null)
+const selectedParking = {
+  address:"Select parking",
+  descr:""
+}
 //const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
 
 const marker = ref(null)
@@ -116,6 +120,8 @@ const streetDiv = ref(null)
 let map = ref(null)
 let mapZoom = ref(15)
 const isAuth = ref(false);
+const address = ref("");
+const descr = ref("");
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
@@ -201,10 +207,11 @@ const selectParking = async (id) => {
   });
 };
 watch(() => formParkingId.value, async () => {
-  deleteMarkers()
+ // deleteMarkers()
   const pos = { lat: parseFloat(formParking.value.latitude), lng: parseFloat(formParking.value.longitude) }
-  addMarker(pos, map.value)
-
+ // addMarker(pos, formParking.value,map.value)
+ address.value = formParking.value.address
+ descr.value = formParking.value.descr
   // map.value.setZoom(12);
   map.value.setCenter(pos);
   updateStreet(pos)
@@ -232,7 +239,7 @@ watch([parkings], async () => {
   //await loader.load()
   if (parkings && parkings.value) {
     parkings.value.forEach(prk => {
-      addMarker({ lat: parseFloat(prk.latitude), lng: parseFloat(prk.longitude) }, map.value)
+      addMarker({ lat: parseFloat(prk.latitude), lng: parseFloat(prk.longitude) },prk, map.value)
     });
     myLatlng.lat = currPos.value.latitude
     myLatlng.lng = currPos.value.longitude
@@ -255,12 +262,17 @@ function setMapOnAll() {
 function hideMarkers() {
   setMapOnAll(null);
 }
-function addMarker(position, map) {
+function addMarker(position,prk, map) {
   const marker = new google.maps.Marker({
     position,
     map
   });
-
+  marker.addListener("click", async () => {
+    map.setZoom(map.getZoom()+3);
+    map.setCenter(marker.getPosition());
+    
+    await selectParking(prk.id)
+  });
   markers.value.push(marker);
 }
 function deleteMarkers() {
