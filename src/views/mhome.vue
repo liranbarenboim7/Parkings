@@ -38,7 +38,7 @@
     <p>{{descr}}</p>
    
     <div class="button-holder">
-      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Get Started</a>
+      <a class="button" @click.prevent="viewParking(formParkingId)" target="_blank">Get Started</a>
     </div>
   </div>
 
@@ -46,10 +46,10 @@
 
   <div class="three-col" v-for="prk in parkings" :key="prk.id">
     <h2>{{prk.address}}</h2>
-    <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
+   
     <p>{{prk.descr}}</p>
     <div class="button-holder">
-      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">לפרתים</a>
+      <a class="button" @click.prevent="viewParking(prk.id)" target="_blank">לפרתים</a>
     </div>
   </div>
 
@@ -185,6 +185,9 @@ onMounted(async () => {
 onUnmounted(async () => {
   if (clickListener) clickListener.remove()
 })
+const viewParking = (id) => {
+  router.push({ path: '/parkingQR', query: { id: id } })
+}
 const selectParking = async (id) => {
   await store.dispatch("parkingModule/SelectParking", {
     selectedParkingId: id,
