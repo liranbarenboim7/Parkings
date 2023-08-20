@@ -33,9 +33,10 @@
     </div><!-- END col -->
   </div>
 
-  <div class="two-col">
-    <h2>{{formParking?.value?.address}}</h2>
-    <p dir="rtl"  style="white-space: pre-line;text-align: right;">{{formParking?.value?.descr}}</p>
+  <div class="two-col" :key="address" dir="auto" style="white-space: pre-wrap;">
+    <h2>{{address}}</h2>
+    <p>{{descr}}</p>
+   
     <div class="button-holder">
       <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Get Started</a>
     </div>
@@ -43,32 +44,16 @@
 
   <div class="line"></div>
 
-  <div class="three-col">
-    <h2>Ecommerce</h2>
+  <div class="three-col" v-for="prk in parkings" :key="prk.id">
+    <h2>{{prk.address}}</h2>
     <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
-    <p>There are many different email clients to consider when determining the width of your design.</p>
+    <p>{{prk.descr}}</p>
     <div class="button-holder">
-      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Email Course</a>
+      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">לפרתים</a>
     </div>
   </div>
 
-  <div class="three-col">
-    <h2>Web Design</h2>
-    <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
-    <p>There are many different email clients to consider when determining the width of your design.</p>
-    <div class="button-holder">
-      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">Learn More</a>
-    </div>
-  </div>
-
-  <div class="three-col">
-    <h2>Email Dev</h2>
-    <a href="https://responsivehtmlemail.com/html-email-course/" target="_blank"></a>
-    <p>There are many different email clients to consider when determining the width of your design.</p>
-    <div class="button-holder">
-      <a class="button" href="https://responsivehtmlemail.com/html-email-course/" target="_blank">HTML Email</a>
-    </div>
-  </div>
+ 
 
   <div class="line"></div>
 
@@ -80,7 +65,7 @@
   </p>
 </template>
 <script setup>
-import { computed, ref, onMounted, onUnmounted, watch, toRaw } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch, toRaw ,reactive} from 'vue'
 import { useGeolocation } from '../geo/useGeolocation'
 import { loader } from '../firebaseDB/index'
 import { useStore } from "vuex";
@@ -100,6 +85,10 @@ const currPos = computed(() => store.state.gMapModule.currentCoords);
 const parkings = computed(() => store.state.parkingModule.parkingsData);
 
 const otherPos = ref(null)
+const selectedParking = {
+  address:"Select parking",
+  descr:""
+}
 //const loader = new Loader({ apiKey: 'AIzaSyDxIpixajq0g7z7NGtftVelLoSeTLtWQc0' })
 
 const marker = ref(null)
@@ -115,6 +104,8 @@ const streetDiv = ref(null)
 let map = ref(null)
 let mapZoom = ref(15)
 const isAuth = ref(false);
+const address = ref("");
+const descr = ref("");
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
@@ -200,10 +191,11 @@ const selectParking = async (id) => {
   });
 };
 watch(() => formParkingId.value, async () => {
-//  deleteMarkers()
+ // deleteMarkers()
   const pos = { lat: parseFloat(formParking.value.latitude), lng: parseFloat(formParking.value.longitude) }
- // addMarker(pos,formParking.value.id, map.value)
-
+ // addMarker(pos, formParking.value,map.value)
+ address.value = formParking.value.address
+ descr.value = formParking.value.descr
   // map.value.setZoom(12);
   map.value.setCenter(pos);
   updateStreet(pos)
@@ -231,10 +223,11 @@ watch([parkings], async () => {
   //await loader.load()
   if (parkings && parkings.value) {
     parkings.value.forEach(prk => {
-      addMarker({ lat: parseFloat(prk.latitude), lng: parseFloat(prk.longitude) },prk.id, map.value)
+      addMarker({ lat: parseFloat(prk.latitude), lng: parseFloat(prk.longitude) },prk, map.value)
     });
     myLatlng.lat = currPos.value.latitude
     myLatlng.lng = currPos.value.longitude
+    await selectParking(parkings.value[0].id)
     // map.value.setZoom(12);
     //map.value.setCenter(myLatlng);
 
@@ -254,16 +247,17 @@ function setMapOnAll() {
 function hideMarkers() {
   setMapOnAll(null);
 }
-function addMarker(position, map) {
+function addMarker(position,prk, map) {
   const marker = new google.maps.Marker({
     position,
     map
   });
-  // marker.addListener("click", () => {
-  //   map.value.setZoom(8);
-  //   map.value.setCenter(marker.getPosition());
-  // });
-
+  marker.addListener("click", async () => {
+    map.setZoom(map.getZoom()+3);
+    map.setCenter(marker.getPosition());
+    
+    await selectParking(prk.id)
+  });
   markers.value.push(marker);
 }
 function deleteMarkers() {

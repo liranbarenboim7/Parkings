@@ -66,8 +66,8 @@
           />
         </div>
         <div class="input-group mb-10">
-          <span class="input-group-text" id="basic-addon1">longitude</span>
-          <textarea dir="rtl" 
+          <span class="input-group-text" id="basic-addon1">Description</span>
+          <textarea dir="auto" 
             style="text-align: right;"
             class="form-control"
             placeholder="description"
