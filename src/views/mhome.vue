@@ -44,7 +44,7 @@
 
   <div class="line"></div>
 
-  <div class="three-col" v-for="prk in parkings" :key="prk.id">
+  <div class="three-col" v-for="prk in parkings" :key="prk.id" style="white-space: pre-wrap;">
     <h2>{{prk.address}}</h2>
    
     <p>{{prk.descr}}</p>
