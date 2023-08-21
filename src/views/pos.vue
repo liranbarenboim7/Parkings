@@ -1,34 +1,39 @@
 <template>
-    <header class="header-area header-sticky">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <nav class="main-nav">
-              <!-- ***** Logo Start ***** -->
-              <a href="#" class="logo">
-                <img src="../assets/logo.png" width="50" height="50" style="position:relative;left:3px;top:-20px"
-                  alt="Softy Pinko" />
-              </a>
-              <!-- ***** Logo End ***** -->
-              <!-- ***** Menu Start ***** -->
-              <ul class="nav">
-                <li><a href="\">צור קשר</a></li>
-                <li><a href="\">שלם חניה</a></li>
-                <li><a href="\" class="active">דף בית</a></li>
+ <div class="banner">
+    <div ref="mapDiv" style="width:100%;height: 40vh">
+
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div id="streetDev" ref="streetDiv" style="width: 100%; height: 35vh">
+    </div><!-- END col -->
+  </div>
+
+  <div class="two-col" :key="address" dir="auto" style="white-space: pre-wrap;">
   
-              </ul>
-              <a class='menu-trigger'>
-                <span>Menu</span>
-              </a>
-              <!-- ***** Menu End ***** -->
-            </nav>
-          </div>
-        </div>
-      </div>
-    </header>
+            <div class="m-auto" v-if="currPos ">
+              <h4>Your Position</h4>
+              Latitude: {{ currPos.latitude.toFixed(2) }}, Longitude:
+              {{ currPos.longitude.toFixed(2) }}
+            </div>
+            <div class="m-auto">
+              <h4>Distance</h4>
+              {{ distance.toFixed(2) }} miles
+            </div>
+            <div class="m-auto">
+              <h4>Clicked Position</h4>
+              <span v-if="otherPos">
+                Latitude: {{ otherPos.lat.toFixed(4) }}, Longitude:
+                {{ otherPos.lng.toFixed(4) }}
+              </span>
+              <span v-else>Click the map to select a position</span>
+            </div>
+   
+  </div>
   
   
-    <div class="container" style="position:relative;left:8vw;top:22vh;width:180% ; max-height: 90vh">
+    <!-- <div class="container" style="position:relative;left:8vw;top:22vh;width:180% ; max-height: 90vh">
   
       <div class="row">
         <div class="col md-6">
@@ -71,7 +76,7 @@
         </div>
       </div>
   
-    </div>
+    </div> -->
   
   </template>
   <script setup>
@@ -220,4 +225,92 @@
   //https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
   </script>
   
-  
+  <style scoped>
+.icon {
+  pointer-events: all;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.active {
+  background-color: yellow;
+  color: blue;
+}
+
+
+/* 
+ * Optional: Makes the sample page fill the window. 
+ */
+
+
+#description {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+#infowindow-content .title {
+  font-weight: bold;
+}
+
+#infowindow-content {
+  display: none;
+}
+
+#map #infowindow-content {
+  display: inline;
+}
+
+.pac-card {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  font-family: Roboto;
+  padding: 0;
+}
+
+#pac-container {
+  padding-bottom: 12px;
+  margin-right: 12px;
+}
+
+.pac-controls {
+  display: inline-block;
+  padding: 5px 11px;
+}
+
+.pac-controls label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 400px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+#title {
+  color: #fff;
+  background-color: #4d90fe;
+  font-size: 25px;
+  font-weight: 500;
+  padding: 6px 12px;
+}
+</style>
+
